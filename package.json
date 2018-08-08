@@ -1,0 +1,22 @@
+{
+  "name": "notes-from-nature-field-book",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "babel-plugin-styled-components": "^1.5.1",
+    "grommet": "^2.0.0-beta.3",
+    "grommet-icons": "^2.0.0",
+    "panoptes-client": "^2.11.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-scripts": "1.1.4",
+    "styled-components": "^3.2.6",
+    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.7.1"
+  }
+}
