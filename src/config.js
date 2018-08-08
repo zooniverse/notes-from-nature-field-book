@@ -18,7 +18,8 @@ if (!env.match(/^(production|staging|development)$/)) {
 
 const baseConfig = {
   development: {
-    panoptesAppId: '0c08643250c9bb681ceb857a43d62f5f23ad98540a494120665e678b1215a4b3',
+    origin: window.location.origin,
+    panoptesAppId: '16ac801e4ad438d929d30668206df31294e7a7222ce3f449a1c4b45cd80d44cc',
     zooniverse: 'https://master.pfe-preview.zooniverse.org'
   },
   production: {
