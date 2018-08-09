@@ -1,62 +1,44 @@
-// A smart component that handles state for the LoginButton and LoggedInUser
-// components. Stores state in Context.
-
-import React from 'react';
+import React, { Component } from 'react';
 import Anchor from 'grommet/components/Anchor';
 import { LoginButton, LogoutButton, UserMenu, UserNavigation } from 'zooniverse-react-components';
 
-import oauth from 'panoptes-client/lib/oauth';
-
 import { config } from '../config';
+import { UserContext } from '../context/UserContext';
 
-class AuthContainer extends React.Component {
+class Auth extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      initialised: false,
-      user: null
-    }
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  componentDidMount() {
-    oauth.checkCurrent()
-      .then(user => this.setState({ initialised: true, user }));
-  }
-
   login() {
-    console.log('login');
-    oauth.signIn(config.origin)
-      .then(user => this.setState({ initialised: true, user }));
+    this.props.signIn()
   }
 
   logout() {
-    console.log('logout');
-    oauth.signOut()
-      .then(user => this.setState({ initialised: true, user }));
+    this.props.signOut();
   }
 
   render() {
     let menuItems;
 
-    if (this.state.user && this.state.initialised) {
-      const login = this.state.user.login;
+    if (this.props.user && this.props.initialised) {
+      const login = this.props.user.login;
       menuItems = [
-        <Anchor href={`https://${config.zooniverse}/users/${login}`}>Profile</Anchor>,
-        <Anchor href={`https://${config.zooniverse}/settings`}>Settings</Anchor>,
-        <Anchor href={`https://${config.zooniverse}/collections/${login}`}>Collections</Anchor>,
-        <Anchor href={`https://${config.zooniverse}/favorites/${login}`}>Favorites</Anchor>,
+        <Anchor href={`${config.zooniverse}/users/${login}`}>Profile</Anchor>,
+        <Anchor href={`${config.zooniverse}/settings`}>Settings</Anchor>,
+        <Anchor href={`${config.zooniverse}/collections/${login}`}>Collections</Anchor>,
+        <Anchor href={`${config.zooniverse}/favorites/${login}`}>Favorites</Anchor>,
         <LogoutButton logout={this.logout} />
       ];
     }
 
-    return (this.state.user)
+    return (this.props.user)
       ? <div>
           <UserNavigation />
-          <UserMenu user={this.state.user} userMenuNavList={menuItems} />
+          <UserMenu user={this.props.user} userMenuNavList={menuItems} />
         </div>
       : <div>
           <LoginButton toggleModal={this.login} />
@@ -64,4 +46,16 @@ class AuthContainer extends React.Component {
   }
 }
 
+const AuthContainer = () => (
+    <UserContext.Consumer>
+      {(context) => (
+        <Auth {...context} />
+      )}
+    </UserContext.Consumer>
+);
+
 export default AuthContainer;
+
+// TODO
+// - refactor to one component?
+// - add types validation and defaults

@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 
+import { UserContext, UserProvider } from './context/UserContext';
 import AuthContainer from './containers/AuthContainer';
-
-const UserContext = React.createContext({
-  display_name: 'Default Value'
-});
 
 class App extends Component {
   render() {
     return (
-      <UserContext.Provider value={{ display_name: 'Guest' }}>
+      <UserProvider>
         <ZooHeader authContainer={<AuthContainer />} />
         <section>
           <UserContext.Consumer>
-            {(user) => {
-              const displayName = user.display_name;
+            {(context) => {
+              const displayName = context && context.user ? context.user.display_name : 'nope';
               return (
                 <h1>{displayName}'s Field Book</h1>
               );
@@ -37,7 +34,7 @@ class App extends Component {
           </section>
         </section>
         <ZooFooter />
-      </UserContext.Provider>
+      </UserProvider>
     );
   }
 }
