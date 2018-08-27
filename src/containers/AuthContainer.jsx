@@ -14,7 +14,7 @@ class Auth extends Component {
   }
 
   login() {
-    this.props.signIn()
+    this.props.signIn();
   }
 
   logout() {
@@ -31,27 +31,29 @@ class Auth extends Component {
         <Anchor href={`${config.zooniverse}/settings`}>Settings</Anchor>,
         <Anchor href={`${config.zooniverse}/collections/${login}`}>Collections</Anchor>,
         <Anchor href={`${config.zooniverse}/favorites/${login}`}>Favorites</Anchor>,
-        <LogoutButton logout={this.logout} />
+        <LogoutButton logout={this.logout} />,
       ];
     }
 
-    return (this.props.user)
-      ? <div>
-          <UserNavigation />
-          <UserMenu user={this.props.user} userMenuNavList={menuItems} />
-        </div>
-      : <div>
-          <LoginButton toggleModal={this.login} />
-        </div>;
+    return (this.props.user) ? (
+      <div>
+        <UserNavigation />
+        <UserMenu user={this.props.user} userMenuNavList={menuItems} />
+      </div>
+    ) : (
+      <div>
+        <LoginButton toggleModal={this.login} />
+      </div>
+    );
   }
 }
 
 const AuthContainer = () => (
-    <UserContext.Consumer>
-      {(context) => (
-        <Auth {...context} />
-      )}
-    </UserContext.Consumer>
+  <UserContext.Consumer>
+    {context => (
+      <Auth {...context} />
+    )}
+  </UserContext.Consumer>
 );
 
 export default AuthContainer;

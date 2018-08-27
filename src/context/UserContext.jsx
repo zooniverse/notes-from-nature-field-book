@@ -32,3 +32,13 @@ export class UserProvider extends Component {
     </UserContext.Provider>
   }
 }
+
+export function withUser(Component) {
+  return function UserComponent(props) {
+    return (
+      <UserContext.Consumer>
+        {userState => <Component {...props} initialised={userState.initialised} user={userState.user}/>}
+      </UserContext.Consumer>
+    );
+  };
+}

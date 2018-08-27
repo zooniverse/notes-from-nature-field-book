@@ -8,11 +8,17 @@ import '../node_modules/zoo-grommet/dist/zoo-grommet.css';
 import '../node_modules/zooniverse-react-components/lib/zooniverse-react-components.css';
 
 import './index.css';
-import App from './App';
+import { UserProvider } from './context/UserContext';
+import Main from './components/Main';
 import registerServiceWorker from './registerServiceWorker';
 
 oauth.init(config.panoptesAppId, { customRedirects: true })
   .then(() => {
-    ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(
+      <UserProvider>
+        <Main />
+      </UserProvider>,
+      document.getElementById('root'),
+    );
     registerServiceWorker();
   });
