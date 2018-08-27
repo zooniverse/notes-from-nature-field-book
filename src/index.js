@@ -15,4 +15,4 @@ oauth.init(config.panoptesAppId, { customRedirects: true })
   .then(() => {
     ReactDOM.render(<App />, document.getElementById('root'));
     registerServiceWorker();
-  })
+  });
