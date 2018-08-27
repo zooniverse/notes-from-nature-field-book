@@ -5,10 +5,11 @@ import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 
 import { withUser } from '../context/UserContext';
 import AuthContainer from '../containers/AuthContainer';
-
 import Heading from './Heading';
+import RecentsContainer from '../containers/RecentsContainer';
 
 const HeadingWithUser = withUser(Heading);
+const RecentsWithUser = withUser(RecentsContainer);
 
 const Main = () => (
   <App centered={false}>
@@ -16,7 +17,7 @@ const Main = () => (
     <Box>
       <HeadingWithUser />
       <section>
-        <h2>Your Recent Classifications</h2>
+        <RecentsWithUser />
         <hr />
         <h2>Your Favorites</h2>
       </section>
