@@ -8,10 +8,12 @@ import AuthContainer from '../containers/AuthContainer';
 import Heading from './Heading';
 import RecentsContainer from '../containers/RecentsContainer';
 import FavoritesContainer from '../containers/FavoritesContainer';
+import UserStatsContainer from '../containers/UserStatsContainer';
 
 const HeadingWithUser = withUser(Heading);
 const RecentsWithUser = withUser(RecentsContainer);
 const FavoritesWithUser = withUser(FavoritesContainer);
+const UserStatsWithUser = withUser(UserStatsContainer);
 
 const Main = () => (
   <App centered={false}>
@@ -24,7 +26,7 @@ const Main = () => (
         <FavoritesWithUser />
       </section>
       <section>
-        <h2>Your Notes from Nature Stats</h2>
+        <UserStatsWithUser />
       </section>
       <section>
         <h2>Historgram</h2>
