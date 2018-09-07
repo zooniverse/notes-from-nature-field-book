@@ -9,11 +9,13 @@ import Heading from './Heading';
 import RecentsContainer from '../containers/RecentsContainer';
 import FavoritesContainer from '../containers/FavoritesContainer';
 import UserStatsContainer from '../containers/UserStatsContainer';
+import HistogramContainer from '../containers/HistogramContainer';
 
 const HeadingWithUser = withUser(Heading);
 const RecentsWithUser = withUser(RecentsContainer);
 const FavoritesWithUser = withUser(FavoritesContainer);
 const UserStatsWithUser = withUser(UserStatsContainer);
+const HistogramWithUser = withUser(HistogramContainer);
 
 const Main = () => (
   <App centered={false}>
@@ -25,12 +27,8 @@ const Main = () => (
         <hr />
         <FavoritesWithUser />
       </section>
-      <section>
-        <UserStatsWithUser />
-      </section>
-      <section>
-        <h2>Historgram</h2>
-      </section>
+      <UserStatsWithUser />
+      <HistogramWithUser />
       <section>
         <h2>Your Badges</h2>
       </section>
