@@ -41,7 +41,7 @@ class HistogramContainer extends React.Component {
 
   render() {
     return (
-      <Box>
+      <Box colorIndex="light-1" pad="medium">
         <h2>Histogram</h2>
         {this.state.statData && (this.state.statData.length > 0) && (
           <Chart>

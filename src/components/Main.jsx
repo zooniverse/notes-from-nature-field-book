@@ -1,6 +1,7 @@
 import React from 'react';
 import App from 'grommet/components/App';
 import Box from 'grommet/components/Box';
+import styled from 'styled-components';
 import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 
 import { withUser } from '../context/UserContext';
@@ -17,21 +18,29 @@ const FavoritesWithUser = withUser(FavoritesContainer);
 const UserStatsWithUser = withUser(UserStatsContainer);
 const HistogramWithUser = withUser(HistogramContainer);
 
+export const StyledHR = styled.hr`
+  margin: 2em 1em;
+`;
+
 const Main = () => (
   <App centered={false}>
     <ZooHeader authContainer={<AuthContainer />} />
-    <Box>
+    <Box pad="large" style={{ backgroundColor: '#EFF2F5' }}>
       <HeadingWithUser />
-      <section>
-        <RecentsWithUser />
-        <hr />
-        <FavoritesWithUser />
-      </section>
-      <UserStatsWithUser />
-      <HistogramWithUser />
-      <section>
+      <Box direction="row" full="horizontal" margin={{ bottom: 'medium' }}>
+        <Box colorIndex="light-1" margin={{ right: 'medium' }} pad="medium" style={{ width: '75%' }}>
+          <RecentsWithUser />
+          <StyledHR />
+          <FavoritesWithUser />
+        </Box>
+        <Box>
+          <UserStatsWithUser />
+          <HistogramWithUser />
+        </Box>
+      </Box>
+      <Box colorIndex="light-1" full="horizontal" pad="medium" style={{ height: '250px' }}>
         <h2>Your Badges</h2>
-      </section>
+      </Box>
     </Box>
     <ZooFooter />
   </App>
