@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Box from 'grommet/components/Box';
+import Heading from 'grommet/components/Heading';
+import Label from 'grommet/components/Label';
 import { config } from '../config';
 
 class UserStatsContainer extends React.Component {
@@ -32,10 +34,10 @@ class UserStatsContainer extends React.Component {
 
   render() {
     return (
-      <Box>
-        <h2>Your Notes from Nature Stats</h2>
-        <h1>{this.state.preferences? this.state.preferences.activity_count : '0'}</h1>
-        <h3>Total Classifications</h3>
+      <Box colorIndex="light-1" margin={{ bottom: 'medium' }} pad="medium">
+        <h2>Your Stats</h2>
+        <Heading align="center">{this.state.preferences? this.state.preferences.activity_count : '0'}</Heading>
+        <Label align="center">Total Classifications</Label>
       </Box>
     );
   }

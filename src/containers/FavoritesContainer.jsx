@@ -65,6 +65,7 @@ class FavoritesContainer extends React.Component {
                       type={type}
                       format={format}
                       height={250}
+                      width={200}
                     />
                   );
                 })}
