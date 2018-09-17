@@ -4,6 +4,7 @@ import Box from 'grommet/components/Box';
 import Chart, {
   Axis, Base, Bar, Grid, Layers, Marker, MarkerLabel,
 } from 'grommet/components/chart/Chart';
+import Label from 'grommet/components/Label';
 import Value from 'grommet/components/Value';
 
 import SAMPLE_STATS from './sample-stats';
@@ -41,7 +42,7 @@ class HistogramContainer extends React.Component {
 
   render() {
     return (
-      <Box>
+      <Box colorIndex="light-1" pad="medium">
         <h2>Histogram</h2>
         {this.state.statData && (this.state.statData.length > 0) && (
           <Chart>
@@ -79,7 +80,7 @@ class HistogramContainer extends React.Component {
             </Chart>
           </Chart>
         )}
-        <h3>Collective</h3>
+        <Label align="center">Collective</Label>
       </Box>
     );
   }
