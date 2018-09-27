@@ -9,14 +9,14 @@ import '../node_modules/zooniverse-react-components/lib/zooniverse-react-compone
 
 import './index.css';
 import { UserProvider } from './context/UserContext';
-import Main from './components/Main';
+import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
 oauth.init(config.panoptesAppId, { customRedirects: true })
   .then(() => {
     ReactDOM.render(
       <UserProvider>
-        <Main />
+        <App />
       </UserProvider>,
       document.getElementById('root'),
     );
