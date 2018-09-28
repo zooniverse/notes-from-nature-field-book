@@ -3,6 +3,7 @@ import React from 'react';
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
 import Label from 'grommet/components/Label';
+import Title from '../components/Title';
 import { config } from '../config';
 
 class UserStatsContainer extends React.Component {
@@ -35,7 +36,7 @@ class UserStatsContainer extends React.Component {
   render() {
     return (
       <Box colorIndex="light-1" margin={{ bottom: 'medium' }} pad="medium">
-        <h2>Your Stats</h2>
+        <Title>Your Notes from Nature Stats</Title>
         <Heading align="center">{this.state.preferences? this.state.preferences.activity_count : '0'}</Heading>
         <Label align="center">Total Classifications</Label>
       </Box>

@@ -6,6 +6,7 @@ import Chart, {
 } from 'grommet/components/chart/Chart';
 import Label from 'grommet/components/Label';
 import Value from 'grommet/components/Value';
+import Title from '../components/Title';
 
 import SAMPLE_STATS from './sample-stats';
 
@@ -43,12 +44,12 @@ class HistogramContainer extends React.Component {
   render() {
     return (
       <Box colorIndex="light-1" pad="medium">
-        <h2>Histogram</h2>
+        <Title>Histogram</Title>
         {this.state.statData && (this.state.statData.length > 0) && (
           <Chart>
             <Axis
               count={5}
-              labels={[{ index: 1, label: '1,000' }, { index: 2, label: '2,000' }, { index: 3, label: '3,000' }, { index: 4, label: '4,000' }]}
+              labels={[{ index: 1, label: '350' }, { index: 2, label: '700' }, { index: 3, label: '1,050' }, { index: 4, label: '1,400' }]}
               vertical
             />
             <Chart vertical>
@@ -63,7 +64,7 @@ class HistogramContainer extends React.Component {
                 <Bar
                   activeIndex={this.state.statData.length - 1}
                   colorIndex="graph-2"
-                  max={4000}
+                  max={1400}
                   values={this.state.statData.map(statObject => statObject.value)}
                 />
                 <Marker
@@ -75,7 +76,7 @@ class HistogramContainer extends React.Component {
               </Layers>
               <Axis
                 count={7}
-                labels={[{ index: 0, label: 'S' }, { index: 1, label: 'S' }, { index: 2, label: 'M' }, { index: 3, label: 'T' }, { index: 4, label: 'W' }, { index: 5, label: 'T' }, { index: 6, label: 'F' }]}
+                labels={[{ index: 0, label: 'F' }, { index: 1, label: 'S' }, { index: 2, label: 'S' }, { index: 3, label: 'M' }, { index: 4, label: 'T' }, { index: 5, label: 'W' }, { index: 6, label: 'T' }]}
               />
             </Chart>
           </Chart>
