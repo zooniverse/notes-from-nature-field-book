@@ -2,7 +2,8 @@
   "extends": [
     "airbnb",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "plugin:react/recommended"
   ],
   "plugins": [
     "prettier",
@@ -17,10 +18,6 @@
       2,
       "smart"
     ],
-    "react/prefer-stateless-function": [1],
-    "react/jsx-filename-extension": [1, {
-      "extensions": [".js", ".jsx"]
-    }],
     "keyword-spacing": 2,
     "comma-dangle": ["warn", "never"],
     "no-console": 1,
@@ -28,6 +25,13 @@
       "ignoreUrls": true,
       "ignoreComments": false
     }],
-    "space-before-function-paren": ["error", "never"]
+    "space-before-function-paren": ["error", "never"],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "none",
+        "singleQuote": true
+      }
+    ]
   }
 }
