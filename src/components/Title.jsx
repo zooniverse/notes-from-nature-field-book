@@ -9,10 +9,13 @@ const StyledTitle = styled(Heading)`
 
 export default function Title({ children }) {
   return (
-    <StyledTitle strong tag="h5" uppercase>{children}</StyledTitle>
+    <StyledTitle strong tag="h5" uppercase>
+      {children}
+    </StyledTitle>
   );
 }
 
 Title.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
+    .isRequired
 };

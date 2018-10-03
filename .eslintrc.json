@@ -1,3 +1,37 @@
 {
-    "extends": "airbnb"
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "prettier",
+    "react"
+  ],
+  "rules": {
+    "quotes": [
+      2,
+      "single"
+    ],
+    "eqeqeq": [
+      2,
+      "smart"
+    ],
+    "keyword-spacing": 2,
+    "comma-dangle": ["warn", "never"],
+    "no-console": 1,
+    "max-len": [1, 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false
+    }],
+    "space-before-function-paren": ["error", "never"],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "none",
+        "singleQuote": true
+      }
+    ]
+  }
 }
