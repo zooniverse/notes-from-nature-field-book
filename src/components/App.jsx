@@ -21,7 +21,7 @@ const UserStatsWithUser = withUser(UserStatsContainer);
 const HistogramWithUser = withUser(HistogramContainer);
 
 const Main = styled(Box)`
-  background-color: #EFF2F5;
+  background-color: #eff2f5;
 `;
 
 const StyledHR = styled.hr`
@@ -34,7 +34,12 @@ const App = () => (
     <Main pad="large" tag="main">
       <UserHeadingWithUser />
       <Box direction="row" full="horizontal" margin={{ bottom: 'medium' }}>
-        <Box colorIndex="light-1" margin={{ right: 'medium' }} pad="medium" style={{ width: '75%' }}>
+        <Box
+          colorIndex="light-1"
+          margin={{ right: 'medium' }}
+          pad="medium"
+          style={{ width: '75%' }}
+        >
           <RecentsWithUser />
           <StyledHR />
           <FavoritesWithUser />
@@ -44,7 +49,12 @@ const App = () => (
           <HistogramWithUser />
         </Box>
       </Box>
-      <Box colorIndex="light-1" full="horizontal" pad="medium" style={{ height: '250px' }}>
+      <Box
+        colorIndex="light-1"
+        full="horizontal"
+        pad="medium"
+        style={{ height: '250px' }}
+      >
         <Title>Your Badges</Title>
       </Box>
     </Main>
