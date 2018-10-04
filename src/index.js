@@ -12,13 +12,12 @@ import { UserProvider } from './context/UserContext';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
-oauth.init(config.panoptesAppId, { customRedirects: true })
-  .then(() => {
-    ReactDOM.render(
-      <UserProvider>
-        <App />
-      </UserProvider>,
-      document.getElementById('root'),
-    );
-    registerServiceWorker();
-  });
+oauth.init(config.panoptesAppId, { customRedirects: true }).then(() => {
+  ReactDOM.render(
+    <UserProvider>
+      <App />
+    </UserProvider>,
+    document.getElementById('root')
+  );
+  registerServiceWorker();
+});
