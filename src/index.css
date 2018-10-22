@@ -12,3 +12,25 @@ body {
 *:after {
   box-sizing: border-box;
 }
+
+.main {
+  background-color: #eff2f5;
+}
+
+.main__hr {
+  margin: 2em 0;
+}
+
+.subject-card {
+  background-color: #eef0f4;
+}
+
+.title {
+  letter-spacing: 1.5px;
+}
+
+.user-heading {
+  color: #5c5c5c;
+  letter-spacing: -.5px;
+  margin: 1em 0;
+}

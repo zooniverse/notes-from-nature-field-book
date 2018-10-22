@@ -9,14 +9,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "babel-plugin-styled-components": "^1.8.0",
     "grommet": "~1.9.0",
     "panoptes-client": "~2.11.2",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "1.1.4",
-    "styled-components": "^3.4.9",
     "zoo-grommet": "~0.3.0",
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.7.1"
   },
