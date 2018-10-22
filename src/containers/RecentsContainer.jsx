@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Box from 'grommet/components/Box';
-import { Thumbnail } from 'zooniverse-react-components';
-import getSubjectLocations from '../lib/get-subject-locations';
 import { config } from '../config';
+import Title from '../components/Title';
+import SubjectCard from '../components/SubjectCard';
 
 class RecentsContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      recents: [],
+      recents: []
     };
   }
 
@@ -27,46 +27,29 @@ class RecentsContainer extends React.Component {
     const { user } = this.props;
 
     if (user && user.get) {
-      user.get('recents', { project_id: config.projectId, sort: '-created_at', page_size: 3 })
-        .then(recents => this.setState({ recents }));
+      user
+        .get('recents', {
+          project_id: config.projectId,
+          sort: '-created_at',
+          page: this.state.page,
+          page_size: 3
+        })
+        .then(recents => {
+          this.setState({ recents });
+          console.log('meta = ', recents[0].getMeta());
+        });
     }
   }
 
   render() {
     return (
       <Box>
-        <h2>Your Recent Classifications</h2>
+        <Title>Your Recent Classifications</Title>
         <Box direction="row">
-          {(this.state.recents.length > 0)
-            && (
-              <div>
-                {this.state.recents.map((recent) => {
-                  const locations = getSubjectLocations(recent);
-                  let type = '';
-                  let format = '';
-                  let src = '';
-                  if (locations.image) {
-                    type = 'image';
-                    [format, src] = locations.image;
-                  } else if (locations.video) {
-                    type = 'video';
-                    [format, src] = locations.video;
-                  }
-                  return (
-                    <Thumbnail
-                      key={recent.id}
-                      alt={`Subject ${recent.links.subject}`}
-                      src={src}
-                      type={type}
-                      format={format}
-                      height={250}
-                      width={200}
-                    />
-                  );
-                })}
-              </div>
-            )
-          }
+          {this.state.recents.length > 0 &&
+            this.state.recents.map(recent => (
+              <SubjectCard key={recent.id} subject={recent} />
+            ))}
         </Box>
       </Box>
     );
@@ -75,12 +58,12 @@ class RecentsContainer extends React.Component {
 
 RecentsContainer.propTypes = {
   user: PropTypes.shape({
-    get: PropTypes.func,
-  }),
+    get: PropTypes.func
+  })
 };
 
 RecentsContainer.defaultProps = {
-  user: null,
+  user: null
 };
 
 export default RecentsContainer;
