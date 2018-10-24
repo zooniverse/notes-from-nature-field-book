@@ -18,7 +18,38 @@ body {
 }
 
 .main__hr {
-  margin: 2em;
+  margin: 0 2em;
+}
+
+.paginator-button {
+  background: #EEF0F4 !important;
+  border-radius: 6px !important;
+  border: 2px solid #D8D8DA !important;
+  color: #5C5C5C !important;
+  margin: 0.4em !important;
+  min-width: 0 !important;
+  padding: 0 0.4em !important;
+}
+
+.paginator-button:hover {
+  background: #E0F2F3 !important;
+  border-color: #E0F2F3 !important;
+  color: #00707C !important;
+}
+
+.paginator-label {
+  font-size: 0.6em !important;
+  line-height: 1em !important;
+  text-transform: uppercase !important;
+}
+
+.paginator-page-selector > select {
+  background: #EEF0F4 !important;
+  border-radius: 6px !important;
+  border: 2px solid #D8D8DA !important;
+  margin: 0.4em !important;
+  min-width: 0 !important;
+  padding: 0 0.4em !important;
 }
 
 .subject-card {
