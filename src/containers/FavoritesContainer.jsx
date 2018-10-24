@@ -2,16 +2,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Box from 'grommet/components/Box';
 import apiClient from 'panoptes-client';
+import { Paginator } from 'zooniverse-react-components';
+
 import { config } from '../config';
-import SubjectCard from '../components/SubjectCard';
 import Title from '../components/Title';
+import SubjectCard from '../components/SubjectCard';
 
 class FavoritesContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      favorites: []
+      favorites: [],
+      meta: null
     };
+
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentDidMount() {
@@ -24,8 +29,16 @@ class FavoritesContainer extends React.Component {
     }
   }
 
-  fetchFavorites() {
+  onPageChange(page) {
+    this.fetchFavorites(page);
+  }
+
+  fetchFavorites(page = 1) {
     const { user } = this.props;
+    const query = {
+      page,
+      page_size: 3
+    };
 
     if (user) {
       apiClient
@@ -37,8 +50,10 @@ class FavoritesContainer extends React.Component {
         })
         .then(collections => {
           collections[0]
-            .get('subjects', { page_size: 3 })
-            .then(subjects => this.setState({ favorites: subjects }));
+            .get('subjects', query)
+            .then(favorites =>
+              this.setState({ favorites, meta: favorites[0].getMeta() })
+            );
         });
     }
   }
@@ -47,12 +62,20 @@ class FavoritesContainer extends React.Component {
     return (
       <Box>
         <Title>Your Favorites</Title>
-        <Box direction="row">
+        <Box direction="row" justify="around" responsive>
           {this.state.favorites.length > 0 &&
             this.state.favorites.map(favorite => (
               <SubjectCard key={favorite.id} subject={favorite} />
             ))}
         </Box>
+        {this.state.meta &&
+          this.state.meta.page_count > 1 && (
+            <Paginator
+              page={this.state.meta.page}
+              pageCount={this.state.meta.page_count}
+              onPageChange={this.onPageChange}
+            />
+          )}
       </Box>
     );
   }
