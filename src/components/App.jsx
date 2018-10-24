@@ -31,12 +31,7 @@ const App = () => (
           margin={{ bottom: 'medium' }}
           responsive
         >
-          <Box
-            basis="2/3"
-            colorIndex="light-1"
-            margin={{ right: 'medium' }}
-            pad="medium"
-          >
+          <Box basis="2/3" colorIndex="light-1" margin={{ right: 'medium' }}>
             <RecentsWithUser />
             <hr className="main__hr" />
             <FavoritesWithUser />

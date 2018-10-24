@@ -77,7 +77,7 @@ class HistogramContainer extends React.Component {
                     />
                   }
                 />
-                <Base height="small" width="medium" />
+                <Base />
                 <Layers>
                   <Grid rows={5} columns={3} />
                   <Bar

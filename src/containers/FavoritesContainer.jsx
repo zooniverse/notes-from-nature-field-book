@@ -60,7 +60,7 @@ class FavoritesContainer extends React.Component {
 
   render() {
     return (
-      <Box>
+      <Box pad="medium">
         <Title>Your Favorites</Title>
         <Box direction="row" justify="around" responsive>
           {this.state.favorites.length > 0 &&

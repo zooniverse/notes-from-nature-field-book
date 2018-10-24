@@ -50,7 +50,7 @@ class RecentsContainer extends React.Component {
 
   render() {
     return (
-      <Box>
+      <Box pad="medium">
         <Title>Your Recent Classifications</Title>
         <Box direction="row" justify="around" responsive>
           {this.state.recents.length > 0 &&
