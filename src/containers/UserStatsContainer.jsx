@@ -10,7 +10,7 @@ class UserStatsContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      preferences: null,
+      preferences: null
     };
   }
 
@@ -28,16 +28,24 @@ class UserStatsContainer extends React.Component {
     const { user } = this.props;
 
     if (user && user.get) {
-      user.get('project_preferences', { project_id: config.projectId })
+      user
+        .get('project_preferences', { project_id: config.projectId })
         .then(([preferences]) => this.setState({ preferences }));
     }
   }
 
   render() {
     return (
-      <Box colorIndex="light-1" margin={{ bottom: 'medium' }} pad="medium">
+      <Box
+        colorIndex="light-1"
+        flex="grow"
+        margin={{ bottom: 'medium' }}
+        pad="medium"
+      >
         <Title>Your Notes from Nature Stats</Title>
-        <Heading align="center">{this.state.preferences? this.state.preferences.activity_count : '0'}</Heading>
+        <Heading align="center">
+          {this.state.preferences ? this.state.preferences.activity_count : '0'}
+        </Heading>
         <Label align="center">Total Classifications</Label>
       </Box>
     );
@@ -46,12 +54,12 @@ class UserStatsContainer extends React.Component {
 
 UserStatsContainer.propTypes = {
   user: PropTypes.shape({
-    get: PropTypes.func,
-  }),
+    get: PropTypes.func
+  })
 };
 
 UserStatsContainer.defaultProps = {
-  user: null,
+  user: null
 };
 
 export default UserStatsContainer;

@@ -11,7 +11,7 @@ class RecentsContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      meta: {},
+      meta: null,
       recents: []
     };
 
@@ -52,7 +52,7 @@ class RecentsContainer extends React.Component {
     return (
       <Box>
         <Title>Your Recent Classifications</Title>
-        <Box direction="row">
+        <Box direction="row" justify="around" responsive>
           {this.state.recents.length > 0 &&
             this.state.recents.map(recent => (
               <SubjectCard key={recent.id} subject={recent} />

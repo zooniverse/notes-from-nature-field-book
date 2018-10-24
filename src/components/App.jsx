@@ -25,7 +25,12 @@ const App = () => (
       <ZooHeader authContainer={<AuthContainer />} />
       <Box className="main" pad="large" tag="main">
         <UserHeadingWithUser />
-        <Box direction="row" full="horizontal" margin={{ bottom: 'medium' }}>
+        <Box
+          direction="row"
+          full="horizontal"
+          margin={{ bottom: 'medium' }}
+          responsive
+        >
           <Box
             basis="2/3"
             colorIndex="light-1"
