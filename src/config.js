@@ -38,6 +38,7 @@ const baseConfig = {
     projectSlug: 'rafe-dot-lafrance/notes-from-nature-on-staging',
     panoptesAppId:
       '16ac801e4ad438d929d30668206df31294e7a7222ce3f449a1c4b45cd80d44cc',
+    stats: 'https://stats-staging.zooniverse.org',
     zooniverse: 'https://master.pfe-preview.zooniverse.org'
   },
   production: {
@@ -46,7 +47,8 @@ const baseConfig = {
     panoptesAppId:
       '940c60fa02251f156c0d9129e3b8d885424fe729da4e4a7750525ca154bdb3d7',
     projectId: '1558',
-    projectSlug: '',
+    projectSlug: 'zooniverse/notes-from-nature',
+    stats: 'https://stats.zooniverse.org',
     zooniverse: 'https://www.zooniverse.org'
   }
 };
