@@ -49,11 +49,20 @@ class FavoritesContainer extends React.Component {
           sort: 'display_name'
         })
         .then(collections => {
-          collections[0]
-            .get('subjects', query)
-            .then(favorites =>
-              this.setState({ favorites, meta: favorites[0].getMeta() })
-            );
+          if (collections && collections[0]) {
+            collections[0]
+              .get('subjects', query)
+              .then(favorites =>
+                this.setState({ favorites, meta: favorites[0].getMeta() })
+              )
+              .catch(() => {
+                if (console) {
+                  console.warn('Failed to fetch favorites');
+                }
+              });
+          } else if (console) {
+            console.warn('Failed to fetch favorites');
+          }
         });
     }
   }
