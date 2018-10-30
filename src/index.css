@@ -21,6 +21,7 @@ body {
   margin: 0 2em;
 }
 
+.button,
 .paginator-button {
   background: #EEF0F4 !important;
   border-radius: 6px !important;
@@ -31,7 +32,14 @@ body {
   padding: 0 0.4em !important;
 }
 
+.button:hover,
 .paginator-button:hover {
+  background: #E0F2F3 !important;
+  border-color: #E0F2F3 !important;
+  color: #00707C !important;
+}
+
+.button__active {
   background: #E0F2F3 !important;
   border-color: #E0F2F3 !important;
   color: #00707C !important;
@@ -43,7 +51,7 @@ body {
   text-transform: uppercase !important;
 }
 
-.paginator-page-selector > select {
+.paginator-page-selector>select {
   background: #EEF0F4 !important;
   border-radius: 6px !important;
   border: 2px solid #D8D8DA !important;

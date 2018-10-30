@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import statsClient from 'panoptes-client/lib/stats-client';
 import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 import Chart, {
   Axis,
   Base,
@@ -12,7 +13,6 @@ import Chart, {
   Marker,
   MarkerLabel
 } from 'grommet/components/chart/Chart';
-import Label from 'grommet/components/Label';
 import Value from 'grommet/components/Value';
 
 import { config } from '../config';
@@ -22,8 +22,11 @@ class HistogramContainer extends React.Component {
   constructor() {
     super();
     this.state = {
+      collective: false,
       statData: null
     };
+
+    this.toggleCollective = this.toggleCollective.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +39,7 @@ class HistogramContainer extends React.Component {
     }
   }
 
-  fetchStats() {
+  fetchStats(collective = false) {
     const { user } = this.props;
 
     if (user) {
@@ -45,7 +48,7 @@ class HistogramContainer extends React.Component {
           period: 'day',
           projectID: config.projectId,
           type: 'classification',
-          userID: user.id
+          userID: collective ? '' : user.id
         })
         .then(data =>
           data.map(statObject => ({
@@ -54,7 +57,7 @@ class HistogramContainer extends React.Component {
           }))
         )
         .then(statData => {
-          this.setState({ statData });
+          this.setState({ collective, statData });
         })
         .catch(() => {
           if (console) {
@@ -62,6 +65,11 @@ class HistogramContainer extends React.Component {
           }
         });
     }
+  }
+
+  toggleCollective() {
+    const { collective } = this.state;
+    this.fetchStats(!collective);
   }
 
   render() {
@@ -100,6 +108,15 @@ class HistogramContainer extends React.Component {
 
     const axisX = weekOfData.labels.map((label, index) => ({ index, label }));
 
+    let personalClass = 'button';
+    let collectiveClass = 'button';
+
+    if (this.state.collective) {
+      collectiveClass += ' button__active';
+    } else {
+      personalClass += ' button__active';
+    }
+
     return (
       <Box colorIndex="light-1" pad="medium">
         <Title>Histogram</Title>
@@ -134,7 +151,14 @@ class HistogramContainer extends React.Component {
             <Axis count={7} labels={axisX} />
           </Chart>
         </Chart>
-        <Label align="center">Collective</Label>
+        <Box direction="row" justify="center">
+          <Button className={personalClass} onClick={this.toggleCollective}>
+            Personal
+          </Button>
+          <Button className={collectiveClass} onClick={this.toggleCollective}>
+            Collective
+          </Button>
+        </Box>
       </Box>
     );
   }
