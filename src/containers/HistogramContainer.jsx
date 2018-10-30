@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
+import statsClient from 'panoptes-client/lib/stats-client';
 import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 import Chart, {
   Axis,
   Base,
@@ -10,23 +13,20 @@ import Chart, {
   Marker,
   MarkerLabel
 } from 'grommet/components/chart/Chart';
-import Label from 'grommet/components/Label';
 import Value from 'grommet/components/Value';
+
+import { config } from '../config';
 import Title from '../components/Title';
-
-import SAMPLE_STATS from './sample-stats';
-
-// TODOs:
-// - dynamically create vertical axis labels
-// - dynamically create horizontal axis labels
-// - use statsClient
 
 class HistogramContainer extends React.Component {
   constructor() {
     super();
     this.state = {
+      collective: false,
       statData: null
     };
+
+    this.toggleCollective = this.toggleCollective.bind(this);
   }
 
   componentDidMount() {
@@ -39,78 +39,126 @@ class HistogramContainer extends React.Component {
     }
   }
 
-  fetchStats() {
+  fetchStats(collective = false) {
     const { user } = this.props;
 
     if (user) {
-      this.setState({ statData: SAMPLE_STATS });
+      statsClient
+        .query({
+          period: 'day',
+          projectID: config.projectId,
+          type: 'classification',
+          userID: collective ? '' : user.id
+        })
+        .then(data =>
+          data.map(statObject => ({
+            label: statObject.key_as_string,
+            value: statObject.doc_count
+          }))
+        )
+        .then(statData => {
+          this.setState({ collective, statData });
+        })
+        .catch(() => {
+          if (console) {
+            console.warn('Failed to fetch stats');
+          }
+        });
     }
   }
 
+  toggleCollective() {
+    const { collective } = this.state;
+    this.fetchStats(!collective);
+  }
+
   render() {
+    const now = moment.utc();
+
+    const weekOfData = {
+      labels: [],
+      series: [0, 0, 0, 0, 0, 0, 0]
+    };
+    [6, 5, 4, 3, 2, 1, 0].forEach(num => {
+      weekOfData.labels.push(
+        moment(now)
+          .subtract(num, 'days')
+          .format('dd')
+      );
+    });
+    if (this.state.statData) {
+      const filteredData = this.state.statData.filter(data =>
+        moment.utc(data.label).isSameOrAfter(moment(now).subtract(6, 'days'))
+      );
+      weekOfData.labels.forEach((dayLabel, index) => {
+        filteredData.forEach(data => {
+          if (dayLabel === moment.utc(data.label).format('dd')) {
+            weekOfData.series[index] = data.value;
+          }
+        });
+      });
+    }
+
+    const increment = Math.ceil(Math.max(...weekOfData.series) / 4);
+
+    const axisY = [0, 1, 2, 3, 4].map(index => ({
+      index,
+      label: `${index * increment}`
+    }));
+
+    const axisX = weekOfData.labels.map((label, index) => ({ index, label }));
+
+    let personalClass = 'button';
+    let collectiveClass = 'button';
+
+    if (this.state.collective) {
+      collectiveClass += ' button__active';
+    } else {
+      personalClass += ' button__active';
+    }
+
     return (
       <Box colorIndex="light-1" pad="medium">
         <Title>Histogram</Title>
-        {this.state.statData &&
-          this.state.statData.length > 0 && (
-            <Chart>
-              <Axis
-                count={5}
-                labels={[
-                  { index: 1, label: '350' },
-                  { index: 2, label: '700' },
-                  { index: 3, label: '1,050' },
-                  { index: 4, label: '1,400' }
-                ]}
+        <Chart>
+          <Axis count={5} labels={axisY} vertical />
+          <Chart vertical>
+            <MarkerLabel
+              count={weekOfData.series.length}
+              index={weekOfData.series.length - 1}
+              label={
+                <Value
+                  value={weekOfData.series[weekOfData.series.length - 1]}
+                />
+              }
+            />
+            <Base />
+            <Layers>
+              <Grid rows={5} columns={3} />
+              <Bar
+                activeIndex={weekOfData.series.length - 1}
+                colorIndex="graph-2"
+                max={increment * 4}
+                values={weekOfData.series.map(value => value)}
+              />
+              <Marker
+                colorIndex="graph-2"
+                count={weekOfData.series.length}
+                index={weekOfData.series.length - 1}
                 vertical
               />
-              <Chart vertical>
-                <MarkerLabel
-                  count={this.state.statData.length}
-                  index={this.state.statData.length - 1}
-                  label={
-                    <Value
-                      value={
-                        this.state.statData[this.state.statData.length - 1]
-                          .value
-                      }
-                    />
-                  }
-                />
-                <Base />
-                <Layers>
-                  <Grid rows={5} columns={3} />
-                  <Bar
-                    activeIndex={this.state.statData.length - 1}
-                    colorIndex="graph-2"
-                    max={1400}
-                    values={this.state.statData.map(
-                      statObject => statObject.value
-                    )}
-                  />
-                  <Marker
-                    colorIndex="graph-2"
-                    count={this.state.statData.length}
-                    index={this.state.statData.length - 1}
-                    vertical
-                  />
-                </Layers>
-                <Axis
-                  count={7}
-                  labels={[
-                    { index: 0, label: 'F' },
-                    { index: 1, label: 'S' },
-                    { index: 2, label: 'S' },
-                    { index: 3, label: 'M' },
-                    { index: 4, label: 'T' },
-                    { index: 5, label: 'W' },
-                    { index: 6, label: 'T' }
-                  ]}
-                />
-              </Chart>
-            </Chart>
-          )}
-        <Label align="center">Collective</Label>
+            </Layers>
+            <Axis count={7} labels={axisX} />
+          </Chart>
+        </Chart>
+        <Box direction="row" justify="center">
+          <Button className={personalClass} onClick={this.toggleCollective}>
+            Personal
+          </Button>
+          <Button className={collectiveClass} onClick={this.toggleCollective}>
+            Collective
+          </Button>
+        </Box>
       </Box>
     );
   }
