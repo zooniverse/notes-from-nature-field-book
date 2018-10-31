@@ -8,16 +8,14 @@ import AuthContainer from '../containers/AuthContainer';
 import UserHeading from './UserHeading';
 import RecentsContainer from '../containers/RecentsContainer';
 import FavoritesContainer from '../containers/FavoritesContainer';
-import UserStatsContainer from '../containers/UserStatsContainer';
-import HistogramContainer from '../containers/HistogramContainer';
+import StatsContainer from '../containers/StatsContainer';
 
 import Title from './Title'; // remove with completion of Badge section
 
 const UserHeadingWithUser = withUser(UserHeading);
 const RecentsWithUser = withUser(RecentsContainer);
 const FavoritesWithUser = withUser(FavoritesContainer);
-const UserStatsWithUser = withUser(UserStatsContainer);
-const HistogramWithUser = withUser(HistogramContainer);
+const StatsWithUser = withUser(StatsContainer);
 
 const App = () => (
   <UserProvider>
@@ -41,10 +39,7 @@ const App = () => (
             <hr className="main__hr" />
             <FavoritesWithUser />
           </Box>
-          <Box basis="1/3" justify="between">
-            <UserStatsWithUser />
-            <HistogramWithUser />
-          </Box>
+          <StatsWithUser />
         </Box>
         <Box
           colorIndex="light-1"
