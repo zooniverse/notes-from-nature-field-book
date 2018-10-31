@@ -61,8 +61,11 @@ class FavoritesContainer extends React.Component {
                   console.warn('Failed to fetch favorites');
                 }
               });
-          } else if (console) {
-            console.warn('Failed to fetch favorites');
+          }
+        })
+        .catch(() => {
+          if (console) {
+            console.warn('Failed to fetch colletions for favorites');
           }
         });
     } else {

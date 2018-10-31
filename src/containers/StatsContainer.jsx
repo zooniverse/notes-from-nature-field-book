@@ -41,7 +41,12 @@ class StatsContainer extends React.Component {
     if (user && user.get) {
       user
         .get('project_preferences', { project_id: config.projectId })
-        .then(([preferences]) => this.setState({ preferences }));
+        .then(([preferences]) => this.setState({ preferences }))
+        .catch(() => {
+          if (console) {
+            console.warn('Failed to fetch user preferences');
+          }
+        });;
     } else {
       this.setState({ preferences: null });
     }
