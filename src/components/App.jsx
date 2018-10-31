@@ -1,5 +1,5 @@
 import React from 'react';
-import * as GrommetApp from 'grommet/components/App';
+import GrommetApp from 'grommet/components/App';
 import Box from 'grommet/components/Box';
 import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 

@@ -1,6 +1,12 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Anchor from 'grommet/components/Anchor';
-import { LoginButton, LogoutButton, UserMenu, UserNavigation } from 'zooniverse-react-components';
+import {
+  LoginButton,
+  LogoutButton,
+  UserMenu,
+  UserNavigation
+} from 'zooniverse-react-components';
 
 import { config } from '../config';
 import { UserContext } from '../context/UserContext';
@@ -25,17 +31,17 @@ class Auth extends Component {
     let menuItems;
 
     if (this.props.user && this.props.initialised) {
-      const login = this.props.user.login;
+      const { login } = this.props.user;
       menuItems = [
         <Anchor href={`${config.zooniverse}/users/${login}`}>Profile</Anchor>,
         <Anchor href={`${config.zooniverse}/settings`}>Settings</Anchor>,
         <Anchor href={`${config.zooniverse}/collections/${login}`}>Collections</Anchor>,
         <Anchor href={`${config.zooniverse}/favorites/${login}`}>Favorites</Anchor>,
-        <LogoutButton logout={this.logout} />,
+        <LogoutButton logout={this.logout} />
       ];
     }
 
-    return (this.props.user) ? (
+    return this.props.user ? (
       <div>
         <UserNavigation />
         <UserMenu user={this.props.user} userMenuNavList={menuItems} />
@@ -48,16 +54,26 @@ class Auth extends Component {
   }
 }
 
+Auth.propTypes = {
+  initialised: PropTypes.bool,
+  signIn: PropTypes.func,
+  signOut: PropTypes.func,
+  user: PropTypes.shape({
+    login: PropTypes.string
+  })
+};
+
+Auth.defaultProps = {
+  initialised: false,
+  signIn: () => {},
+  signOut: () => {},
+  user: null
+};
+
 const AuthContainer = () => (
   <UserContext.Consumer>
-    {context => (
-      <Auth {...context} />
-    )}
+    {context => <Auth {...context} />}
   </UserContext.Consumer>
 );
 
 export default AuthContainer;
-
-// TODO
-// - refactor to one component?
-// - add types validation and defaults

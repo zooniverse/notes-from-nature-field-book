@@ -84,6 +84,6 @@ UserStats.propTypes = {
 
 UserStats.defaultProps = {
   activityCount: 0,
-  userStatsByDay: [],
-  userStatsByMonth: []
+  userStatsByDay: null,
+  userStatsByMonth: null
 };

@@ -12,7 +12,7 @@ class FavoritesContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      favorites: [],
+      favorites: null,
       meta: null
     };
 
@@ -35,12 +35,13 @@ class FavoritesContainer extends React.Component {
 
   fetchFavorites(page = 1) {
     const { user } = this.props;
-    const query = {
-      page,
-      page_size: 3
-    };
 
     if (user) {
+      const query = {
+        page,
+        page_size: 3
+      };
+
       apiClient
         .type('collections')
         .get({
@@ -60,19 +61,24 @@ class FavoritesContainer extends React.Component {
                   console.warn('Failed to fetch favorites');
                 }
               });
-          } else if (console) {
-            console.warn('Failed to fetch favorites');
+          }
+        })
+        .catch(() => {
+          if (console) {
+            console.warn('Failed to fetch colletions for favorites');
           }
         });
+    } else {
+      this.setState({ meta: null, favorites: null });
     }
   }
 
   render() {
     return (
-      <Box pad="medium">
+      <Box basis="1/2" pad="medium">
         <Title>Your Favorites</Title>
         <Box direction="row" justify="around" responsive>
-          {this.state.favorites.length > 0 &&
+          {this.state.favorites &&
             this.state.favorites.map(favorite => (
               <SubjectCard key={favorite.id} subject={favorite} />
             ))}
