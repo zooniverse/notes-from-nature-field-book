@@ -42,6 +42,8 @@ class StatsContainer extends React.Component {
       user
         .get('project_preferences', { project_id: config.projectId })
         .then(([preferences]) => this.setState({ preferences }));
+    } else {
+      this.setState({ preferences: null });
     }
   }
 
@@ -78,6 +80,13 @@ class StatsContainer extends React.Component {
             console.warn('Failed to fetch stats');
           }
         });
+    } else {
+      this.setState({
+        collective: false,
+        collectiveStatsByDay: null,
+        userStatsByDay: null,
+        userStatsByMonth: null
+      });
     }
   }
 

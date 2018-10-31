@@ -12,7 +12,7 @@ class RecentsContainer extends React.Component {
     super();
     this.state = {
       meta: null,
-      recents: []
+      recents: null
     };
 
     this.onPageChange = this.onPageChange.bind(this);
@@ -34,26 +34,28 @@ class RecentsContainer extends React.Component {
 
   fetchRecents(page = 1) {
     const { user } = this.props;
-    const query = {
-      project_id: config.projectId,
-      sort: '-created_at',
-      page,
-      page_size: 3
-    };
-
     if (user && user.get) {
+      const query = {
+        project_id: config.projectId,
+        sort: '-created_at',
+        page,
+        page_size: 3
+      };
+
       user.get('recents', query).then(recents => {
         this.setState({ meta: recents[0].getMeta(), recents });
       });
+    } else {
+      this.setState({ meta: null, recents: null });
     }
   }
 
   render() {
     return (
-      <Box pad="medium">
+      <Box basis="1/2" pad="medium">
         <Title>Your Recent Classifications</Title>
         <Box direction="row" justify="around" responsive>
-          {this.state.recents.length > 0 &&
+          {this.state.recents &&
             this.state.recents.map(recent => (
               <SubjectCard key={recent.id} subject={recent} />
             ))}

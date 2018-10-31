@@ -125,7 +125,7 @@ Histogram.propTypes = {
 
 Histogram.defaultProps = {
   collective: false,
-  collectiveStatsByDay: [],
+  collectiveStatsByDay: null,
   toggleCollective: () => {},
-  userStatsByDay: []
+  userStatsByDay: null
 };
