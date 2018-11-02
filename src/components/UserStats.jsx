@@ -35,7 +35,7 @@ export default function UserStats({
       margin={{ bottom: 'medium' }}
       pad="medium"
     >
-      <Title>Your Notes from Nature Stats</Title>
+      <Title>Your Stats</Title>
       <Box direction="row">
         <Box basis="1/2" justify="center" separator="right">
           <Value align="start" colorIndex="accent-2" value={activityCount} />
