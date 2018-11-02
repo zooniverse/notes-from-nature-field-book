@@ -1,11 +1,18 @@
 {
   "author": "Zooniverse",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "bugs": "https://github.com/zooniverse/notes-from-nature-field-book",
   "dependencies": {
     "grommet": "~1.9.0",
     "moment": "^2.22.2",
     "panoptes-client": "~2.11.2",
     "prop-types": "^15.6.2",
+    "publisssh": "^1.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.3",
@@ -35,15 +42,14 @@
     "url": "https://github.com/zooniverse/notes-from-nature-field-book"
   },
   "scripts": {
+    "_deploy": "export PATH_ROOT=field-book.notesfromnature.org; npm run build && npm run _publish",
+    "_publish": "publisssh ./build \"zooniverse-static/$PATH_ROOT\"",
+    "_stage": "export PATH_ROOT=field-book-preview.notesfromnature.org; npm run build && npm run _publish",
+    "deploy": "export NODE_ENV=production; npm run _deploy",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "stage": "export NODE_ENV=staging; npm run _stage",
     "test": "react-scripts test --env=jsdom"
   },
-  "version": "0.1.0",
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "version": "0.1.0"
 }
