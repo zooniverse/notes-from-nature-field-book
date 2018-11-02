@@ -30,7 +30,7 @@ if (!env.match(/^(production|staging|development)$/)) {
   throw new Error(`Error: Invalid Environment - ${env}`);
 }
 
-const projectIdFromBrowser = locationMatch(/\W?project=(\w+)/);
+const projectIdFromBrowser = locationMatch(/\W?project_id=(\w+)/);
 
 const baseConfig = {
   development: {
@@ -56,6 +56,7 @@ const baseConfig = {
 };
 
 baseConfig.staging = baseConfig.development; // staging === development, as far as we're concerned.
+baseConfig.test = baseConfig.development; // test === development, as far as we're concerned.
 
 const config = baseConfig[env];
 
