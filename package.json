@@ -8,12 +8,12 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "1.1.4",
+    "react-scripts": "2.0.3",
     "zoo-grommet": "~0.3.0",
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.7.1"
   },
   "devDependencies": {
-    "eslint": "^5.6.1",
+    "eslint": "5.6.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-import": "^2.14.0",
@@ -26,7 +26,7 @@
     "node": "^8.11",
     "npm": "^6.4"
   },
-  "homepage": "https://github.com/zooniverse/notes-from-nature-field-book",
+  "homepage": "https://field-book.notesfromnature.org",
   "license": "Apache-2.0",
   "name": "notes-from-nature-field-book",
   "private": true,
@@ -39,5 +39,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom"
   },
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
