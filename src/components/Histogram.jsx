@@ -51,10 +51,12 @@ export default function Histogram({
 
   const max = Math.max(...weekOfData.series);
   const increment = Math.ceil(max / 4);
+  const base = 10 ** (increment.toString().length - 1);
+  const roundedIncrement = Math.round(increment / base) * base;
 
   const axisY = [0, 1, 2, 3, 4].map(index => ({
     index,
-    label: `${index * increment}`
+    label: `${(index * roundedIncrement).toLocaleString()}`
   }));
 
   const axisX = weekOfData.labels.map((label, index) => ({ index, label }));
@@ -78,7 +80,7 @@ export default function Histogram({
             colorIndex="accent-2"
             count={7}
             index={6}
-            label={<Value value={weekOfData.series[6]} />}
+            label={<Value value={weekOfData.series[6].toLocaleString()} />}
           />
           <Base />
           <Layers>
@@ -86,7 +88,7 @@ export default function Histogram({
             <Bar
               activeIndex={6}
               colorIndex="accent-1"
-              max={increment * 4}
+              max={roundedIncrement * 4}
               values={weekOfData.series.map(value => value)}
             />
             <Marker count={7} index={6} vertical />
