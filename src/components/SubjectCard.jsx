@@ -30,7 +30,7 @@ export default function SubjectCard({ subject }) {
         <Box alignSelf="center" className="subject-card" margin="small">
           <a
             href={`${config.zooniverse}/projects/${
-              projectContext.project.slug
+              projectContext.project ? projectContext.project.slug : ''
             }/talk${subjectId}`}
             rel="noopener noreferrer"
             target="_blank"
