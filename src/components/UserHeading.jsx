@@ -2,21 +2,35 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Heading from 'grommet/components/Heading';
 
+import { config } from '../config';
+
 export default function UserHeading({ project, user }) {
-  const headingContent =
-    user && user.display_name && project && project.display_name
-      ? `${user.display_name}'s ${project.display_name} Field Book`
-      : 'Your Field Book (please sign-in)';
+  if (user && project) {
+    const projectLink = (
+      <a href={`${config.zooniverse}/projects/${project.slug}`}>
+        {project.display_name}
+      </a>
+    );
+
+    return (
+      <Heading className="user-heading" strong tag="h2">
+        {`${user.display_name}'s `}
+        {projectLink}
+        {' Field Book'}
+      </Heading>
+    );
+  }
   return (
     <Heading className="user-heading" strong tag="h2">
-      {headingContent}
+      Your Field Book (please sign-in)
     </Heading>
   );
 }
 
 UserHeading.propTypes = {
   project: PropTypes.shape({
-    display_name: PropTypes.string
+    display_name: PropTypes.string,
+    slug: PropTypes.string
   }),
   user: PropTypes.shape({
     display_name: PropTypes.string
@@ -25,7 +39,8 @@ UserHeading.propTypes = {
 
 UserHeading.defaultProps = {
   project: {
-    display_name: ''
+    display_name: '',
+    slug: ''
   },
   user: {
     display_name: ''
