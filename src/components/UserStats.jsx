@@ -35,10 +35,14 @@ export default function UserStats({
       margin={{ bottom: 'medium' }}
       pad="medium"
     >
-      <Title>Your Notes from Nature Stats</Title>
+      <Title>Your Stats</Title>
       <Box direction="row">
         <Box basis="1/2" justify="center" separator="right">
-          <Value align="start" colorIndex="accent-2" value={activityCount} />
+          <Value
+            align="start"
+            colorIndex="accent-2"
+            value={activityCount.toLocaleString()}
+          />
           <Label margin="none">Total Classifications</Label>
         </Box>
         <Box basis="1/2" justify="center" margin={{ left: 'medium' }}>
@@ -46,7 +50,7 @@ export default function UserStats({
             align="start"
             colorIndex="accent-1"
             size="small"
-            value={maxDay.value}
+            value={maxDay.value.toLocaleString()}
           />
           <Label size="small">
             Highest day: {moment.utc(maxDay.label).format('dd, l')}
@@ -55,7 +59,7 @@ export default function UserStats({
             align="start"
             colorIndex="accent-1"
             size="small"
-            value={maxMonth.value}
+            value={maxMonth.value.toLocaleString()}
           />
           <Label size="small">
             Highest month: {moment.utc(maxDay.label).format('MMMM, YYYY')}

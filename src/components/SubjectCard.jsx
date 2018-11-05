@@ -5,6 +5,7 @@ import Button from 'grommet/components/Button';
 import { Thumbnail } from 'zooniverse-react-components';
 
 import { config } from '../config';
+import { ProjectContext } from '../context/ProjectContext';
 import getSubjectLocations from '../lib/get-subject-locations';
 
 export default function SubjectCard({ subject }) {
@@ -24,32 +25,36 @@ export default function SubjectCard({ subject }) {
     ? `/subjects/${subject.links.subject}`
     : subject.href;
   return (
-    <Box alignSelf="center" className="subject-card" margin="small">
-      <a
-        href={`${config.zooniverse}/projects/${
-          config.projectSlug
-        }/talk${subjectId}`}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <Thumbnail
-          alt={`Subject ${subject.links.subject}`}
-          src={src}
-          type={type}
-          format={format}
-          height={250}
-          width={200}
-        />
-      </a>
-      <Box direction="row" justify="center">
-        <Button type="button">
-          <i className="fa fa-heart fa-fw" />
-        </Button>
-        <Button type="button">
-          <i className="fa fa-list fa-fw" />
-        </Button>
-      </Box>
-    </Box>
+    <ProjectContext.Consumer>
+      {projectContext => (
+        <Box alignSelf="center" className="subject-card" margin="small">
+          <a
+            href={`${config.zooniverse}/projects/${
+              projectContext.project ? projectContext.project.slug : ''
+            }/talk${subjectId}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Thumbnail
+              alt={`Subject ${subject.links.subject}`}
+              src={src}
+              type={type}
+              format={format}
+              height={250}
+              width={200}
+            />
+          </a>
+          <Box direction="row" justify="center">
+            <Button type="button">
+              <i className="fa fa-heart fa-fw" />
+            </Button>
+            <Button type="button">
+              <i className="fa fa-list fa-fw" />
+            </Button>
+          </Box>
+        </Box>
+      )}
+    </ProjectContext.Consumer>
   );
 }
 
