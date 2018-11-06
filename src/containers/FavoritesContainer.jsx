@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Box from 'grommet/components/Box';
-import apiClient from 'panoptes-client';
 import { Paginator } from 'zooniverse-react-components';
 
-import { config } from '../config';
 import Title from '../components/Title';
 import SubjectCard from '../components/SubjectCard';
 
@@ -12,7 +10,7 @@ class FavoritesContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      favorites: null,
+      favoriteSubjects: null,
       meta: null
     };
 
@@ -20,56 +18,46 @@ class FavoritesContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchFavorites();
+    this.fetchFavoriteSubjects();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.user !== this.props.user) {
-      this.fetchFavorites();
+    if (prevProps.favorites !== this.props.favorites) {
+      this.fetchFavoriteSubjects();
     }
   }
 
   onPageChange(page) {
-    this.fetchFavorites(page);
+    this.fetchFavoriteSubjects(page);
   }
 
-  fetchFavorites(page = 1) {
-    const { user } = this.props;
+  fetchFavoriteSubjects(page = 1) {
+    const { favorites } = this.props;
 
-    if (user) {
+    if (favorites) {
       const query = {
         page,
         page_size: 3
       };
 
-      apiClient
-        .type('collections')
-        .get({
-          project_ids: config.projectId,
-          favorite: true,
-          sort: 'display_name'
-        })
-        .then(collections => {
-          if (collections && collections[0]) {
-            collections[0]
-              .get('subjects', query)
-              .then(favorites =>
-                this.setState({ favorites, meta: favorites[0].getMeta() })
-              )
-              .catch(() => {
-                if (console) {
-                  console.warn('Failed to fetch favorites');
-                }
-              });
-          }
-        })
+      favorites
+        .get('subjects', query)
+        .then(favoriteSubjects =>
+          this.setState({
+            favoriteSubjects,
+            meta: favoriteSubjects[0].getMeta()
+          })
+        )
         .catch(() => {
           if (console) {
-            console.warn('Failed to fetch colletions for favorites');
+            console.warn('Failed to fetch favorites');
           }
         });
     } else {
-      this.setState({ meta: null, favorites: null });
+      this.setState({
+        favoriteSubjects: null,
+        meta: null
+      });
     }
   }
 
@@ -78,8 +66,8 @@ class FavoritesContainer extends React.Component {
       <Box basis="1/2" pad="medium">
         <Title>Your Favorites</Title>
         <Box direction="row" justify="around" responsive>
-          {this.state.favorites &&
-            this.state.favorites.map(favorite => (
+          {this.state.favoriteSubjects &&
+            this.state.favoriteSubjects.map(favorite => (
               <SubjectCard key={favorite.id} subject={favorite} />
             ))}
         </Box>
@@ -97,13 +85,13 @@ class FavoritesContainer extends React.Component {
 }
 
 FavoritesContainer.propTypes = {
-  user: PropTypes.shape({
-    get: PropTypes.func
+  favorites: PropTypes.shape({
+    id: PropTypes.string
   })
 };
 
 FavoritesContainer.defaultProps = {
-  user: null
+  favorites: null
 };
 
 export default FavoritesContainer;
