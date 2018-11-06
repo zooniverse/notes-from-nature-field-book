@@ -3,8 +3,13 @@ import GrommetApp from 'grommet/components/App';
 import Box from 'grommet/components/Box';
 import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 
+import {
+  FavoritesProvider,
+  FavoritesContext
+} from '../context/FavoritesContext';
 import { ProjectProvider, ProjectContext } from '../context/ProjectContext';
 import { UserProvider, UserContext } from '../context/UserContext';
+
 import AuthContainer from '../containers/AuthContainer';
 import UserHeading from './UserHeading';
 import RecentsContainer from '../containers/RecentsContainer';
@@ -17,45 +22,48 @@ const App = () => (
   <UserProvider>
     <ProjectProvider>
       <UserContext.Consumer>
-        {userContext => (
+        {({ user }) => (
           <GrommetApp centered={false}>
             <ZooHeader authContainer={<AuthContainer />} />
-            <Box className="main" pad="large" tag="main">
-              <ProjectContext.Consumer>
-                {projectContext => (
-                  <UserHeading
-                    project={projectContext.project}
-                    user={userContext.user}
-                  />
-                )}
-              </ProjectContext.Consumer>
-              <Box
-                direction="row"
-                full="horizontal"
-                margin={{ bottom: 'medium' }}
-                responsive
-              >
-                <Box
-                  basis="2/3"
-                  colorIndex="light-1"
-                  justify="between"
-                  margin={{ right: 'medium' }}
-                >
-                  <RecentsContainer user={userContext.user} />
-                  <hr className="main__hr" />
-                  <FavoritesContainer user={userContext.user} />
+            <ProjectContext.Consumer>
+              {({ project }) => (
+                <Box className="main" pad="large" tag="main">
+                  <UserHeading project={project} user={user} />
+                  <Box
+                    direction="row"
+                    full="horizontal"
+                    margin={{ bottom: 'medium' }}
+                    responsive
+                  >
+                    <FavoritesProvider project={project} user={user}>
+                      <FavoritesContext.Consumer>
+                        {({ favorites }) => (
+                          <Box
+                            basis="2/3"
+                            colorIndex="light-1"
+                            justify="between"
+                            margin={{ right: 'medium' }}
+                          >
+                            <RecentsContainer user={user} />
+                            <hr className="main__hr" />
+                            <FavoritesContainer favorites={favorites} />
+                          </Box>
+                        )}
+                      </FavoritesContext.Consumer>
+                    </FavoritesProvider>
+                    <StatsContainer user={user} />
+                  </Box>
+                  <Box
+                    colorIndex="light-1"
+                    full="horizontal"
+                    pad="medium"
+                    style={{ height: '250px' }}
+                  >
+                    <Title>Your Badges</Title>
+                  </Box>
                 </Box>
-                <StatsContainer user={userContext.user} />
-              </Box>
-              <Box
-                colorIndex="light-1"
-                full="horizontal"
-                pad="medium"
-                style={{ height: '250px' }}
-              >
-                <Title>Your Badges</Title>
-              </Box>
-            </Box>
+              )}
+            </ProjectContext.Consumer>
             <ZooFooter />
           </GrommetApp>
         )}
