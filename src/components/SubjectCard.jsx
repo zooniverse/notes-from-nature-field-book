@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Box from 'grommet/components/Box';
-import Button from 'grommet/components/Button';
 import { Thumbnail } from 'zooniverse-react-components';
 
 import { config } from '../config';
 import { ProjectContext } from '../context/ProjectContext';
 import getSubjectLocations from '../lib/get-subject-locations';
+import { FavoritesContext } from '../context/FavoritesContext';
+import FavoritesButton from './FavoritesButton';
 
 export default function SubjectCard({ subject }) {
   const locations = getSubjectLocations(subject);
@@ -45,12 +46,16 @@ export default function SubjectCard({ subject }) {
             />
           </a>
           <Box direction="row" justify="center">
-            <Button type="button">
-              <i className="fa fa-heart fa-fw" />
-            </Button>
-            <Button type="button">
-              <i className="fa fa-list fa-fw" />
-            </Button>
+            <FavoritesContext.Consumer>
+              {({ addSubjectTo, favorites, removeSubjectFrom }) => (
+                <FavoritesButton
+                  addSubjectTo={addSubjectTo}
+                  favorites={favorites}
+                  removeSubjectFrom={removeSubjectFrom}
+                  subject={subject}
+                />
+              )}
+            </FavoritesContext.Consumer>
           </Box>
         </Box>
       )}

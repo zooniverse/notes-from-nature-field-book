@@ -11,6 +11,9 @@ export class FavoritesProvider extends Component {
       favorites: null,
       initialised: false
     };
+
+    this.addSubjectTo = this.addSubjectTo.bind(this);
+    this.removeSubjectFrom = this.removeSubjectFrom.bind(this);
   }
 
   componentDidMount() {
@@ -34,10 +37,9 @@ export class FavoritesProvider extends Component {
     apiClient
       .type('collections')
       .get({
-        current_user_roles: 'owner,contributor,collaborator,viewer',
+        owner: this.props.user.login,
         project_ids: this.props.project.id,
-        favorite: true,
-        sort: 'display_name'
+        favorite: true
       })
       .then(([collections]) => {
         if (collections && collections.links.subjects) {
@@ -46,12 +48,51 @@ export class FavoritesProvider extends Component {
       });
   }
 
+  addSubjectTo(subjectId) {
+    if (this.state.favorites) {
+      this.state.favorites.addLink('subjects', [subjectId.toString()]);
+    } else {
+      this.createFavorites().then(() => {
+        this.state.favorites.addLink('subjects', [subjectId.toString()]);
+      });
+    }
+  }
+
+  removeSubjectFrom(subjectId) {
+    this.state.favorites.removeLink('subjects', [subjectId.toString()]);
+  }
+
+  createFavorites() {
+    return new Promise((resolve, reject) => {
+      const display_name = `Favorites ${this.props.project.slug}`;
+      const project = this.props.project.id;
+      const subjects = [];
+      const favorite = true;
+
+      const links = { project, subjects };
+      const collection = { favorite, display_name, links };
+      apiClient
+        .type('collections')
+        .create(collection)
+        .save()
+        .catch(err => {
+          reject(err);
+        })
+        .then(newFavorites => {
+          this.setState({ favorites: newFavorites });
+          resolve();
+        });
+    });
+  }
+
   render() {
     return (
       <FavoritesContext.Provider
         value={{
+          addSubjectTo: this.addSubjectTo,
+          favorites: this.state.favorites,
           initialised: this.state.initialised,
-          favorites: this.state.favorites
+          removeSubjectFrom: this.removeSubjectFrom
         }}
       >
         {this.props.children}
@@ -66,6 +107,6 @@ FavoritesProvider.propTypes = {
     id: PropTypes.string
   }).isRequired,
   user: PropTypes.shape({
-    id: PropTypes.string
+    login: PropTypes.string
   }).isRequired
 };
