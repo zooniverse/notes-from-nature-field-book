@@ -4,9 +4,7 @@ import apiClient from 'panoptes-client/lib/api-client';
 
 import { config } from '../config';
 
-export const ProjectContext = React.createContext({
-  id: config.projectId
-});
+export const ProjectContext = React.createContext();
 
 export class ProjectProvider extends Component {
   constructor(props) {
