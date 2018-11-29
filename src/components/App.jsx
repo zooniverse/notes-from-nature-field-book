@@ -37,7 +37,7 @@ const App = () => (
                   >
                     <FavoritesProvider project={project} user={user}>
                       <FavoritesContext.Consumer>
-                        {({ favorites }) => (
+                        {({ favoriteCollection, linkedSubjects }) => (
                           <Box
                             basis="2/3"
                             colorIndex="light-1"
@@ -46,7 +46,10 @@ const App = () => (
                           >
                             <RecentsContainer user={user} />
                             <hr className="main__hr" />
-                            <FavoritesContainer favorites={favorites} />
+                            <FavoritesContainer
+                              favoriteCollection={favoriteCollection}
+                              linkedSubjects={linkedSubjects}
+                            />
                           </Box>
                         )}
                       </FavoritesContext.Consumer>

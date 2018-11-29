@@ -22,7 +22,7 @@ class FavoritesContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.favorites !== this.props.favorites) {
+    if (prevProps.favoriteCollection !== this.props.favoriteCollection) {
       this.fetchFavoriteSubjects();
     }
   }
@@ -32,15 +32,15 @@ class FavoritesContainer extends React.Component {
   }
 
   fetchFavoriteSubjects(page = 1) {
-    const { favorites } = this.props;
+    const { favoriteCollection, linkedSubjects } = this.props;
 
-    if (favorites) {
+    if (favoriteCollection && linkedSubjects.length) {
       const query = {
         page,
         page_size: 3
       };
 
-      favorites
+      favoriteCollection
         .get('subjects', query)
         .then(favoriteSubjects =>
           this.setState({
@@ -85,13 +85,15 @@ class FavoritesContainer extends React.Component {
 }
 
 FavoritesContainer.propTypes = {
-  favorites: PropTypes.shape({
+  favoriteCollection: PropTypes.shape({
     id: PropTypes.string
-  })
+  }),
+  linkedSubjects: PropTypes.arrayOf(PropTypes.string)
 };
 
 FavoritesContainer.defaultProps = {
-  favorites: null
+  favoriteCollection: null,
+  linkedSubjects: []
 };
 
 export default FavoritesContainer;

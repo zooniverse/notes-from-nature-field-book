@@ -4,14 +4,14 @@ import Button from 'grommet/components/Button';
 
 export default function FavoritesButton({
   addSubjectTo,
-  favorites,
+  linkedSubjects,
   removeSubjectFrom,
   subject
 }) {
   const subjectId = subject.links.subject || subject.id;
   const favorited =
-    favorites && favorites.links
-      ? !!favorites.links.subjects.some(subj => subj === subjectId)
+    linkedSubjects && linkedSubjects.length
+      ? !!linkedSubjects.some(subj => subj === subjectId)
       : false;
 
   const favClassName = favorited ? 'fas fa-heart fa-fw' : 'far fa-heart fa-fw';
@@ -33,16 +33,14 @@ export default function FavoritesButton({
 }
 
 FavoritesButton.defaultProps = {
-  addSubjectTo: () => { },
-  favorites: [],
-  removeSubjectFrom: () => { }
+  addSubjectTo: () => {},
+  linkedSubjects: [],
+  removeSubjectFrom: () => {}
 };
 
 FavoritesButton.propTypes = {
   addSubjectTo: PropTypes.func,
-  favorites: PropTypes.shape({
-    id: PropTypes.string
-  }),
+  linkedSubjects: PropTypes.arrayOf(PropTypes.string),
   removeSubjectFrom: PropTypes.func,
   subject: PropTypes.shape({
     id: PropTypes.string

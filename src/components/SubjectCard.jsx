@@ -47,10 +47,10 @@ export default function SubjectCard({ subject }) {
           </a>
           <Box direction="row" justify="center">
             <FavoritesContext.Consumer>
-              {({ addSubjectTo, favorites, removeSubjectFrom }) => (
+              {({ addSubjectTo, linkedSubjects, removeSubjectFrom }) => (
                 <FavoritesButton
                   addSubjectTo={addSubjectTo}
-                  favorites={favorites}
+                  linkedSubjects={linkedSubjects}
                   removeSubjectFrom={removeSubjectFrom}
                   subject={subject}
                 />
