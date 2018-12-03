@@ -18,28 +18,28 @@ export class FavoritesProvider extends Component {
   }
 
   componentDidMount() {
-    const { project, user } = this.props;
+    const { project, explorer } = this.props;
     const { initialised } = this.state;
-    if (!initialised && project && user) {
+    if (!initialised && project && explorer) {
       this.fetchFavoriteCollection();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { project, user } = this.props;
-    if (prevProps.project !== project || prevProps.user !== user) {
-      if (project && user) {
+    const { project, explorer } = this.props;
+    if (prevProps.project !== project || prevProps.explorer !== explorer) {
+      if (project && explorer) {
         this.fetchFavoriteCollection();
       }
     }
   }
 
   fetchFavoriteCollection() {
-    const { project, user } = this.props;
+    const { project, explorer } = this.props;
     apiClient
       .type('collections')
       .get({
-        owner: user.login,
+        owner: explorer.login,
         project_ids: project.id,
         favorite: true
       })
@@ -136,12 +136,12 @@ FavoritesProvider.propTypes = {
     id: PropTypes.string,
     slug: PropTypes.string
   }),
-  user: PropTypes.shape({
+  explorer: PropTypes.shape({
     login: PropTypes.string
   })
 };
 
 FavoritesProvider.defaultProps = {
   project: null,
-  user: null
+  explorer: null
 };

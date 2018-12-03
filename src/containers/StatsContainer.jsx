@@ -28,7 +28,7 @@ class StatsContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.user !== this.props.user) {
+    if (prevProps.explorer !== this.props.explorer) {
       this.fetchPreferences();
       this.fetchStats(false, 'day');
       this.fetchStats(false, 'month');
@@ -36,32 +36,32 @@ class StatsContainer extends React.Component {
   }
 
   fetchPreferences() {
-    const { user } = this.props;
+    const { explorer } = this.props;
 
-    if (user && user.get) {
-      user
+    if (explorer && explorer.get) {
+      explorer
         .get('project_preferences', { project_id: config.projectId })
         .then(([preferences]) => this.setState({ preferences }))
         .catch(() => {
           if (console) {
-            console.warn('Failed to fetch user preferences');
+            console.warn('Failed to fetch explorer preferences');
           }
-        });;
+        });
     } else {
       this.setState({ preferences: null });
     }
   }
 
   fetchStats(collective = false, period = 'day') {
-    const { user } = this.props;
+    const { explorer } = this.props;
 
-    if (user) {
+    if (explorer) {
       statsClient
         .query({
           period,
           projectID: config.projectId,
           type: 'classification',
-          userID: collective ? '' : user.id
+          userID: collective ? '' : explorer.id
         })
         .then(data =>
           data.map(statObject => ({
@@ -126,13 +126,13 @@ class StatsContainer extends React.Component {
 }
 
 StatsContainer.propTypes = {
-  user: PropTypes.shape({
+  explorer: PropTypes.shape({
     get: PropTypes.func
   })
 };
 
 StatsContainer.defaultProps = {
-  user: null
+  explorer: null
 };
 
 export default StatsContainer;
