@@ -7,11 +7,9 @@ import Value from 'grommet/components/Value';
 
 import Title from './Title';
 
-export default function UserStats({
-  activityCount,
-  userStatsByDay,
-  userStatsByMonth
-}) {
+export default function UserStats({ userStatsByDay, userStatsByMonth }) {
+  let totalClassifications = 0;
+
   let maxDay = { label: '', value: 0 };
   if (userStatsByDay) {
     maxDay = userStatsByDay.reduce(
@@ -22,10 +20,12 @@ export default function UserStats({
 
   let maxMonth = { label: '', value: 0 };
   if (userStatsByMonth) {
-    maxMonth = userStatsByMonth.reduce(
-      (max, stat) => (stat.value > max.value ? stat : max),
-      maxMonth
-    );
+    userStatsByMonth.forEach(stat => {
+      if (stat.value > maxMonth.value) {
+        maxMonth = stat;
+      }
+      totalClassifications += stat.value;
+    });
   }
 
   return (
@@ -41,7 +41,7 @@ export default function UserStats({
           <Value
             align="start"
             colorIndex="accent-2"
-            value={activityCount.toLocaleString()}
+            value={totalClassifications.toLocaleString()}
           />
           <Label margin="none">Total Classifications</Label>
         </Box>
@@ -71,7 +71,6 @@ export default function UserStats({
 }
 
 UserStats.propTypes = {
-  activityCount: PropTypes.number,
   userStatsByDay: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -87,7 +86,6 @@ UserStats.propTypes = {
 };
 
 UserStats.defaultProps = {
-  activityCount: 0,
   userStatsByDay: null,
   userStatsByMonth: null
 };

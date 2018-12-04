@@ -13,7 +13,6 @@ class StatsContainer extends React.Component {
     this.state = {
       collective: false,
       collectiveStatsByDay: null,
-      preferences: null,
       userStatsByDay: null,
       userStatsByMonth: null
     };
@@ -22,33 +21,14 @@ class StatsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchPreferences();
     this.fetchStats(false, 'day');
     this.fetchStats(false, 'month');
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.explorer !== this.props.explorer) {
-      this.fetchPreferences();
       this.fetchStats(false, 'day');
       this.fetchStats(false, 'month');
-    }
-  }
-
-  fetchPreferences() {
-    const { explorer } = this.props;
-
-    if (explorer && explorer.get) {
-      explorer
-        .get('project_preferences', { project_id: config.projectId })
-        .then(([preferences]) => this.setState({ preferences }))
-        .catch(() => {
-          if (console) {
-            console.warn('Failed to fetch explorer preferences');
-          }
-        });
-    } else {
-      this.setState({ preferences: null });
     }
   }
 
@@ -108,9 +88,6 @@ class StatsContainer extends React.Component {
     return (
       <Box basis="1/3" justify="between">
         <UserStats
-          activityCount={
-            this.state.preferences ? this.state.preferences.activity_count : 0
-          }
           userStatsByDay={this.state.userStatsByDay}
           userStatsByMonth={this.state.userStatsByMonth}
         />
@@ -127,7 +104,7 @@ class StatsContainer extends React.Component {
 
 StatsContainer.propTypes = {
   explorer: PropTypes.shape({
-    get: PropTypes.func
+    id: PropTypes.string
   })
 };
 
