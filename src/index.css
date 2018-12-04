@@ -73,3 +73,7 @@ body {
   letter-spacing: -.5px;
   margin: 1em 0;
 }
+
+.user-heading--explorer {
+  color: red
+}

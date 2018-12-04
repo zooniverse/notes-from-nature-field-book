@@ -30,9 +30,13 @@ const App = () => (
               {({ project }) => (
                 <ExplorerProvider project={project} user={user}>
                   <ExplorerContext>
-                    {({ explorer }) => (
+                    {({ explorer, matchesUser }) => (
                       <Box className="main" pad="large" tag="main">
-                        <UserHeading project={project} explorer={explorer} />
+                        <UserHeading
+                          project={project}
+                          explorer={explorer}
+                          matchesUser={matchesUser}
+                        />
                         <Box
                           direction="row"
                           full="horizontal"
@@ -53,10 +57,15 @@ const App = () => (
                                 >
                                   <RecentsContainer explorer={explorer} />
                                   <hr className="main__hr" />
-                                  <FavoritesContainer
-                                    favoriteCollection={favoriteCollection}
-                                    linkedSubjects={linkedSubjects}
-                                  />
+                                  <div>
+                                    {matchesUser ? (
+                                      <FavoritesContainer
+                                        favoriteCollection={favoriteCollection}
+                                        linkedSubjects={linkedSubjects}
+                                        matchesUser={matchesUser}
+                                      />
+                                    ) : null}
+                                  </div>
                                 </Box>
                               )}
                             </FavoritesContext.Consumer>
