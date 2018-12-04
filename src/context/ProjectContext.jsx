@@ -10,25 +10,21 @@ export class ProjectProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      initialised: false,
       project: null
     };
   }
 
   componentDidMount() {
-    if (!this.state.initialised) {
-      apiClient
-        .type('projects')
-        .get(config.projectId)
-        .then(project => this.setState({ initialised: true, project }));
-    }
+    apiClient
+      .type('projects')
+      .get(config.projectId)
+      .then(project => this.setState({ project }));
   }
 
   render() {
     return (
       <ProjectContext.Provider
         value={{
-          initialised: this.state.initialised,
           project: this.state.project
         }}
       >
@@ -47,11 +43,7 @@ export function withProject(MyComponent) {
     return (
       <ProjectContext.Consumer>
         {projectState => (
-          <MyComponent
-            {...props}
-            initialised={projectState.initialised}
-            project={projectState.project}
-          />
+          <MyComponent {...props} project={projectState.project} />
         )}
       </ProjectContext.Consumer>
     );

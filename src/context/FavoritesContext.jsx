@@ -9,8 +9,7 @@ export class FavoritesProvider extends Component {
     super(props);
     this.state = {
       favoriteCollection: null,
-      linkedSubjects: [],
-      initialised: false
+      linkedSubjects: []
     };
 
     this.addSubjectTo = this.addSubjectTo.bind(this);
@@ -19,8 +18,7 @@ export class FavoritesProvider extends Component {
 
   componentDidMount() {
     const { project, explorer } = this.props;
-    const { initialised } = this.state;
-    if (!initialised && project && explorer) {
+    if (project && explorer) {
       this.fetchFavoriteCollection();
     }
   }
@@ -44,15 +42,16 @@ export class FavoritesProvider extends Component {
         favorite: true
       })
       .then(([collections]) => {
-        if (collections) {
+        if (collections && collections.length > 0) {
           this.setState({
-            initialised: true,
             favoriteCollection: collections,
             linkedSubjects:
               collections.links && collections.links.subjects
                 ? collections.links.subjects
                 : []
           });
+        } else {
+          this.setState({ favoriteCollection: null });
         }
       });
   }
@@ -113,14 +112,13 @@ export class FavoritesProvider extends Component {
   }
 
   render() {
-    const { favoriteCollection, linkedSubjects, initialised } = this.state;
+    const { favoriteCollection, linkedSubjects } = this.state;
     return (
       <FavoritesContext.Provider
         value={{
           addSubjectTo: this.addSubjectTo,
           favoriteCollection,
           linkedSubjects,
-          initialised,
           removeSubjectFrom: this.removeSubjectFrom
         }}
       >
