@@ -13,7 +13,6 @@ class StatsContainer extends React.Component {
     this.state = {
       collective: false,
       collectiveStatsByDay: null,
-      preferences: null,
       userStatsByDay: null,
       userStatsByMonth: null
     };
@@ -22,46 +21,27 @@ class StatsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchPreferences();
     this.fetchStats(false, 'day');
     this.fetchStats(false, 'month');
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.user !== this.props.user) {
-      this.fetchPreferences();
+    if (prevProps.explorer !== this.props.explorer) {
       this.fetchStats(false, 'day');
       this.fetchStats(false, 'month');
     }
   }
 
-  fetchPreferences() {
-    const { user } = this.props;
-
-    if (user && user.get) {
-      user
-        .get('project_preferences', { project_id: config.projectId })
-        .then(([preferences]) => this.setState({ preferences }))
-        .catch(() => {
-          if (console) {
-            console.warn('Failed to fetch user preferences');
-          }
-        });;
-    } else {
-      this.setState({ preferences: null });
-    }
-  }
-
   fetchStats(collective = false, period = 'day') {
-    const { user } = this.props;
+    const { explorer } = this.props;
 
-    if (user) {
+    if (explorer) {
       statsClient
         .query({
           period,
           projectID: config.projectId,
           type: 'classification',
-          userID: collective ? '' : user.id
+          userID: collective ? '' : explorer.id
         })
         .then(data =>
           data.map(statObject => ({
@@ -108,9 +88,6 @@ class StatsContainer extends React.Component {
     return (
       <Box basis="1/3" justify="between">
         <UserStats
-          activityCount={
-            this.state.preferences ? this.state.preferences.activity_count : 0
-          }
           userStatsByDay={this.state.userStatsByDay}
           userStatsByMonth={this.state.userStatsByMonth}
         />
@@ -126,13 +103,13 @@ class StatsContainer extends React.Component {
 }
 
 StatsContainer.propTypes = {
-  user: PropTypes.shape({
-    get: PropTypes.func
+  explorer: PropTypes.shape({
+    id: PropTypes.string
   })
 };
 
 StatsContainer.defaultProps = {
-  user: null
+  explorer: null
 };
 
 export default StatsContainer;

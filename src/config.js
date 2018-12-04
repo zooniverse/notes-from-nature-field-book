@@ -7,19 +7,7 @@ By default, this is the development environment, but this can be changed either 
 - The NODE_ENV environment variable on the system running the app.
 */
 
-// Try and match the window.location.search property against a regex. Basically mimics
-// the CoffeeScript existential operator, in case we're not in a browser.
-function locationMatch(regex) {
-  let match;
-  if (
-    window &&
-    typeof window.location !== 'undefined' &&
-    window.location !== null
-  ) {
-    match = window.location.search.match(regex);
-  }
-  return match && match[1] ? match[1] : undefined;
-}
+import locationMatch from './lib/location-match';
 
 const DEFAULT_ENV = 'development';
 const envFromBrowser = locationMatch(/\W?env=(\w+)/);

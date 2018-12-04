@@ -9,8 +9,7 @@ export class FavoritesProvider extends Component {
     super(props);
     this.state = {
       favoriteCollection: null,
-      linkedSubjects: [],
-      initialised: false
+      linkedSubjects: []
     };
 
     this.addSubjectTo = this.addSubjectTo.bind(this);
@@ -18,39 +17,38 @@ export class FavoritesProvider extends Component {
   }
 
   componentDidMount() {
-    const { project, user } = this.props;
-    const { initialised } = this.state;
-    if (!initialised && project && user) {
+    const { project, explorer } = this.props;
+    if (project && explorer) {
       this.fetchFavoriteCollection();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { project, user } = this.props;
-    if (prevProps.project !== project || prevProps.user !== user) {
-      if (project && user) {
+    const { project, explorer } = this.props;
+    if (prevProps.project !== project || prevProps.explorer !== explorer) {
+      if (project && explorer) {
         this.fetchFavoriteCollection();
       }
     }
   }
 
   fetchFavoriteCollection() {
-    const { project, user } = this.props;
+    const { project, explorer } = this.props;
     apiClient
       .type('collections')
       .get({
-        owner: user.login,
+        owner: explorer.login,
         project_ids: project.id,
         favorite: true
       })
-      .then(([collections]) => {
-        if (collections) {
+      .then(collections => {
+        if (collections && collections.length > 0) {
+          const [collection] = collections;
           this.setState({
-            initialised: true,
-            favoriteCollection: collections,
+            favoriteCollection: collection,
             linkedSubjects:
-              collections.links && collections.links.subjects
-                ? collections.links.subjects
+              collection.links && collection.links.subjects
+                ? collection.links.subjects
                 : []
           });
         }
@@ -113,14 +111,13 @@ export class FavoritesProvider extends Component {
   }
 
   render() {
-    const { favoriteCollection, linkedSubjects, initialised } = this.state;
+    const { favoriteCollection, linkedSubjects } = this.state;
     return (
       <FavoritesContext.Provider
         value={{
           addSubjectTo: this.addSubjectTo,
           favoriteCollection,
           linkedSubjects,
-          initialised,
           removeSubjectFrom: this.removeSubjectFrom
         }}
       >
@@ -136,12 +133,12 @@ FavoritesProvider.propTypes = {
     id: PropTypes.string,
     slug: PropTypes.string
   }),
-  user: PropTypes.shape({
+  explorer: PropTypes.shape({
     login: PropTypes.string
   })
 };
 
 FavoritesProvider.defaultProps = {
   project: null,
-  user: null
+  explorer: null
 };

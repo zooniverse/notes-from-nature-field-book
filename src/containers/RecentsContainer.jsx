@@ -23,7 +23,7 @@ class RecentsContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.user !== this.props.user) {
+    if (prevProps.explorer !== this.props.explorer) {
       this.fetchRecents();
     }
   }
@@ -33,8 +33,8 @@ class RecentsContainer extends React.Component {
   }
 
   fetchRecents(page = 1) {
-    const { user } = this.props;
-    if (user && user.get) {
+    const { explorer } = this.props;
+    if (explorer && explorer.get) {
       const query = {
         project_id: config.projectId,
         sort: '-created_at',
@@ -42,7 +42,7 @@ class RecentsContainer extends React.Component {
         page_size: 3
       };
 
-      user
+      explorer
         .get('recents', query)
         .then(recents => {
           this.setState({ meta: recents[0].getMeta(), recents });
@@ -81,13 +81,13 @@ class RecentsContainer extends React.Component {
 }
 
 RecentsContainer.propTypes = {
-  user: PropTypes.shape({
+  explorer: PropTypes.shape({
     get: PropTypes.func
   })
 };
 
 RecentsContainer.defaultProps = {
-  user: null
+  explorer: null
 };
 
 export default RecentsContainer;

@@ -3,6 +3,7 @@ import GrommetApp from 'grommet/components/App';
 import Box from 'grommet/components/Box';
 import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 
+import { ExplorerProvider, ExplorerContext } from '../context/ExplorerContext';
 import {
   FavoritesProvider,
   FavoritesContext
@@ -27,44 +28,62 @@ const App = () => (
             <ZooHeader authContainer={<AuthContainer />} />
             <ProjectContext.Consumer>
               {({ project }) => (
-                <Box className="main" pad="large" tag="main">
-                  <UserHeading project={project} user={user} />
-                  <Box
-                    direction="row"
-                    full="horizontal"
-                    margin={{ bottom: 'medium' }}
-                    responsive
-                  >
-                    <FavoritesProvider project={project} user={user}>
-                      <FavoritesContext.Consumer>
-                        {({ favoriteCollection, linkedSubjects }) => (
-                          <Box
-                            basis="2/3"
-                            colorIndex="light-1"
-                            justify="between"
-                            margin={{ right: 'medium' }}
+                <ExplorerProvider project={project} user={user}>
+                  <ExplorerContext>
+                    {({ explorer, matchesUser }) => (
+                      <Box className="main" pad="large" tag="main">
+                        <UserHeading
+                          project={project}
+                          explorer={explorer}
+                          matchesUser={matchesUser}
+                        />
+                        <Box
+                          direction="row"
+                          full="horizontal"
+                          margin={{ bottom: 'medium' }}
+                          responsive
+                        >
+                          <FavoritesProvider
+                            project={project}
+                            explorer={explorer}
                           >
-                            <RecentsContainer user={user} />
-                            <hr className="main__hr" />
-                            <FavoritesContainer
-                              favoriteCollection={favoriteCollection}
-                              linkedSubjects={linkedSubjects}
-                            />
-                          </Box>
-                        )}
-                      </FavoritesContext.Consumer>
-                    </FavoritesProvider>
-                    <StatsContainer user={user} />
-                  </Box>
-                  <Box
-                    colorIndex="light-1"
-                    full="horizontal"
-                    pad="medium"
-                    style={{ height: '250px' }}
-                  >
-                    <Title>Your Badges</Title>
-                  </Box>
-                </Box>
+                            <FavoritesContext.Consumer>
+                              {({ favoriteCollection, linkedSubjects }) => (
+                                <Box
+                                  basis="2/3"
+                                  colorIndex="light-1"
+                                  justify="between"
+                                  margin={{ right: 'medium' }}
+                                >
+                                  <RecentsContainer explorer={explorer} />
+                                  <hr className="main__hr" />
+                                  <div>
+                                    {matchesUser ? (
+                                      <FavoritesContainer
+                                        favoriteCollection={favoriteCollection}
+                                        linkedSubjects={linkedSubjects}
+                                        matchesUser={matchesUser}
+                                      />
+                                    ) : null}
+                                  </div>
+                                </Box>
+                              )}
+                            </FavoritesContext.Consumer>
+                          </FavoritesProvider>
+                          <StatsContainer explorer={explorer} />
+                        </Box>
+                        <Box
+                          colorIndex="light-1"
+                          full="horizontal"
+                          pad="medium"
+                          style={{ height: '250px' }}
+                        >
+                          <Title>Your Badges</Title>
+                        </Box>
+                      </Box>
+                    )}
+                  </ExplorerContext>
+                </ExplorerProvider>
               )}
             </ProjectContext.Consumer>
             <ZooFooter />
