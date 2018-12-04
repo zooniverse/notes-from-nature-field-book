@@ -4,9 +4,10 @@ import Box from 'grommet/components/Box';
 import { Thumbnail } from 'zooniverse-react-components';
 
 import { config } from '../config';
+import { ExplorerContext } from '../context/ExplorerContext';
+import { FavoritesContext } from '../context/FavoritesContext';
 import { ProjectContext } from '../context/ProjectContext';
 import getSubjectLocations from '../lib/get-subject-locations';
-import { FavoritesContext } from '../context/FavoritesContext';
 import FavoritesButton from './FavoritesButton';
 
 export default function SubjectCard({ subject }) {
@@ -46,16 +47,29 @@ export default function SubjectCard({ subject }) {
             />
           </a>
           <Box direction="row" justify="center">
-            <FavoritesContext.Consumer>
-              {({ addSubjectTo, linkedSubjects, removeSubjectFrom }) => (
-                <FavoritesButton
-                  addSubjectTo={addSubjectTo}
-                  linkedSubjects={linkedSubjects}
-                  removeSubjectFrom={removeSubjectFrom}
-                  subject={subject}
-                />
+            <ExplorerContext.Consumer>
+              {({ matchesUser }) => (
+                <div>
+                  {matchesUser ? (
+                    <FavoritesContext.Consumer>
+                      {({
+                        addSubjectTo,
+                        linkedSubjects,
+                        removeSubjectFrom
+                      }) => (
+                        <FavoritesButton
+                          addSubjectTo={addSubjectTo}
+                          linkedSubjects={linkedSubjects}
+                          matchesUser={matchesUser}
+                          removeSubjectFrom={removeSubjectFrom}
+                          subject={subject}
+                        />
+                      )}
+                    </FavoritesContext.Consumer>
+                  ) : null}
+                </div>
               )}
-            </FavoritesContext.Consumer>
+            </ExplorerContext.Consumer>
           </Box>
         </Box>
       )}

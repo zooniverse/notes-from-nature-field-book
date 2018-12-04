@@ -9,7 +9,8 @@ export class ExplorerProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      explorer: null
+      explorer: null,
+      matchesUser: true
     };
   }
 
@@ -34,9 +35,9 @@ export class ExplorerProvider extends Component {
     if (explorerQuery && project) {
       this.checkPermission();
     } else if (user) {
-      this.setState({ explorer: user });
+      this.setState({ explorer: user, matchesUser: true });
     } else {
-      this.setState({ explorer: null });
+      this.setState({ explorer: null, matchesUser: true });
     }
   }
 
@@ -73,8 +74,8 @@ export class ExplorerProvider extends Component {
       .type('users')
       .get({ id: explorerQuery })
       .then(([userResponse]) => {
-        console.log('userResponse = ', userResponse);
-        this.setState({ explorer: userResponse });
+        const matchesUser = this.props.user.id === userResponse.id;
+        this.setState({ explorer: userResponse, matchesUser });
       })
       .catch(() => console.warn('Failed to fetch explorer'));
   }
@@ -83,7 +84,8 @@ export class ExplorerProvider extends Component {
     return (
       <ExplorerContext.Provider
         value={{
-          explorer: this.state.explorer
+          explorer: this.state.explorer,
+          matchesUser: this.state.matchesUser
         }}
       >
         {this.props.children}

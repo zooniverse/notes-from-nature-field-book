@@ -41,17 +41,16 @@ export class FavoritesProvider extends Component {
         project_ids: project.id,
         favorite: true
       })
-      .then(([collections]) => {
+      .then(collections => {
         if (collections && collections.length > 0) {
+          const [collection] = collections;
           this.setState({
-            favoriteCollection: collections,
+            favoriteCollection: collection,
             linkedSubjects:
-              collections.links && collections.links.subjects
-                ? collections.links.subjects
+              collection.links && collection.links.subjects
+                ? collection.links.subjects
                 : []
           });
-        } else {
-          this.setState({ favoriteCollection: null });
         }
       });
   }
