@@ -6,7 +6,12 @@ import Box from 'grommet/components/Box';
 import Image from 'grommet/components/Image';
 
 import { config } from '../config';
-import badgeIconLegend from '../badges/badge-icon-legend';
+import badgeIconLegend, {
+  decade,
+  time,
+  workflow
+} from '../badges/badge-icon-legend';
+import locationMatch from '../lib/location-match';
 
 import mockData from '../mock-badge-data';
 
@@ -14,7 +19,8 @@ class BadgeContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: []
+      data: [],
+      showAllBadges: false
     };
   }
 
@@ -30,35 +36,43 @@ class BadgeContainer extends React.Component {
   }
 
   fetchBadges() {
-    const { explorer } = this.props;
-    if (explorer && explorer.id) {
-      this.setState({ data: mockData });
+    const showAllBadges = locationMatch(/\W?badges=(\w+)/);
+    if (showAllBadges === 'all') {
+      this.setState({ showAllBadges: true });
+    } else {
+      const { explorer } = this.props;
+      if (explorer && explorer.id) {
+        this.setState({ data: mockData });
 
-      const requestUrl = `${config.caesar}/projects/${config.projectId}/users/${
-        explorer.id
-      }/user_reductions`;
+        const requestUrl = `${config.caesar}/projects/${
+          config.projectId
+        }/users/${explorer.id}/user_reductions`;
 
-      superagent
-        .get(requestUrl)
-        .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
-        .set('Authorization', apiClient.headers.Authorization)
-        .query()
-        .then(response => {
-          if (response.ok && response.body) {
-            console.log('badge data = ', response.body);
-          } else {
-            console.warn('Failed to fetch badge data.');
-          }
-        })
-        .catch(() => console.warn('Failed to fetch badge data.'));
+        superagent
+          .get(requestUrl)
+          .set('Accept', 'application/json')
+          .set('Content-Type', 'application/json')
+          .set('Authorization', apiClient.headers.Authorization)
+          .query()
+          .then(response => {
+            if (response.ok && response.body) {
+              console.log('badge data = ', response.body);
+            } else {
+              console.warn('Failed to fetch badge data.');
+            }
+          })
+          .catch(() => console.warn('Failed to fetch badge data.'));
+      }
     }
   }
 
   render() {
-    const { data } = this.state;
-    const badgeIcons = [];
-    if (data && data.length) {
+    const { data, showAllBadges } = this.state;
+    let badgeIcons = [];
+
+    if (showAllBadges) {
+      badgeIcons = [...decade, ...time, ...workflow];
+    } else if (data && data.length) {
       data.forEach(badgeData => {
         const { reducer_key, subgroup } = badgeData;
         const levels = Object.keys(badgeIconLegend[reducer_key][subgroup]);
@@ -69,6 +83,7 @@ class BadgeContainer extends React.Component {
         });
       });
     }
+
     console.log('badgeIcons = ', badgeIcons);
 
     return (
