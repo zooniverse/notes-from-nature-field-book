@@ -45,11 +45,16 @@ class RecentsContainer extends React.Component {
       explorer
         .get('recents', query)
         .then(recents => {
-          this.setState({ meta: recents[0].getMeta(), recents });
+          if (recents.length) {
+            this.setState({ meta: recents[0].getMeta(), recents });
+          } else {
+            this.setState({ meta: null, recents: null });
+            console.warn('Recents empty.');
+          }
         })
         .catch(() => {
           if (console) {
-            console.warn('Failed to fetch recents');
+            console.warn('Failed to fetch recents.');
           }
         });
     } else {

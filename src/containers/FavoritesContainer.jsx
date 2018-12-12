@@ -32,9 +32,9 @@ class FavoritesContainer extends React.Component {
   }
 
   fetchFavoriteSubjects(page = 1) {
-    const { favoriteCollection, linkedSubjects, matchesUser } = this.props;
+    const { favoriteCollection, linkedSubjects } = this.props;
 
-    if (matchesUser && favoriteCollection && linkedSubjects.length) {
+    if (favoriteCollection && linkedSubjects.length) {
       const query = {
         page,
         page_size: 3
@@ -48,11 +48,16 @@ class FavoritesContainer extends React.Component {
               favoriteSubjects,
               meta: favoriteSubjects[0].getMeta()
             });
+          } else {
+            this.setState({
+              favoriteSubjects: null,
+              meta: null
+            });
           }
         })
         .catch(() => {
           if (console) {
-            console.warn('Failed to fetch favorites');
+            console.warn('Failed to fetch favorites.');
           }
         });
     } else {
@@ -90,14 +95,12 @@ FavoritesContainer.propTypes = {
   favoriteCollection: PropTypes.shape({
     id: PropTypes.string
   }),
-  linkedSubjects: PropTypes.arrayOf(PropTypes.string),
-  matchesUser: PropTypes.bool
+  linkedSubjects: PropTypes.arrayOf(PropTypes.string)
 };
 
 FavoritesContainer.defaultProps = {
   favoriteCollection: null,
-  linkedSubjects: [],
-  matchesUser: false
+  linkedSubjects: []
 };
 
 export default FavoritesContainer;
