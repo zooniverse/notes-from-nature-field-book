@@ -12,12 +12,11 @@ import { ProjectProvider, ProjectContext } from '../context/ProjectContext';
 import { UserProvider, UserContext } from '../context/UserContext';
 
 import AuthContainer from '../containers/AuthContainer';
+import BadgeContainer from '../containers/BadgeContainer';
 import UserHeading from './UserHeading';
 import RecentsContainer from '../containers/RecentsContainer';
 import FavoritesContainer from '../containers/FavoritesContainer';
 import StatsContainer from '../containers/StatsContainer';
-
-import Title from './Title'; // remove with completion of Badge section
 
 const App = () => (
   <UserProvider>
@@ -58,13 +57,11 @@ const App = () => (
                                   <RecentsContainer explorer={explorer} />
                                   <hr className="main__hr" />
                                   <div>
-                                    {matchesUser ? (
-                                      <FavoritesContainer
-                                        favoriteCollection={favoriteCollection}
-                                        linkedSubjects={linkedSubjects}
-                                        matchesUser={matchesUser}
-                                      />
-                                    ) : null}
+                                    <FavoritesContainer
+                                      favoriteCollection={favoriteCollection}
+                                      linkedSubjects={linkedSubjects}
+                                      matchesUser={matchesUser}
+                                    />
                                   </div>
                                 </Box>
                               )}
@@ -72,14 +69,7 @@ const App = () => (
                           </FavoritesProvider>
                           <StatsContainer explorer={explorer} />
                         </Box>
-                        <Box
-                          colorIndex="light-1"
-                          full="horizontal"
-                          pad="medium"
-                          style={{ height: '250px' }}
-                        >
-                          <Title>Your Badges</Title>
-                        </Box>
+                        <BadgeContainer explorer={explorer} />
                       </Box>
                     )}
                   </ExplorerContext>

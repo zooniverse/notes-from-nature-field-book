@@ -72,7 +72,7 @@ export default function Histogram({
 
   return (
     <Box colorIndex="light-1" pad="medium">
-      <Title>Histogram</Title>
+      <Title>Weekly Histogram</Title>
       <Chart>
         <Axis count={5} labels={axisY} vertical />
         <Chart vertical>

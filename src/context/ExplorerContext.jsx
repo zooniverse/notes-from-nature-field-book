@@ -10,7 +10,7 @@ export class ExplorerProvider extends Component {
     super(props);
     this.state = {
       explorer: null,
-      matchesUser: true
+      matchesUser: false
     };
   }
 
@@ -37,7 +37,7 @@ export class ExplorerProvider extends Component {
     } else if (user) {
       this.setState({ explorer: user, matchesUser: true });
     } else {
-      this.setState({ explorer: null, matchesUser: true });
+      this.setState({ explorer: null, matchesUser: false });
     }
   }
 
