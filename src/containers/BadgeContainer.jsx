@@ -12,6 +12,7 @@ import badgeIconLegend, {
   workflow
 } from '../badges/badge-icon-legend';
 import locationMatch from '../lib/location-match';
+import Title from '../components/Title';
 
 import mockData from '../mock-badge-data';
 
@@ -84,14 +85,16 @@ class BadgeContainer extends React.Component {
       });
     }
 
-    console.log('badgeIcons = ', badgeIcons);
-
     return (
-      <Box>
-        <p>Test badges</p>
-        {badgeIcons.map(badgeIcon => (
-          <Image key={badgeIcon} size="small" src={badgeIcon} />
-        ))}
+      <Box colorIndex="light-1" full="horizontal" pad="medium">
+        <Title>Your Badges</Title>
+        <Box direction="row" wrap>
+          {badgeIcons.map(badgeIcon => (
+            <Box key={badgeIcon} pad="medium">
+              <Image size="small" src={badgeIcon} />
+            </Box>
+          ))}
+        </Box>
       </Box>
     );
   }
