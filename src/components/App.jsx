@@ -57,13 +57,11 @@ const App = () => (
                                   <RecentsContainer explorer={explorer} />
                                   <hr className="main__hr" />
                                   <div>
-                                    {matchesUser ? (
-                                      <FavoritesContainer
-                                        favoriteCollection={favoriteCollection}
-                                        linkedSubjects={linkedSubjects}
-                                        matchesUser={matchesUser}
-                                      />
-                                    ) : null}
+                                    <FavoritesContainer
+                                      favoriteCollection={favoriteCollection}
+                                      linkedSubjects={linkedSubjects}
+                                      matchesUser={matchesUser}
+                                    />
                                   </div>
                                 </Box>
                               )}

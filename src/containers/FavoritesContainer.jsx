@@ -32,9 +32,9 @@ class FavoritesContainer extends React.Component {
   }
 
   fetchFavoriteSubjects(page = 1) {
-    const { favoriteCollection, linkedSubjects } = this.props;
+    const { favoriteCollection, linkedSubjects, matchesUser } = this.props;
 
-    if (favoriteCollection && linkedSubjects.length) {
+    if (matchesUser && favoriteCollection && linkedSubjects.length) {
       const query = {
         page,
         page_size: 3
@@ -42,12 +42,14 @@ class FavoritesContainer extends React.Component {
 
       favoriteCollection
         .get('subjects', query)
-        .then(favoriteSubjects =>
-          this.setState({
-            favoriteSubjects,
-            meta: favoriteSubjects[0].getMeta()
-          })
-        )
+        .then(favoriteSubjects => {
+          if (favoriteSubjects.length) {
+            this.setState({
+              favoriteSubjects,
+              meta: favoriteSubjects[0].getMeta()
+            });
+          }
+        })
         .catch(() => {
           if (console) {
             console.warn('Failed to fetch favorites');
@@ -88,12 +90,14 @@ FavoritesContainer.propTypes = {
   favoriteCollection: PropTypes.shape({
     id: PropTypes.string
   }),
-  linkedSubjects: PropTypes.arrayOf(PropTypes.string)
+  linkedSubjects: PropTypes.arrayOf(PropTypes.string),
+  matchesUser: PropTypes.bool
 };
 
 FavoritesContainer.defaultProps = {
   favoriteCollection: null,
-  linkedSubjects: []
+  linkedSubjects: [],
+  matchesUser: false
 };
 
 export default FavoritesContainer;
