@@ -42,7 +42,7 @@ export class FavoritesProvider extends Component {
         favorite: true
       })
       .then(collections => {
-        if (collections && collections.length > 0) {
+        if (collections.length) {
           const [collection] = collections;
           this.setState({
             favoriteCollection: collection,
@@ -51,6 +51,12 @@ export class FavoritesProvider extends Component {
                 ? collection.links.subjects
                 : []
           });
+        } else {
+          this.setState({
+            favoriteCollection: null,
+            linkedSubjects: []
+          });
+          console.warn('Favorites empty.');
         }
       });
   }

@@ -41,30 +41,39 @@ export class ExplorerProvider extends Component {
     }
   }
 
-  fetchRoles() {
-    const { project, user } = this.props;
-    project
-      .get('project_roles')
-      .then(roles => {
-        if (roles.length) {
-          const collaboratorRoles = roles.filter(
-            role =>
-              role.roles.includes('collaborator') ||
-              role.roles.includes('owner')
-          );
-          return collaboratorRoles.some(
-            role => role.links.owner.id === user.id
-          );
+  async fetchAllRoles(project, roles = [], _page = 1) {
+    return apiClient
+      .type('project_roles')
+      .get({ project_id: project.id, page: _page })
+      .then(projRoles => {
+        const meta = projRoles[0].getMeta();
+        const newProjRoles = roles.concat(projRoles);
+
+        if (meta.next_page) {
+          return this.fetchAllRoles(project, newProjRoles, meta.next_page);
         }
-        return false;
+        return newProjRoles;
       })
-      .catch(() => console.warn('Failed to fetch project roles'));
+      .catch(error => console.error('Error loading roles.', error));
   }
 
-  checkPermission() {
-    const { user } = this.props;
-    if ((user && user.admin) || this.fetchRoles()) {
+  async checkPermission() {
+    const { project, user } = this.props;
+
+    if (user && user.admin === 'purple') {
       this.fetchExplorer();
+    } else if (user) {
+      const roles = await this.fetchAllRoles(project);
+      const collaboratorRoles = roles.filter(
+        role =>
+          role.roles.includes('collaborator') || role.roles.includes('owner')
+      );
+      const isCollab = collaboratorRoles.some(
+        role => role.links.owner.id === user.id
+      );
+      if (isCollab) {
+        this.fetchExplorer();
+      }
     }
   }
 
@@ -77,7 +86,7 @@ export class ExplorerProvider extends Component {
         const matchesUser = this.props.user.id === userResponse.id;
         this.setState({ explorer: userResponse, matchesUser });
       })
-      .catch(() => console.warn('Failed to fetch explorer'));
+      .catch(() => console.warn('Failed to fetch explorer.'));
   }
 
   render() {

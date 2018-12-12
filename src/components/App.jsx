@@ -60,7 +60,6 @@ const App = () => (
                                     <FavoritesContainer
                                       favoriteCollection={favoriteCollection}
                                       linkedSubjects={linkedSubjects}
-                                      matchesUser={matchesUser}
                                     />
                                   </div>
                                 </Box>

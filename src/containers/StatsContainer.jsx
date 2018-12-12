@@ -62,7 +62,7 @@ class StatsContainer extends React.Component {
         })
         .catch(() => {
           if (console) {
-            console.warn('Failed to fetch stats');
+            console.warn('Failed to fetch stats.');
           }
         });
     } else {
