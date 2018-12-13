@@ -14,7 +14,7 @@ import badgeIconLegend, {
 import locationMatch from '../lib/location-match';
 import Title from '../components/Title';
 
-import mockData from '../mock-badge-data';
+// import mockData from '../mock-badge-data';
 
 class BadgeContainer extends React.Component {
   constructor() {
@@ -43,8 +43,6 @@ class BadgeContainer extends React.Component {
     } else {
       const { explorer } = this.props;
       if (explorer && explorer.id) {
-        this.setState({ data: mockData });
-
         const requestUrl = `${config.caesar}/projects/${
           config.projectId
         }/users/${explorer.id}/user_reductions`;
@@ -57,6 +55,7 @@ class BadgeContainer extends React.Component {
           .query()
           .then(response => {
             if (response.ok && response.body) {
+              this.setState({ data: response.body });
               console.log('badge data = ', response.body);
             } else {
               console.warn('Failed to fetch badge data.');
