@@ -16,23 +16,22 @@ export class ExplorerProvider extends Component {
 
   componentDidMount() {
     const { user } = this.props;
-    const explorerQuery = locationMatch(/\W?explorer_id=(\w+)/);
     if (user) {
-      this.setExplorer(explorerQuery);
+      this.setExplorer();
     }
   }
 
   componentDidUpdate(prevProps) {
     const { project, user } = this.props;
     if (prevProps.project !== project || prevProps.user !== user) {
-      const explorerQuery = locationMatch(/\W?explorer_id=(\w+)/);
-      this.setExplorer(explorerQuery);
+      this.setExplorer();
     }
   }
 
-  setExplorer(explorerQuery) {
-    const { project, user } = this.props;
-    if (explorerQuery && project) {
+  setExplorer() {
+    const { user } = this.props;
+    const explorerQuery = locationMatch(/\W?explorer=(\w+)/);
+    if (explorerQuery && user) {
       this.checkPermission();
     } else if (user) {
       this.setState({ explorer: user, matchesUser: true });
@@ -41,49 +40,41 @@ export class ExplorerProvider extends Component {
     }
   }
 
-  async fetchAllRoles(project, roles = [], _page = 1) {
+  async fetchRoles() {
+    const { project, user } = this.props;
+
     return apiClient
       .type('project_roles')
-      .get({ project_id: project.id, page: _page })
-      .then(projRoles => {
-        const meta = projRoles[0].getMeta();
-        const newProjRoles = roles.concat(projRoles);
-
-        if (meta.next_page) {
-          return this.fetchAllRoles(project, newProjRoles, meta.next_page);
-        }
-        return newProjRoles;
-      })
+      .get({ project_id: project.id, user_id: user.id })
+      .then(roles => roles)
       .catch(error => console.error('Error loading roles.', error));
   }
 
   async checkPermission() {
-    const { project, user } = this.props;
+    const { user } = this.props;
 
-    if (user && user.admin === 'purple') {
+    if (user && user.admin) {
       this.fetchExplorer();
     } else if (user) {
-      const roles = await this.fetchAllRoles(project);
+      const roles = await this.fetchRoles();
       const collaboratorRoles = roles.filter(
         role =>
           role.roles.includes('collaborator') || role.roles.includes('owner')
       );
-      const isCollab = collaboratorRoles.some(
-        role => role.links.owner.id === user.id
-      );
-      if (isCollab) {
+      if (collaboratorRoles.length > 0) {
         this.fetchExplorer();
       }
     }
   }
 
   fetchExplorer() {
-    const explorerQuery = locationMatch(/\W?explorer_id=(\w+)/);
+    const { user } = this.props;
+    const explorerQuery = locationMatch(/\W?explorer=(\S+)/);
     apiClient
       .type('users')
-      .get({ id: explorerQuery })
+      .get({ login: explorerQuery })
       .then(([userResponse]) => {
-        const matchesUser = this.props.user.id === userResponse.id;
+        const matchesUser = user.id === userResponse.id;
         this.setState({ explorer: userResponse, matchesUser });
       })
       .catch(() => console.warn('Failed to fetch explorer.'));
