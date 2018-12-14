@@ -40,23 +40,21 @@ export class ExplorerProvider extends Component {
     }
   }
 
-  async fetchRoles() {
-    const { project, user } = this.props;
-
+  async fetchRoles(projectId, userId) {
     return apiClient
       .type('project_roles')
-      .get({ project_id: project.id, user_id: user.id })
+      .get({ project_id: projectId, user_id: userId })
       .then(roles => roles)
       .catch(error => console.error('Error loading roles.', error));
   }
 
   async checkPermission() {
-    const { user } = this.props;
+    const { project, user } = this.props;
 
     if (user && user.admin) {
       this.fetchExplorer();
-    } else if (user) {
-      const roles = await this.fetchRoles();
+    } else if (project && user) {
+      const roles = await this.fetchRoles(project.id, user.id);
       const collaboratorRoles = roles.filter(
         role =>
           role.roles.includes('collaborator') || role.roles.includes('owner')
