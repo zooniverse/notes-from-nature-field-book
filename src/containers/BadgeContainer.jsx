@@ -41,28 +41,30 @@ class BadgeContainer extends React.Component {
     if (showAllBadges === 'all') {
       this.setState({ showAllBadges: true });
     } else {
-      const { explorer } = this.props;
-      if (explorer && explorer.id) {
-        const requestUrl = `${config.caesar}/projects/${
-          config.projectId
-        }/users/${explorer.id}/user_reductions`;
+      console.log('Caesar requests paused.');
 
-        superagent
-          .get(requestUrl)
-          .set('Accept', 'application/json')
-          .set('Content-Type', 'application/json')
-          .set('Authorization', apiClient.headers.Authorization)
-          .query()
-          .then(response => {
-            if (response.ok && response.body) {
-              this.setState({ data: response.body });
-              console.log('badge data = ', response.body);
-            } else {
-              console.warn('Failed to fetch badge data.');
-            }
-          })
-          .catch(() => console.warn('Failed to fetch badge data.'));
-      }
+      // const { explorer } = this.props;
+      // if (explorer && explorer.id) {
+      //   const requestUrl = `${config.caesar}/projects/${
+      //     config.projectId
+      //   }/users/${explorer.id}/user_reductions`;
+
+      //   superagent
+      //     .get(requestUrl)
+      //     .set('Accept', 'application/json')
+      //     .set('Content-Type', 'application/json')
+      //     .set('Authorization', apiClient.headers.Authorization)
+      //     .query()
+      //     .then(response => {
+      //       if (response.ok && response.body) {
+      //         this.setState({ data: response.body });
+      //         console.log('badge data = ', response.body);
+      //       } else {
+      //         console.warn('Failed to fetch badge data.');
+      //       }
+      //     })
+      //     .catch(() => console.warn('Failed to fetch badge data.'));
+      // }
     }
   }
 
