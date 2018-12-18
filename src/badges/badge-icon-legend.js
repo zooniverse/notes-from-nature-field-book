@@ -10,6 +10,14 @@ import year80s from './decade/year-80s.png';
 import year90s from './decade/year-90s.png';
 import year2000s from './decade/year-2000s.png';
 
+// LEVELS
+import level10 from './levels/level-10.png';
+import level100 from './levels/level-100.png';
+import level500 from './levels/level-500.png';
+import level1000 from './levels/level-1000.png';
+import level5000 from './levels/level-5000.png';
+import level10000 from './levels/level-10000.png';
+
 // TIME
 import dinner from './time/time-dinner.png';
 import earlybird from './time/time-earlybird.png';
@@ -64,6 +72,15 @@ export const decade = [
   year80s,
   year90s,
   year2000s
+];
+
+export const levels = [
+  level10,
+  level100,
+  level500,
+  level1000,
+  level5000,
+  level10000
 ];
 
 export const time = [dinner, earlybird, earthday, lunch, nightowl];
@@ -129,6 +146,14 @@ const badgeIconLegend = {
     '00s': {
       1: year2000s
     }
+  },
+  levels: {
+    10: level10,
+    100: level100,
+    500: level500,
+    1000: level1000,
+    5000: level5000,
+    10000: level10000
   },
   time: {
     dinnertime: {
