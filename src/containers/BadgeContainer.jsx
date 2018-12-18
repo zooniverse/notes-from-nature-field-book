@@ -8,6 +8,7 @@ import Image from 'grommet/components/Image';
 import { config } from '../config';
 import badgeIconLegend, {
   decade,
+  levels,
   time,
   workflow
 } from '../badges/badge-icon-legend';
@@ -73,7 +74,7 @@ class BadgeContainer extends React.Component {
     let badgeIcons = [];
 
     if (showAllBadges) {
-      badgeIcons = [...decade, ...time, ...workflow];
+      badgeIcons = [...decade, ...levels, ...time, ...workflow];
     } else if (data && data.length) {
       data.forEach(badgeData => {
         const { reducer_key, subgroup } = badgeData;
