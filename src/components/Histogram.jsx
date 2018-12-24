@@ -33,7 +33,7 @@ export default function Histogram({
     weekOfData.labels.push(
       moment(now)
         .subtract(num, 'days')
-        .format('dd')
+        .format('ddd')
     );
   });
   if (statsData) {
@@ -42,7 +42,7 @@ export default function Histogram({
     );
     weekOfData.labels.forEach((dayLabel, index) => {
       filteredData.forEach(data => {
-        if (dayLabel === moment.utc(data.label).format('dd')) {
+        if (dayLabel === moment.utc(data.label).format('ddd')) {
           weekOfData.series[index] = data.value;
         }
       });
@@ -87,8 +87,9 @@ export default function Histogram({
             <Grid rows={5} columns={3} />
             <Bar
               activeIndex={6}
-              colorIndex="accent-1"
+              colorIndex="accent-2"
               max={roundedIncrement * 4}
+              style={{ 'stroke-width': '8px' }}
               values={weekOfData.series.map(value => value)}
             />
             <Marker count={7} index={6} vertical />
