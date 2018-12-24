@@ -7,7 +7,13 @@ import { config } from '../config';
 export default function UserHeading({ project, explorer, matchesUser }) {
   if (explorer && project) {
     const projectLink = (
-      <a href={`${config.zooniverse}/projects/${project.slug}`}>
+      <a
+        href={
+          project.redirect
+            ? project.redirect
+            : `${config.zooniverse}/projects/${project.slug}`
+        }
+      >
         {project.display_name}
       </a>
     );
