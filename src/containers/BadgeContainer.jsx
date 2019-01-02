@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import apiClient from 'panoptes-client';
-import superagent from 'superagent';
+// import apiClient from 'panoptes-client';
+// import superagent from 'superagent';
 import Box from 'grommet/components/Box';
 import Image from 'grommet/components/Image';
 
-import { config } from '../config';
+// import { config } from '../config';
 import badgeIconLegend, {
   decade,
   levels,
@@ -71,21 +71,39 @@ class BadgeContainer extends React.Component {
 
   render() {
     const { data, showAllBadges } = this.state;
-    let badgeIcons = [];
+    const { userStatsByMonth } = this.props;
+
+    let caesarIcons = [];
+    let statsIcons = [];
 
     if (showAllBadges) {
-      badgeIcons = [...decade, ...levels, ...time, ...workflow];
+      caesarIcons = [...decade, ...time, ...workflow];
+      statsIcons = levels;
     } else if (data && data.length) {
       data.forEach(badgeData => {
         const { reducer_key, subgroup } = badgeData;
-        const levels = Object.keys(badgeIconLegend[reducer_key][subgroup]);
-        levels.forEach(level => {
-          if (badgeData.data.classifications >= level) {
-            badgeIcons.push(badgeIconLegend[reducer_key][subgroup][level]);
+        const groupLevels = Object.keys(badgeIconLegend[reducer_key][subgroup]);
+        groupLevels.forEach(groupLevel => {
+          if (badgeData.data.classifications >= groupLevel) {
+            caesarIcons.push(
+              badgeIconLegend[reducer_key][subgroup][groupLevel]
+            );
           }
         });
       });
+    } else if (userStatsByMonth.length) {
+      let totalClassifications = 0;
+      userStatsByMonth.forEach(stat => {
+        totalClassifications += stat.value;
+      });
+      Object.keys(badgeIconLegend.levels).forEach(level => {
+        if (totalClassifications >= level) {
+          statsIcons.push(badgeIconLegend.levels[level]);
+        }
+      });
     }
+
+    const badgeIcons = statsIcons.concat(caesarIcons);
 
     return (
       <Box colorIndex="light-1" full="horizontal" pad="medium">
@@ -105,11 +123,18 @@ class BadgeContainer extends React.Component {
 BadgeContainer.propTypes = {
   explorer: PropTypes.shape({
     id: PropTypes.string
-  })
+  }),
+  userStatsByMonth: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.number
+    })
+  )
 };
 
 BadgeContainer.defaultProps = {
-  explorer: null
+  explorer: null,
+  userStatsByMonth: []
 };
 
 export default BadgeContainer;
