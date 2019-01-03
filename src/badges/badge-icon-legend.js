@@ -117,34 +117,34 @@ export const workflow = [
 const badgeIconLegend = {
   decade: {
     '10s': {
-      1: year10s
+      10: year10s
     },
     '20s': {
-      1: year20s
+      10: year20s
     },
     '30s': {
-      1: year30s
+      10: year30s
     },
     '40s': {
-      1: year40s
+      10: year40s
     },
     '50s': {
-      1: year50s
+      10: year50s
     },
     '60s': {
-      1: year60s
+      10: year60s
     },
     '70s': {
-      1: year70s
+      10: year70s
     },
     '80s': {
-      1: year80s
+      10: year80s
     },
     '90s': {
-      1: year90s
+      10: year90s
     },
     '00s': {
-      1: year2000s
+      10: year2000s
     }
   },
   levels: {
@@ -157,62 +157,62 @@ const badgeIconLegend = {
   },
   time: {
     dinnertime: {
-      1: dinner
+      10: dinner
     },
     earlybird: {
-      1: earlybird
+      10: earlybird
     },
     lunchbreak: {
-      1: lunch
+      10: lunch
     },
     nightowl: {
-      1: nightowl
+      10: nightowl
     }
   },
   earth_day: {
-    1: earthday
+    10: earthday
   },
   workflow_type: {
     aquatics: {
-      1: wet1,
+      10: wet1,
       100: wet2,
       500: wet3
     },
     butterfly: {
-      1: butterfly,
+      10: butterfly,
       100: butterflies
     },
     fossils: {
-      1: paleon1,
+      10: paleon1,
       100: paleon2,
       500: paleon3
     },
     herbarium: {
-      1: seed,
-      10: seedling,
-      25: sapling,
-      75: tree,
-      250: oak,
+      10: seed,
+      25: seedling,
+      75: sapling,
+      250: tree,
+      500: oak,
       1000: matureTree,
       5000: matureGrove
     },
     labs: {
-      1: blossom,
+      10: blossom,
       100: blossoms,
       500: fruit
     },
     macrofungi: {
-      1: spore,
+      10: spore,
       100: mycelium,
       500: mushroom
     },
     magnified: {
-      1: parasitoid1,
+      10: parasitoid1,
       100: parasitoid2,
       500: parasitoid3
     },
     pinned_specimen: {
-      1: egg,
+      10: egg,
       100: caterpillar
     }
   }

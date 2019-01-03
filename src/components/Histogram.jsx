@@ -89,7 +89,7 @@ export default function Histogram({
               activeIndex={6}
               colorIndex="accent-2"
               max={roundedIncrement * 4}
-              style={{ 'stroke-width': '8px' }}
+              style={{ strokeWidth: '8px' }}
               values={weekOfData.series.map(value => value)}
             />
             <Marker count={7} index={6} vertical />
