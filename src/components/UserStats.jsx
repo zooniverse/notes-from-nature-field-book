@@ -53,7 +53,7 @@ export default function UserStats({ userStatsByDay, userStatsByMonth }) {
             value={maxDay.value.toLocaleString()}
           />
           <Label size="small">
-            Highest day: {moment.utc(maxDay.label).format('dd, l')}
+            Highest day: {moment.utc(maxDay.label).format('ddd, l')}
           </Label>
           <Value
             align="start"
