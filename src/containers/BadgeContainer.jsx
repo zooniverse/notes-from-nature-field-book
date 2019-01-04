@@ -4,6 +4,8 @@ import React from 'react';
 // import superagent from 'superagent';
 import Box from 'grommet/components/Box';
 import Image from 'grommet/components/Image';
+import Tabs from 'grommet/components/Tabs';
+import Tab from 'grommet/components/Tab';
 
 // import { config } from '../config';
 import badgeIconLegend, {
@@ -12,8 +14,6 @@ import badgeIconLegend, {
   time,
   workflow
 } from '../badges/badge-icon-legend';
-import locationMatch from '../lib/location-match';
-import Title from '../components/Title';
 
 // import mockData from '../mock-badge-data';
 
@@ -22,7 +22,7 @@ class BadgeContainer extends React.Component {
     super();
     this.state = {
       data: [],
-      showAllBadges: false
+      tab: 0
     };
   }
 
@@ -38,48 +38,45 @@ class BadgeContainer extends React.Component {
   }
 
   fetchBadges() {
-    const showAllBadges = locationMatch(/\W?badges=(\w+)/);
-    if (showAllBadges === 'all') {
-      this.setState({ showAllBadges: true });
-    } else {
-      console.log('Caesar requests paused.');
+    console.log('Caesar requests paused.');
 
-      // const { explorer } = this.props;
-      // if (explorer && explorer.id) {
-      //   const requestUrl = `${config.caesar}/projects/${
-      //     config.projectId
-      //   }/users/${explorer.id}/user_reductions`;
+    // const { explorer } = this.props;
+    // if (explorer && explorer.id) {
+    //   const requestUrl = `${config.caesar}/projects/${
+    //     config.projectId
+    //   }/users/${explorer.id}/user_reductions`;
 
-      //   superagent
-      //     .get(requestUrl)
-      //     .set('Accept', 'application/json')
-      //     .set('Content-Type', 'application/json')
-      //     .set('Authorization', apiClient.headers.Authorization)
-      //     .query()
-      //     .then(response => {
-      //       if (response.ok && response.body) {
-      //         this.setState({ data: response.body });
-      //         console.log('badge data = ', response.body);
-      //       } else {
-      //         console.warn('Failed to fetch badge data.');
-      //       }
-      //     })
-      //     .catch(() => console.warn('Failed to fetch badge data.'));
-      // }
-    }
+    //   superagent
+    //     .get(requestUrl)
+    //     .set('Accept', 'application/json')
+    //     .set('Content-Type', 'application/json')
+    //     .set('Authorization', apiClient.headers.Authorization)
+    //     .query()
+    //     .then(response => {
+    //       if (response.ok && response.body) {
+    //         this.setState({ data: response.body });
+    //         console.log('badge data = ', response.body);
+    //       } else {
+    //         console.warn('Failed to fetch badge data.');
+    //       }
+    //     })
+    //     .catch(() => console.warn('Failed to fetch badge data.'));
+    // }
+  }
+
+  toggleTab(tab) {
+    this.setState({ tab });
   }
 
   render() {
-    const { data, showAllBadges } = this.state;
+    const { data, tab } = this.state;
     const { userStatsByMonth } = this.props;
 
-    let caesarIcons = [];
-    let statsIcons = [];
+    const caesarIcons = [];
+    const statsIcons = [];
+    const allBadges = [...levels, ...decade, ...time, ...workflow];
 
-    if (showAllBadges) {
-      caesarIcons = [...decade, ...time, ...workflow];
-      statsIcons = levels;
-    } else if (data && data.length) {
+    if (data && data.length) {
       data.forEach(badgeData => {
         const { reducer_key, subgroup } = badgeData;
         const groupLevels = Object.keys(badgeIconLegend[reducer_key][subgroup]);
@@ -103,18 +100,41 @@ class BadgeContainer extends React.Component {
       });
     }
 
-    const badgeIcons = statsIcons.concat(caesarIcons);
+    const earnedBadges = statsIcons.concat(caesarIcons);
+    const remainingBadges = allBadges.filter(
+      badge => earnedBadges.indexOf(badge) < 0
+    );
 
     return (
       <Box colorIndex="light-1" full="horizontal" pad="medium">
-        <Title>Your Badges</Title>
-        <Box direction="row" wrap>
-          {badgeIcons.map(badgeIcon => (
-            <Box key={badgeIcon} pad="medium">
-              <Image size="small" src={badgeIcon} />
+        <Tabs
+          activeIndex={tab}
+          justify="start"
+          onActive={tabIndex => this.toggleTab(tabIndex)}
+        >
+          <Tab title="Your Badges">
+            <Box direction="row" wrap>
+              {earnedBadges.map(badgeIcon => (
+                <Box key={badgeIcon} pad="medium">
+                  <Image size="small" src={badgeIcon} />
+                </Box>
+              ))}
             </Box>
-          ))}
-        </Box>
+          </Tab>
+          <Tab title="Remaining Badges">
+            <Box direction="row" wrap>
+              {remainingBadges.map(badgeIcon => (
+                <Box key={badgeIcon} pad="medium">
+                  <Image
+                    size="small"
+                    src={badgeIcon}
+                    style={{ filter: 'grayscale(100%)', opacity: '0.3' }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </Tab>
+        </Tabs>
       </Box>
     );
   }
