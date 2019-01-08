@@ -6,14 +6,10 @@ import Box from 'grommet/components/Box';
 import Image from 'grommet/components/Image';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
+import Value from 'grommet/components/Value';
 
 // import { config } from '../config';
-import badgeIconLegend, {
-  decade,
-  levels,
-  time,
-  workflow
-} from '../badges/badge-icon-legend';
+import badgeIconLegend from '../badges/badge-icon-legend';
 
 // import mockData from '../mock-badge-data';
 
@@ -72,9 +68,9 @@ class BadgeContainer extends React.Component {
     const { data, tab } = this.state;
     const { userStatsByMonth } = this.props;
 
-    const caesarIcons = [];
-    const statsIcons = [];
-    const allBadges = [...levels, ...decade, ...time, ...workflow];
+    const caesarBadges = [];
+    const statsBadges = [];
+    const remainingBadges = [];
 
     if (data && data.length) {
       data.forEach(badgeData => {
@@ -82,28 +78,45 @@ class BadgeContainer extends React.Component {
         const groupLevels = Object.keys(badgeIconLegend[reducer_key][subgroup]);
         groupLevels.forEach(groupLevel => {
           if (badgeData.data.classifications >= groupLevel) {
-            caesarIcons.push(
-              badgeIconLegend[reducer_key][subgroup][groupLevel]
-            );
+            caesarBadges.push({
+              classifications: badgeData.data.classifications,
+              icon: badgeIconLegend[reducer_key][subgroup][groupLevel],
+              level: groupLevel
+            });
+          } else {
+            remainingBadges.push({
+              classifications: badgeData.data.classifications,
+              icon: badgeIconLegend[reducer_key][subgroup][groupLevel],
+              level: groupLevel
+            });
           }
         });
       });
-    } else if (userStatsByMonth.length) {
+    }
+
+    if (userStatsByMonth && userStatsByMonth.length) {
       let totalClassifications = 0;
       userStatsByMonth.forEach(stat => {
         totalClassifications += stat.value;
       });
       Object.keys(badgeIconLegend.levels).forEach(level => {
         if (totalClassifications >= level) {
-          statsIcons.push(badgeIconLegend.levels[level]);
+          statsBadges.push({
+            classifications: totalClassifications,
+            icon: badgeIconLegend.levels[level],
+            level
+          });
+        } else {
+          remainingBadges.push({
+            classifications: totalClassifications,
+            icon: badgeIconLegend.levels[level],
+            level
+          });
         }
       });
     }
 
-    const earnedBadges = statsIcons.concat(caesarIcons);
-    const remainingBadges = allBadges.filter(
-      badge => earnedBadges.indexOf(badge) < 0
-    );
+    const earnedBadges = statsBadges.concat(caesarBadges);
 
     return (
       <Box colorIndex="light-1" full="horizontal" pad="medium">
@@ -114,21 +127,26 @@ class BadgeContainer extends React.Component {
         >
           <Tab title="Your Badges">
             <Box direction="row" wrap>
-              {earnedBadges.map(badgeIcon => (
-                <Box key={badgeIcon} pad="medium">
-                  <Image size="small" src={badgeIcon} />
+              {earnedBadges.map(badge => (
+                <Box key={badge.icon} pad="medium">
+                  <Image size="small" src={badge.icon} />
                 </Box>
               ))}
             </Box>
           </Tab>
           <Tab title="Remaining Badges">
             <Box direction="row" wrap>
-              {remainingBadges.map(badgeIcon => (
-                <Box key={badgeIcon} pad="medium">
+              {remainingBadges.map(badge => (
+                <Box key={badge.icon} pad="medium">
                   <Image
                     size="small"
-                    src={badgeIcon}
+                    src={badge.icon}
                     style={{ filter: 'grayscale(100%)', opacity: '0.3' }}
+                  />
+                  <Value
+                    value={(
+                      badge.level - badge.classifications
+                    ).toLocaleString()}
                   />
                 </Box>
               ))}

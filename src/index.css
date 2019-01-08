@@ -77,3 +77,10 @@ body {
 .user-heading--explorer {
   color: red
 }
+
+.grommetux-tab__label {
+  font: 400 16px/1.5 "Karla", "Open Sans", "Gill Sans", Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
