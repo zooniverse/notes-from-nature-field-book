@@ -9,7 +9,7 @@ import Tab from 'grommet/components/Tab';
 import Value from 'grommet/components/Value';
 
 // import { config } from '../config';
-import badgeIconLegend from '../badges/badge-icon-legend';
+import { caesarBadges, statsBadges } from '../badges/all-badges';
 
 // import mockData from '../mock-badge-data';
 
@@ -17,7 +17,7 @@ class BadgeContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: [],
+      caesarData: [],
       tab: 0
     };
   }
@@ -50,13 +50,13 @@ class BadgeContainer extends React.Component {
     //     .query()
     //     .then(response => {
     //       if (response.ok && response.body) {
-    //         this.setState({ data: response.body });
-    //         console.log('badge data = ', response.body);
+    //         this.setState({ caesarData: response.body });
+    //         console.log('Caesar data = ', response.body);
     //       } else {
-    //         console.warn('Failed to fetch badge data.');
+    //         console.warn('Failed to fetch Caesar data.');
     //       }
     //     })
-    //     .catch(() => console.warn('Failed to fetch badge data.'));
+    //     .catch(() => console.warn('Failed to fetch Caesar data.'));
     // }
   }
 
@@ -65,58 +65,56 @@ class BadgeContainer extends React.Component {
   }
 
   render() {
-    const { data, tab } = this.state;
+    const { caesarData, tab } = this.state;
     const { userStatsByMonth } = this.props;
 
-    const caesarBadges = [];
-    const statsBadges = [];
+    const earnedBadges = [];
     const remainingBadges = [];
 
-    if (data && data.length) {
-      data.forEach(badgeData => {
-        const { reducer_key, subgroup } = badgeData;
-        const groupLevels = Object.keys(badgeIconLegend[reducer_key][subgroup]);
-        groupLevels.forEach(groupLevel => {
-          if (badgeData.data.classifications >= groupLevel) {
-            caesarBadges.push({
-              classifications: badgeData.data.classifications,
-              icon: badgeIconLegend[reducer_key][subgroup][groupLevel],
-              level: groupLevel
-            });
-          } else {
-            remainingBadges.push({
-              classifications: badgeData.data.classifications,
-              icon: badgeIconLegend[reducer_key][subgroup][groupLevel],
-              level: groupLevel
-            });
-          }
-        });
-      });
-    }
-
+    let totalClassifications = 0;
     if (userStatsByMonth && userStatsByMonth.length) {
-      let totalClassifications = 0;
       userStatsByMonth.forEach(stat => {
         totalClassifications += stat.value;
       });
-      Object.keys(badgeIconLegend.levels).forEach(level => {
-        if (totalClassifications >= level) {
-          statsBadges.push({
-            classifications: totalClassifications,
-            icon: badgeIconLegend.levels[level],
-            level
-          });
-        } else {
-          remainingBadges.push({
-            classifications: totalClassifications,
-            icon: badgeIconLegend.levels[level],
-            level
-          });
-        }
-      });
     }
+    statsBadges.forEach(badge => {
+      if (totalClassifications >= badge.level) {
+        earnedBadges.push(badge);
+      } else {
+        const remainingBadge = Object.assign({}, badge, {
+          classifications: totalClassifications
+        });
+        remainingBadges.push(remainingBadge);
+      }
+    });
 
-    const earnedBadges = statsBadges.concat(caesarBadges);
+    caesarBadges.forEach(badge => {
+      if (caesarData && caesarData.length) {
+        caesarData.forEach(badgeData => {
+          const { reducer_key, subgroup } = badgeData;
+          if (badge.reducerKey === reducer_key && badge.subgroup === subgroup) {
+            if (badgeData.data.classifications >= badge.level) {
+              earnedBadges.push(badge);
+            } else {
+              const remainingBadge = Object.assign({}, badge, {
+                classifications: badgeData.data.classifications
+              });
+              remainingBadges.push(remainingBadge);
+            }
+          } else {
+            const remainingBadge = Object.assign({}, badge, {
+              classifications: 0
+            });
+            remainingBadges.push(remainingBadge);
+          }
+        });
+      } else {
+        const remainingBadge = Object.assign({}, badge, {
+          classifications: 0
+        });
+        remainingBadges.push(remainingBadge);
+      }
+    });
 
     return (
       <Box colorIndex="light-1" full="horizontal" pad="medium">
