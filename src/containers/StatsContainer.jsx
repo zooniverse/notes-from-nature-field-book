@@ -35,7 +35,7 @@ class StatsContainer extends React.Component {
     } = this.props;
     const { collective } = this.state;
     return (
-      <Box basis="1/3" justify="between">
+      <Box justify="between" margin={{ bottom: 'medium' }}>
         <UserStats
           userStatsByDay={userStatsByDay}
           userStatsByMonth={userStatsByMonth}

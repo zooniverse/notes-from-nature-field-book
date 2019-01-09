@@ -21,6 +21,18 @@ body {
   margin: 0 2em;
 }
 
+@media only screen and (max-width: 500px) {
+  .histogram {
+    overflow-x: scroll;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .box {
+    margin-right: 0;
+  }
+}
+
 .button,
 .paginator-button {
   background: #EEF0F4 !important;
@@ -68,6 +80,31 @@ body {
   letter-spacing: 1.5px;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  border-radius: 6px;
+  color: white;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  width: 120px;
+  text-align: center;
+  width: 120px;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .user-heading {
   color: #5c5c5c;
   letter-spacing: -.5px;
@@ -76,4 +113,11 @@ body {
 
 .user-heading--explorer {
   color: red
+}
+
+.grommetux-tab__label {
+  font: 400 16px/1.5 "Karla", "Open Sans", "Gill Sans", Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
