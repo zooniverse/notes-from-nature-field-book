@@ -96,9 +96,11 @@ export default function UserStats({ userStatsByDay, userStatsByMonth }) {
             size="small"
             value={longestStreakLength.toLocaleString()}
           />
-          <Label size="small">Longest daily streak,</Label>
-          <Label size="small">
-            Ending: {moment.utc(longestStreakEnd).format('ddd, l')}
+          <Label className="tooltip" size="small">
+            Longest daily streak
+            <Label className="tooltip tooltiptext" size="small">
+              Ending: {moment.utc(longestStreakEnd).format('ddd, l')}
+            </Label>
           </Label>
         </Box>
       </Box>
