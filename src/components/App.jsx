@@ -92,9 +92,9 @@ const App = () => (
                               />
                               <Box
                                 direction="row"
-                                full="horizontal"
-                                margin={{ bottom: 'medium' }}
-                                responsive
+                                basis="full"
+                                justify="between"
+                                wrap
                               >
                                 <FavoritesProvider
                                   project={project}
@@ -106,10 +106,14 @@ const App = () => (
                                       linkedSubjects
                                     }) => (
                                       <Box
-                                        basis="2/3"
+                                        className="box"
                                         colorIndex="light-1"
+                                        flex="grow"
                                         justify="between"
-                                        margin={{ right: 'medium' }}
+                                        margin={{
+                                          bottom: 'medium',
+                                          right: 'medium'
+                                        }}
                                       >
                                         <RecentsContainer explorer={explorer} />
                                         <hr className="main__hr" />

@@ -21,6 +21,18 @@ body {
   margin: 0 2em;
 }
 
+@media only screen and (max-width: 500px) {
+  .histogram {
+    overflow-x: scroll;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .box {
+    margin-right: 0;
+  }
+}
+
 .button,
 .paginator-button {
   background: #EEF0F4 !important;

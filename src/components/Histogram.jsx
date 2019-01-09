@@ -71,7 +71,7 @@ export default function Histogram({
   }
 
   return (
-    <Box colorIndex="light-1" pad="medium">
+    <Box className="histogram" colorIndex="light-1" pad="medium">
       <Title>Weekly Histogram</Title>
       <Chart>
         <Axis count={5} labels={axisY} vertical />

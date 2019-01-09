@@ -117,7 +117,7 @@ class BadgeContainer extends React.Component {
     });
 
     return (
-      <Box colorIndex="light-1" full="horizontal" pad="medium">
+      <Box colorIndex="light-1" basis="full" pad="medium">
         <Tabs
           activeIndex={tab}
           justify="start"
