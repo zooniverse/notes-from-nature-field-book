@@ -57,6 +57,22 @@ body {
   color: #00707C !important;
 }
 
+.favorite__regular>path {
+  fill: none;
+}
+
+.favorite__regular>path:hover {
+  fill: black;
+}
+
+.favorite__solid>path {
+  fill: #666;
+}
+
+.favorite__solid>path:hover {
+  fill: black;
+}
+
 .paginator-label {
   font-size: 0.6em !important;
   line-height: 1em !important;
