@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Button from 'grommet/components/Button';
+import FavoriteIcon from 'grommet/components/icons/base/Favorite';
 
 export default function FavoritesButton({
   addSubjectTo,
@@ -14,7 +15,7 @@ export default function FavoritesButton({
       ? !!linkedSubjects.some(subj => subj === subjectId)
       : false;
 
-  const favClassName = favorited ? 'fas fa-heart fa-fw' : 'far fa-heart fa-fw';
+  const favClassName = favorited ? 'favorite__solid' : 'favorite__regular';
 
   return (
     <Button
@@ -27,7 +28,7 @@ export default function FavoritesButton({
       }}
       type="button"
     >
-      <i className={favClassName} />
+      <FavoriteIcon className={favClassName} />
     </Button>
   );
 }

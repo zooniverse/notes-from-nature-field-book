@@ -74,10 +74,10 @@ const App = () => (
             <ProjectContext.Consumer>
               {({ project }) => (
                 <ExplorerProvider project={project} user={user}>
-                  <ExplorerContext>
+                  <ExplorerContext.Consumer>
                     {({ explorer, matchesUser }) => (
                       <StatsProvider explorer={explorer} project={project}>
-                        <StatsContext>
+                        <StatsContext.Consumer>
                           {({
                             collectiveStatsByDay,
                             fetchCollectiveStats,
@@ -142,10 +142,10 @@ const App = () => (
                               />
                             </Box>
                           )}
-                        </StatsContext>
+                        </StatsContext.Consumer>
                       </StatsProvider>
                     )}
-                  </ExplorerContext>
+                  </ExplorerContext.Consumer>
                 </ExplorerProvider>
               )}
             </ProjectContext.Consumer>
