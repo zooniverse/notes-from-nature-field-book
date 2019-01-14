@@ -33,6 +33,30 @@ body {
   }
 }
 
+.badgetip {
+  position: relative;
+}
+
+.badgetip .badgetiptext {
+  background-color: black;
+  border-radius: 6px;
+  color: white;
+  left: 25%;
+  opacity: 0.6;
+  padding: 5px 0;
+  position: absolute;
+  text-align: center;
+  text-transform: capitalize;
+  top: 25%;
+  visibility: hidden;
+  width: 120px;
+  z-index: 1;
+}
+
+.badgetip:hover .badgetiptext {
+  visibility: visible;
+}
+
 .button,
 .paginator-button {
   background: #EEF0F4 !important;
@@ -97,24 +121,23 @@ body {
 }
 
 .tooltip {
-  position: relative;
   display: inline-block;
+  position: relative;
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
   background-color: black;
   border-radius: 6px;
   color: white;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  width: 120px;
-  text-align: center;
-  width: 120px;
-  top: 100%;
   left: 50%;
   margin-left: -60px;
+  padding: 5px 0;
+  position: absolute;
+  text-align: center;
+  top: 100%;
+  visibility: hidden;
+  width: 120px;
+  z-index: 1;
 }
 
 .tooltip:hover .tooltiptext {

@@ -123,24 +123,28 @@ export const caesarBadges = [
     subgroup: '00s'
   },
   {
+    description: '3pm-9pm',
     icon: dinner,
     level: 10,
     reducerKey: 'time',
     subgroup: 'dinnertime'
   },
   {
+    description: '3am-9am',
     icon: earlybird,
     level: 10,
     reducerKey: 'time',
     subgroup: 'earlybird'
   },
   {
+    description: '9am-3pm',
     icon: lunch,
     level: 10,
     reducerKey: 'time',
     subgroup: 'lunchbreak'
   },
   {
+    description: '9pm-3am',
     icon: nightowl,
     level: 10,
     reducerKey: 'time',
