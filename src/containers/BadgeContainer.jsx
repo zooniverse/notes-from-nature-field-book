@@ -4,6 +4,7 @@ import React from 'react';
 // import superagent from 'superagent';
 import Box from 'grommet/components/Box';
 import Image from 'grommet/components/Image';
+import Label from 'grommet/components/Label';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import Value from 'grommet/components/Value';
@@ -135,12 +136,22 @@ class BadgeContainer extends React.Component {
           <Tab title="Remaining Badges">
             <Box direction="row" wrap>
               {remainingBadges.map(badge => (
-                <Box key={badge.icon} pad="medium">
+                <Box className="badgetip" key={badge.icon} pad="medium">
                   <Image
                     size="small"
                     src={badge.icon}
                     style={{ filter: 'grayscale(100%)', opacity: '0.3' }}
                   />
+                  {badge.reducerKey === 'time' && (
+                    <Label className="badgetip badgetiptext">
+                      {badge.description}
+                    </Label>
+                  )}
+                  {badge.reducerKey === 'workflow_type' && (
+                    <Label className="badgetip badgetiptext">
+                      {badge.subgroup.split('_').join(' ')}
+                    </Label>
+                  )}
                   <Value
                     value={(
                       badge.level - badge.classifications
