@@ -38,7 +38,7 @@ export default function Histogram({
   });
   if (statsData) {
     const filteredData = statsData.filter(data =>
-      moment.utc(data.label).isSameOrAfter(moment(now).subtract(6, 'days'))
+      moment.utc(data.label).isSameOrAfter(moment(now).subtract(7, 'days'))
     );
     weekOfData.labels.forEach((dayLabel, index) => {
       filteredData.forEach(data => {
