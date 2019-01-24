@@ -69,6 +69,13 @@ class FavoritesContainer extends React.Component {
   }
 
   render() {
+    let firstPage;
+    let lastPage;
+    if (this.state.meta) {
+      firstPage = Math.max(1, this.state.meta.page);
+      lastPage = Math.min(this.state.meta.page_count, firstPage + 9);
+    }
+
     return (
       <Box basis="1/2" pad="medium">
         <Title>Your Favorites</Title>
@@ -81,9 +88,11 @@ class FavoritesContainer extends React.Component {
         {this.state.meta &&
           this.state.meta.page_count > 1 && (
             <Paginator
+              itemCount
               page={this.state.meta.page}
-              pageCount={this.state.meta.page_count}
+              pageCount={lastPage}
               onPageChange={this.onPageChange}
+              totalItems={`TOTAL ${this.state.meta.page_count.toLocaleString()}`}
             />
           )}
       </Box>
