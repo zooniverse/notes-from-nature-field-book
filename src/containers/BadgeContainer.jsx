@@ -10,9 +10,9 @@ import Tabs from 'grommet/components/Tabs';
 import Value from 'grommet/components/Value';
 
 import { config } from '../config';
-import { caesarBadges, statsBadges } from '../badges/all-badges';
+import { caesarBadges, statsBadges } from '../badges';
 
-// import mockData from '../mock-badge-data';
+// import mockData from '../badges/mock-badge-data';
 
 class BadgeContainer extends React.Component {
   constructor() {

@@ -14,7 +14,7 @@ const envFromBrowser = locationMatch(/\W?env=(\w+)/);
 const envFromShell = process.env.NODE_ENV;
 const env = envFromBrowser || envFromShell || DEFAULT_ENV;
 
-if (!env.match(/^(production|staging|development)$/)) {
+if (!env.match(/^(production|development)$/)) {
   throw new Error(`Error: Invalid Environment - ${env}`);
 }
 
@@ -41,7 +41,6 @@ const baseConfig = {
   }
 };
 
-baseConfig.staging = baseConfig.development; // staging === development, as far as we're concerned.
 baseConfig.test = baseConfig.development; // test === development, as far as we're concerned.
 
 const config = baseConfig[env];

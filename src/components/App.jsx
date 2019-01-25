@@ -1,9 +1,9 @@
 import React from 'react';
 import GrommetApp from 'grommet/components/App';
-import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import { ZooFooter, ZooHeader } from 'zooniverse-react-components';
 
+import headerNavList from './HeaderNavList';
 import { ExplorerProvider, ExplorerContext } from '../context/ExplorerContext';
 import {
   FavoritesProvider,
@@ -19,47 +19,6 @@ import UserHeading from './UserHeading';
 import RecentsContainer from '../containers/RecentsContainer';
 import FavoritesContainer from '../containers/FavoritesContainer';
 import StatsContainer from '../containers/StatsContainer';
-
-const headerNavList = [
-  <Anchor
-    key="http://www.zooniverse.org/projects"
-    className="zoo-header__link--small"
-    href="http://www.zooniverse.org/projects"
-    label="Projects"
-  />,
-  <Anchor
-    key="http://www.zooniverse.org/about"
-    className="zoo-header__link--small"
-    href="http://www.zooniverse.org/about"
-    label="About"
-  />,
-  <Anchor
-    key="http://www.zooniverse.org/get-involved"
-    className="zoo-header__link--small"
-    href="http://www.zooniverse.org/get-involved"
-    label="Get Involved"
-  />,
-  <Anchor
-    key="http://www.zooniverse.org/talk"
-    className="zoo-header__link--small"
-    href="http://www.zooniverse.org/talk"
-    label="Talk"
-  />,
-  <Anchor
-    key="http://www.zooniverse.org/lab"
-    className="zoo-header__link--small"
-    href="http://www.zooniverse.org/lab"
-    label="Build A Project"
-  />,
-  <Anchor
-    key="project-stats"
-    className="zoo-header__link--small"
-    href="https://www.zooniverse.org/projects/zooniverse/notes-from-nature/stats"
-    label="Stats"
-  />
-];
-
-// TODO: REFACTOR STATS NAV LINK
 
 const App = () => (
   <UserProvider>

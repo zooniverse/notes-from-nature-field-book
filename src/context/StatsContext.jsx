@@ -28,57 +28,62 @@ export class StatsProvider extends Component {
   componentDidUpdate(prevProps) {
     const { project, explorer } = this.props;
     if (prevProps.project !== project || prevProps.explorer !== explorer) {
-      if (project && explorer) {
-        this.fetchUserStats();
-      }
+      this.fetchUserStats();
     }
   }
 
   fetchUserStats() {
-    const { explorer } = this.props;
-
-    statsClient
-      .query({
-        period: 'day',
-        projectID: config.projectId,
-        type: 'classification',
-        userID: explorer.id
-      })
-      .then(data =>
-        data.map(statObject => ({
-          label: statObject.key_as_string,
-          value: statObject.doc_count
-        }))
-      )
-      .then(statData => {
-        this.setState({ userStatsByDay: statData });
-      })
-      .catch(() => {
-        if (console) {
-          console.warn('Failed to fetch user daily stats.');
-        }
+    const { explorer, project } = this.props;
+    if (project && explorer) {
+      statsClient
+        .query({
+          period: 'day',
+          projectID: config.projectId,
+          type: 'classification',
+          userID: explorer.id
+        })
+        .then(data =>
+          data.map(statObject => ({
+            label: statObject.key_as_string,
+            value: statObject.doc_count
+          }))
+        )
+        .then(statData => {
+          this.setState({ userStatsByDay: statData });
+        })
+        .catch(() => {
+          if (console) {
+            console.warn('Failed to fetch user daily stats.');
+          }
+        });
+      statsClient
+        .query({
+          period: 'month',
+          projectID: config.projectId,
+          type: 'classification',
+          userID: explorer.id
+        })
+        .then(data =>
+          data.map(statObject => ({
+            label: statObject.key_as_string,
+            value: statObject.doc_count
+          }))
+        )
+        .then(statData => {
+          this.setState({ userStatsByMonth: statData });
+        })
+        .catch(() => {
+          if (console) {
+            console.warn('Failed to fetch user monthly stats.');
+          }
+        });
+    } else {
+      this.setState({
+        collectiveStatsByDay: [],
+        userStatsByDay: [],
+        userStatsByMonth: []
       });
-    statsClient
-      .query({
-        period: 'month',
-        projectID: config.projectId,
-        type: 'classification',
-        userID: explorer.id
-      })
-      .then(data =>
-        data.map(statObject => ({
-          label: statObject.key_as_string,
-          value: statObject.doc_count
-        }))
-      )
-      .then(statData => {
-        this.setState({ userStatsByMonth: statData });
-      })
-      .catch(() => {
-        if (console) {
-          console.warn('Failed to fetch user monthly stats.');
-        }
-      });
+    }
   }
 
   fetchCollectiveStats() {
