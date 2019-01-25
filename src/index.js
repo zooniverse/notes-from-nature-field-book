@@ -7,11 +7,14 @@ import '../node_modules/zooniverse-react-components/lib/zooniverse-react-compone
 
 import './index.css';
 
+import * as metadata from './metadata.json';
 import { config } from './config';
 import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 oauth.init(config.panoptesAppId, { customRedirects: true }).then(() => {
   ReactDOM.render(<App />, document.getElementById('root'));
-  registerServiceWorker();
+  unregister();
 });
+
+console.log(`Current build number: ${metadata.build}`);
