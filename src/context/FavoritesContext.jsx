@@ -26,39 +26,41 @@ export class FavoritesProvider extends Component {
   componentDidUpdate(prevProps) {
     const { project, explorer } = this.props;
     if (prevProps.project !== project || prevProps.explorer !== explorer) {
-      if (project && explorer) {
-        this.fetchFavoriteCollection();
-      }
+      this.fetchFavoriteCollection();
     }
   }
 
   fetchFavoriteCollection() {
-    const { project, explorer } = this.props;
-    apiClient
-      .type('collections')
-      .get({
-        owner: explorer.login,
-        project_ids: project.id,
-        favorite: true
-      })
-      .then(collections => {
-        if (collections.length) {
-          const [collection] = collections;
-          this.setState({
-            favoriteCollection: collection,
-            linkedSubjects:
-              collection.links && collection.links.subjects
-                ? collection.links.subjects
-                : []
-          });
-        } else {
-          this.setState({
-            favoriteCollection: null,
-            linkedSubjects: []
-          });
-          console.warn('Favorites empty.');
-        }
-      });
+    const { explorer, project } = this.props;
+    if (explorer && project) {
+      apiClient
+        .type('collections')
+        .get({
+          owner: explorer.login,
+          project_ids: project.id,
+          favorite: true
+        })
+        .then(collections => {
+          if (collections.length) {
+            const [collection] = collections;
+            this.setState({
+              favoriteCollection: collection,
+              linkedSubjects:
+                collection.links && collection.links.subjects
+                  ? collection.links.subjects
+                  : []
+            });
+          } else {
+            this.setState({
+              favoriteCollection: null,
+              linkedSubjects: []
+            });
+            console.warn('Favorites empty.');
+          }
+        });
+    } else {
+      this.setState({ favoriteCollection: null, linkedSubjects: [] });
+    }
   }
 
   addSubjectTo(subjectId) {

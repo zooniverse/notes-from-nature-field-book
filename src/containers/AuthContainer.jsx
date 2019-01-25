@@ -33,11 +33,25 @@ class Auth extends Component {
     if (this.props.user && this.props.initialised) {
       const { login } = this.props.user;
       menuItems = [
-        <Anchor href={`${config.zooniverse}/users/${login}`}>Profile</Anchor>,
-        <Anchor href={`${config.zooniverse}/settings`}>Settings</Anchor>,
-        <Anchor href={`${config.zooniverse}/collections/${login}`}>Collections</Anchor>,
-        <Anchor href={`${config.zooniverse}/favorites/${login}`}>Favorites</Anchor>,
-        <LogoutButton logout={this.logout} />
+        <Anchor key="Menu-Profile" href={`${config.zooniverse}/users/${login}`}>
+          Profile
+        </Anchor>,
+        <Anchor key="Menu-Settings" href={`${config.zooniverse}/settings`}>
+          Settings
+        </Anchor>,
+        <Anchor
+          key="Menu-Collections"
+          href={`${config.zooniverse}/collections/${login}`}
+        >
+          Collections
+        </Anchor>,
+        <Anchor
+          key="Menu-Favorites"
+          href={`${config.zooniverse}/favorites/${login}`}
+        >
+          Favorites
+        </Anchor>,
+        <LogoutButton key="Menu-Logout" logout={this.logout} />
       ];
     }
 
