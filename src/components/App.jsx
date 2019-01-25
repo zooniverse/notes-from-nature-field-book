@@ -117,14 +117,12 @@ const App = () => (
                                       >
                                         <RecentsContainer explorer={explorer} />
                                         <hr className="main__hr" />
-                                        <div>
-                                          <FavoritesContainer
-                                            favoriteCollection={
-                                              favoriteCollection
-                                            }
-                                            linkedSubjects={linkedSubjects}
-                                          />
-                                        </div>
+                                        <FavoritesContainer
+                                          favoriteCollection={
+                                            favoriteCollection
+                                          }
+                                          linkedSubjects={linkedSubjects}
+                                        />
                                       </Box>
                                     )}
                                   </FavoritesContext.Consumer>

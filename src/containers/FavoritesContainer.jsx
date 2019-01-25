@@ -77,9 +77,9 @@ class FavoritesContainer extends React.Component {
     }
 
     return (
-      <Box basis="1/2" pad="medium">
+      <Box pad="medium">
         <Title>Your Favorites</Title>
-        <Box direction="row" justify="around" responsive>
+        <Box direction="row" flex justify="around">
           {this.state.favoriteSubjects &&
             this.state.favoriteSubjects.map(favorite => (
               <SubjectCard key={favorite.id} subject={favorite} />
