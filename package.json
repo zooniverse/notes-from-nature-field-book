@@ -47,7 +47,7 @@
     "deploy": "export PATH_ROOT=field-book.notesfromnature.org; npm run build && npm run _publish",
     "stage": "export PATH_ROOT=field-book-preview.notesfromnature.org; npm run build && npm run _publish",
     "start": "react-scripts start",
-    "build": "node generate-build.js && react-scripts build",
+    "build": "export REACT_APP_HEAD_COMMIT=$(git rev-parse --short HEAD) && react-scripts build",
     "test": "react-scripts test --env=jsdom"
   },
   "version": "0.1.0"
