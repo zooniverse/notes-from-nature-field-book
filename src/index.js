@@ -7,7 +7,6 @@ import '../node_modules/zooniverse-react-components/lib/zooniverse-react-compone
 
 import './index.css';
 
-import * as metadata from './metadata.json';
 import { config } from './config';
 import App from './components/App';
 import { unregister } from './registerServiceWorker';
@@ -17,4 +16,4 @@ oauth.init(config.panoptesAppId, { customRedirects: true }).then(() => {
   unregister();
 });
 
-console.log(`Current build number: ${metadata.build}`);
+console.log(`Deployed commit: ${process.env.REACT_APP_HEAD_COMMIT}`);
