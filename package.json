@@ -13,7 +13,7 @@
     "panoptes-client": "~2.12.0",
     "prop-types": "^15.6.2",
     "publisssh": "^1.1.0",
-    "react": "^16.5.2",
+    "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-scripts": "^2.1.3",
     "superagent": "^4.0.0",
