@@ -15,7 +15,7 @@
     "publisssh": "^1.1.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
-    "react-scripts": "^2.1.3",
+    "react-scripts": "^2.1.4",
     "superagent": "^4.0.0",
     "zoo-grommet": "~0.3.0",
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.7.1"
