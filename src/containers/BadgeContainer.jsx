@@ -37,9 +37,9 @@ class BadgeContainer extends React.Component {
   fetchBadges() {
     const { explorer } = this.props;
     if (explorer && explorer.id) {
-      const requestUrl = `${config.caesar}/projects/${config.projectId}/users/${
-        explorer.id
-      }/user_reductions`;
+      const requestUrl = `${config.caesar}/projects/${
+        config.projectId
+      }/user_reductions?user_id=${explorer.id}`;
 
       superagent
         .get(requestUrl)
