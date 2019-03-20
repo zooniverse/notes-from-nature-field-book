@@ -123,8 +123,22 @@ class BadgeContainer extends React.Component {
           <Tab title="Your Badges">
             <Box direction="row" wrap>
               {earnedBadges.map(badge => (
-                <Box key={badge.icon} pad="medium">
-                  <Image size="small" src={badge.icon} />
+                <Box className="badgetip" key={badge.icon} pad="medium">
+                  <Image
+                    alt={badge.description}
+                    size="small"
+                    src={badge.icon}
+                  />
+                  {badge.reducerKey === 'time' && (
+                    <Label className="badgetip badgetiptext">
+                      {badge.description}
+                    </Label>
+                  )}
+                  {badge.reducerKey === 'workflow_type' && (
+                    <Label className="badgetip badgetiptext">
+                      {badge.subgroup.split('_').join(' ')}
+                    </Label>
+                  )}
                 </Box>
               ))}
             </Box>
@@ -134,6 +148,7 @@ class BadgeContainer extends React.Component {
               {remainingBadges.map(badge => (
                 <Box className="badgetip" key={badge.icon} pad="medium">
                   <Image
+                    alt={badge.description}
                     size="small"
                     src={badge.icon}
                     style={{ filter: 'grayscale(100%)', opacity: '0.3' }}
