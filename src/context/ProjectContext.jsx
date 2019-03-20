@@ -17,8 +17,8 @@ export class ProjectProvider extends Component {
   componentDidMount() {
     apiClient
       .type('projects')
-      .get(config.projectId)
-      .then(project => this.setState({ project }));
+      .get({ id: config.projectId, cards: true })
+      .then(([project]) => this.setState({ project }));
   }
 
   render() {
