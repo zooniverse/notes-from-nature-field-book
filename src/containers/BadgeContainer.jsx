@@ -77,9 +77,12 @@ class BadgeContainer extends React.Component {
     }
     statsBadges.forEach(badge => {
       if (totalClassifications >= badge.level) {
-        earnedBadges.push(badge);
+        const earnedBadge = badge;
+        earnedBadge.alt = `level ${badge.level}`;
+        earnedBadges.push(earnedBadge);
       } else {
         const remainingBadge = Object.assign({}, badge, {
+          alt: `level ${badge.level}`,
           classifications: totalClassifications
         });
         remainingBadges.push(remainingBadge);
@@ -98,15 +101,21 @@ class BadgeContainer extends React.Component {
           badgeData.data &&
           badgeData.data.classifications >= badge.level
         ) {
-          earnedBadges.push(badge);
+          const earnedBadge = badge;
+          earnedBadge.alt = `${badge.reducerKey} ${badge.subgroup} level ${
+            badge.level
+          }`;
+          earnedBadges.push(earnedBadge);
         } else {
           const remainingBadge = Object.assign({}, badge, {
+            alt: `${badge.reducerKey} ${badge.subgroup} level ${badge.level}`,
             classifications: badgeData ? badgeData.data.classifications : 0
           });
           remainingBadges.push(remainingBadge);
         }
       } else {
         const remainingBadge = Object.assign({}, badge, {
+          alt: `${badge.reducerKey} ${badge.subgroup} level ${badge.level}`,
           classifications: 0
         });
         remainingBadges.push(remainingBadge);
@@ -124,11 +133,7 @@ class BadgeContainer extends React.Component {
             <Box direction="row" wrap>
               {earnedBadges.map(badge => (
                 <Box className="badgetip" key={badge.icon} pad="medium">
-                  <Image
-                    alt={badge.description}
-                    size="small"
-                    src={badge.icon}
-                  />
+                  <Image alt={badge.alt} size="small" src={badge.icon} />
                   {badge.reducerKey === 'time' && (
                     <Label className="badgetip badgetiptext">
                       {badge.description}
@@ -148,7 +153,7 @@ class BadgeContainer extends React.Component {
               {remainingBadges.map(badge => (
                 <Box className="badgetip" key={badge.icon} pad="medium">
                   <Image
-                    alt={badge.description}
+                    alt={badge.alt}
                     size="small"
                     src={badge.icon}
                     style={{ filter: 'grayscale(100%)', opacity: '0.3' }}
