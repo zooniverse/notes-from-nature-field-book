@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import { Paginator } from 'zooniverse-react-components';
 
+import { config } from '../config';
 import Title from '../components/Title';
 import SubjectCard from '../components/SubjectCard';
 
@@ -76,25 +78,34 @@ class FavoritesContainer extends React.Component {
       lastPage = Math.min(this.state.meta.page_count, firstPage + 9);
     }
 
+    const { project } = this.props;
+
     return (
       <Box pad="medium">
-        <Title>Your Favorites</Title>
+        <Title>
+          <Anchor
+            href={`${config.zooniverse}/${
+              project ? project.slug : ''
+            }/favorites`}
+          >
+            Your Favorites
+          </Anchor>
+        </Title>
         <Box direction="row" flex justify="around">
           {this.state.favoriteSubjects &&
             this.state.favoriteSubjects.map(favorite => (
               <SubjectCard key={favorite.id} subject={favorite} />
             ))}
         </Box>
-        {this.state.meta &&
-          this.state.meta.page_count > 1 && (
-            <Paginator
-              itemCount
-              page={this.state.meta.page}
-              pageCount={lastPage}
-              onPageChange={this.onPageChange}
-              totalItems={`TOTAL ${this.state.meta.page_count.toLocaleString()}`}
-            />
-          )}
+        {this.state.meta && this.state.meta.page_count > 1 && (
+          <Paginator
+            itemCount
+            page={this.state.meta.page}
+            pageCount={lastPage}
+            onPageChange={this.onPageChange}
+            totalItems={`TOTAL ${this.state.meta.page_count.toLocaleString()}`}
+          />
+        )}
       </Box>
     );
   }
@@ -104,12 +115,18 @@ FavoritesContainer.propTypes = {
   favoriteCollection: PropTypes.shape({
     id: PropTypes.string
   }),
-  linkedSubjects: PropTypes.arrayOf(PropTypes.string)
+  linkedSubjects: PropTypes.arrayOf(PropTypes.string),
+  project: PropTypes.shape({
+    slug: PropTypes.string
+  })
 };
 
 FavoritesContainer.defaultProps = {
   favoriteCollection: null,
-  linkedSubjects: []
+  linkedSubjects: [],
+  project: {
+    slug: ''
+  }
 };
 
 export default FavoritesContainer;

@@ -74,13 +74,17 @@ const App = () => (
                                           right: 'medium'
                                         }}
                                       >
-                                        <RecentsContainer explorer={explorer} />
+                                        <RecentsContainer
+                                          explorer={explorer}
+                                          project={project}
+                                        />
                                         <hr className="main__hr" />
                                         <FavoritesContainer
                                           favoriteCollection={
                                             favoriteCollection
                                           }
                                           linkedSubjects={linkedSubjects}
+                                          project={project}
                                         />
                                       </Box>
                                     )}
