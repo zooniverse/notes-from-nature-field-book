@@ -120,6 +120,14 @@ body {
   letter-spacing: 1.5px;
 }
 
+.title-anchor {
+  color: black !important
+}
+
+.title-anchor:hover {
+  color: #00707C !important;
+}
+
 .tooltip {
   display: inline-block;
   position: relative;

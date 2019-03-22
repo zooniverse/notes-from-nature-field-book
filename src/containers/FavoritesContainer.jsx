@@ -84,7 +84,8 @@ class FavoritesContainer extends React.Component {
       <Box pad="medium">
         <Title>
           <Anchor
-            href={`${config.zooniverse}/${
+            className="title-anchor"
+            href={`${config.zooniverse}/projects/${
               project ? project.slug : ''
             }/favorites`}
           >
