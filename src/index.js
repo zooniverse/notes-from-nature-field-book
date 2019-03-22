@@ -11,9 +11,18 @@ import { config } from './config';
 import App from './components/App';
 import { unregister } from './registerServiceWorker';
 
+function removeHash() {
+  window.history.pushState(
+    '',
+    document.title,
+    window.location.pathname + window.location.search
+  );
+}
+
 oauth.init(config.panoptesAppId, { customRedirects: true }).then(() => {
   ReactDOM.render(<App />, document.getElementById('root'));
   unregister();
+  removeHash();
 });
 
 console.log(`Deployed commit: ${process.env.REACT_APP_HEAD_COMMIT}`);
