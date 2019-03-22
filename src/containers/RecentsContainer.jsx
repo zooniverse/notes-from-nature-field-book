@@ -77,7 +77,10 @@ class RecentsContainer extends React.Component {
       <Box pad="medium">
         <Title>
           <Anchor
-            href={`${config.zooniverse}/${project ? project.slug : ''}/recents`}
+            className="title-anchor"
+            href={`${config.zooniverse}/projects/${
+              project ? project.slug : ''
+            }/recents`}
           >
             Your Recent Classifications
           </Anchor>
