@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import { Paginator } from 'zooniverse-react-components';
 
@@ -70,25 +71,32 @@ class RecentsContainer extends React.Component {
       lastPage = Math.min(this.state.meta.page_count, firstPage + 9);
     }
 
+    const { project } = this.props;
+
     return (
       <Box pad="medium">
-        <Title>Your Recent Classifications</Title>
+        <Title>
+          <Anchor
+            href={`${config.zooniverse}/${project ? project.slug : ''}/recents`}
+          >
+            Your Recent Classifications
+          </Anchor>
+        </Title>
         <Box direction="row" flex justify="around">
           {this.state.recents &&
             this.state.recents.map(recent => (
               <SubjectCard key={recent.id} subject={recent} />
             ))}
         </Box>
-        {this.state.meta &&
-          this.state.meta.page_count > 1 && (
-            <Paginator
-              itemCount
-              page={this.state.meta.page}
-              pageCount={lastPage}
-              onPageChange={this.onPageChange}
-              totalItems={`TOTAL ${this.state.meta.page_count.toLocaleString()}`}
-            />
-          )}
+        {this.state.meta && this.state.meta.page_count > 1 && (
+          <Paginator
+            itemCount
+            page={this.state.meta.page}
+            pageCount={lastPage}
+            onPageChange={this.onPageChange}
+            totalItems={`TOTAL ${this.state.meta.page_count.toLocaleString()}`}
+          />
+        )}
       </Box>
     );
   }
@@ -97,11 +105,17 @@ class RecentsContainer extends React.Component {
 RecentsContainer.propTypes = {
   explorer: PropTypes.shape({
     get: PropTypes.func
+  }),
+  project: PropTypes.shape({
+    slug: PropTypes.string
   })
 };
 
 RecentsContainer.defaultProps = {
-  explorer: null
+  explorer: null,
+  project: {
+    slug: ''
+  }
 };
 
 export default RecentsContainer;
