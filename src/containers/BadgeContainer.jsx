@@ -144,6 +144,7 @@ class BadgeContainer extends React.Component {
                       {badge.subgroup.split('_').join(' ')}
                     </Label>
                   )}
+                  <Value value={badge.level.toLocaleString()} />
                 </Box>
               ))}
             </Box>
