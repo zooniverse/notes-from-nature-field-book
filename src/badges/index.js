@@ -153,7 +153,8 @@ export const caesarBadges = [
   {
     icon: earthday,
     level: 10,
-    reducerKey: 'earthday'
+    reducerKey: 'earth_day',
+    subgroup: 't'
   },
   {
     icon: wet1,
