@@ -10,7 +10,7 @@ export class ProjectsProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      projects: []
+      projects: null
     };
   }
 

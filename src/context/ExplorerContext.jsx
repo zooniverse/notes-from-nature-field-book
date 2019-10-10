@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import apiClient from 'panoptes-client/lib/api-client';
+
+import { config } from '../config';
 import locationMatch from '../lib/location-match';
 
 export const ExplorerContext = React.createContext();
@@ -22,8 +24,8 @@ export class ExplorerProvider extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { project, user } = this.props;
-    if (prevProps.project !== project || prevProps.user !== user) {
+    const { projects, user } = this.props;
+    if (prevProps.projects !== projects || prevProps.user !== user) {
       this.setExplorer();
     }
   }
@@ -49,12 +51,12 @@ export class ExplorerProvider extends Component {
   }
 
   async checkPermission() {
-    const { project, user } = this.props;
+    const { projects, user } = this.props;
 
     if (user && user.admin) {
       this.fetchExplorer();
-    } else if (project && user) {
-      const roles = await this.fetchRoles(project.id, user.id);
+    } else if (projects && user) {
+      const roles = await this.fetchRoles(config.projectId, user.id);
       const collaboratorRoles = roles.filter(
         role =>
           role.roles.includes('collaborator') || role.roles.includes('owner')
@@ -94,16 +96,20 @@ export class ExplorerProvider extends Component {
 
 ExplorerProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  project: PropTypes.shape({
-    id: PropTypes.string,
-    slug: PropTypes.string
-  }),
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string
+    })
+  ),
   user: PropTypes.shape({
+    admin: PropTypes.bool,
+    id: PropTypes.string,
     login: PropTypes.string
   })
 };
 
 ExplorerProvider.defaultProps = {
-  project: null,
+  projects: null,
   user: null
 };
