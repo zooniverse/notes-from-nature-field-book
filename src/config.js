@@ -18,11 +18,13 @@ if (!env.match(/^(production|development)$/)) {
   throw new Error(`Error: Invalid Environment - ${env}`);
 }
 
+const organizationIdFromBrowser = locationMatch(/\W?organization_id=(\w+)/);
 const projectIdFromBrowser = locationMatch(/\W?project_id=(\w+)/);
 
 const baseConfig = {
   development: {
     caesar: 'https://caesar-staging.zooniverse.org',
+    organizationId: organizationIdFromBrowser || '3',
     origin: window.location.origin,
     projectId: projectIdFromBrowser || '1613',
     panoptesAppId:
@@ -32,6 +34,7 @@ const baseConfig = {
   },
   production: {
     caesar: 'https://caesar.zooniverse.org',
+    organizationId: organizationIdFromBrowser || '16',
     origin: window.location.origin,
     panoptesAppId:
       '940c60fa02251f156c0d9129e3b8d885424fe729da4e4a7750525ca154bdb3d7',

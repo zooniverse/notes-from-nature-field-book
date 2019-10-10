@@ -9,7 +9,7 @@ import {
   FavoritesProvider,
   FavoritesContext
 } from '../context/FavoritesContext';
-import { ProjectProvider, ProjectContext } from '../context/ProjectContext';
+import { ProjectsProvider, ProjectsContext } from '../context/ProjectsContext';
 import { StatsProvider, StatsContext } from '../context/StatsContext';
 import { UserProvider, UserContext } from '../context/UserContext';
 
@@ -22,7 +22,7 @@ import StatsContainer from '../containers/StatsContainer';
 
 const App = () => (
   <UserProvider>
-    <ProjectProvider>
+    <ProjectsProvider>
       <UserContext.Consumer>
         {({ user }) => (
           <GrommetApp centered={false}>
@@ -30,12 +30,12 @@ const App = () => (
               authContainer={<AuthContainer />}
               mainHeaderNavList={headerNavList}
             />
-            <ProjectContext.Consumer>
-              {({ project }) => (
-                <ExplorerProvider project={project} user={user}>
+            <ProjectsContext.Consumer>
+              {({ projects }) => (
+                <ExplorerProvider projects={projects} user={user}>
                   <ExplorerContext.Consumer>
                     {({ explorer, matchesUser }) => (
-                      <StatsProvider explorer={explorer} project={project}>
+                      <StatsProvider explorer={explorer} projects={projects}>
                         <StatsContext.Consumer>
                           {({
                             collectiveStatsByDay,
@@ -45,7 +45,7 @@ const App = () => (
                           }) => (
                             <Box className="main" pad="large" tag="main">
                               <UserHeading
-                                project={project}
+                                projects={projects}
                                 explorer={explorer}
                                 matchesUser={matchesUser}
                               />
@@ -56,7 +56,7 @@ const App = () => (
                                 wrap
                               >
                                 <FavoritesProvider
-                                  project={project}
+                                  projects={projects}
                                   explorer={explorer}
                                 >
                                   <FavoritesContext.Consumer>
@@ -76,7 +76,7 @@ const App = () => (
                                       >
                                         <RecentsContainer
                                           explorer={explorer}
-                                          project={project}
+                                          projects={projects}
                                         />
                                         <hr className="main__hr" />
                                         <FavoritesContainer
@@ -84,7 +84,7 @@ const App = () => (
                                             favoriteCollection
                                           }
                                           linkedSubjects={linkedSubjects}
-                                          project={project}
+                                          projects={projects}
                                         />
                                       </Box>
                                     )}
@@ -109,12 +109,12 @@ const App = () => (
                   </ExplorerContext.Consumer>
                 </ExplorerProvider>
               )}
-            </ProjectContext.Consumer>
+            </ProjectsContext.Consumer>
             <ZooFooter />
           </GrommetApp>
         )}
       </UserContext.Consumer>
-    </ProjectProvider>
+    </ProjectsProvider>
   </UserProvider>
 );
 
