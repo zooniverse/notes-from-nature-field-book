@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import apiClient from 'panoptes-client/lib/api-client';
 
-import { config } from '../config';
 import locationMatch from '../lib/location-match';
 
 export const ExplorerContext = React.createContext();
@@ -24,8 +23,8 @@ export class ExplorerProvider extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { projects, user } = this.props;
-    if (prevProps.projects !== projects || prevProps.user !== user) {
+    const { organization, user } = this.props;
+    if (prevProps.organization !== organization || prevProps.user !== user) {
       this.setExplorer();
     }
   }
@@ -42,21 +41,21 @@ export class ExplorerProvider extends Component {
     }
   }
 
-  async fetchRoles(projectId, userId) {
+  async fetchRoles(organizationId, userId) {
     return apiClient
-      .type('project_roles')
-      .get({ project_id: projectId, user_id: userId })
+      .type('organization_roles')
+      .get({ organization_id: organizationId, user_id: userId })
       .then(roles => roles)
       .catch(error => console.error('Error loading roles.', error));
   }
 
   async checkPermission() {
-    const { projects, user } = this.props;
+    const { organization, user } = this.props;
 
     if (user && user.admin) {
       this.fetchExplorer();
-    } else if (projects && user) {
-      const roles = await this.fetchRoles(config.projectId, user.id);
+    } else if (organization && user) {
+      const roles = await this.fetchRoles(organization.id, user.id);
       const collaboratorRoles = roles.filter(
         role =>
           role.roles.includes('collaborator') || role.roles.includes('owner')
@@ -96,12 +95,10 @@ export class ExplorerProvider extends Component {
 
 ExplorerProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  projects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      slug: PropTypes.string
-    })
-  ),
+  organization: PropTypes.shape({
+    id: PropTypes.string,
+    slug: PropTypes.string
+  }),
   user: PropTypes.shape({
     admin: PropTypes.bool,
     id: PropTypes.string,
@@ -110,6 +107,6 @@ ExplorerProvider.propTypes = {
 };
 
 ExplorerProvider.defaultProps = {
-  projects: null,
+  organization: null,
   user: null
 };

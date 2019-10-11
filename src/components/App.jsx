@@ -31,8 +31,8 @@ const App = () => (
               mainHeaderNavList={headerNavList}
             />
             <ProjectsContext.Consumer>
-              {({ projects }) => (
-                <ExplorerProvider projects={projects} user={user}>
+              {({ organization, projects }) => (
+                <ExplorerProvider organization={organization} user={user}>
                   <ExplorerContext.Consumer>
                     {({ explorer, matchesUser }) => (
                       <StatsProvider explorer={explorer} projects={projects}>
@@ -45,9 +45,9 @@ const App = () => (
                           }) => (
                             <Box className="main" pad="large" tag="main">
                               <UserHeading
-                                projects={projects}
                                 explorer={explorer}
                                 matchesUser={matchesUser}
+                                organization={organization}
                               />
                               <Box
                                 direction="row"

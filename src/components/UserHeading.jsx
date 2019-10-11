@@ -4,17 +4,17 @@ import Heading from 'grommet/components/Heading';
 
 import { config } from '../config';
 
-export default function UserHeading({ project, explorer, matchesUser }) {
-  if (explorer && project) {
-    const projectLink = (
+export default function UserHeading({ explorer, matchesUser, organization }) {
+  if (explorer && organization) {
+    const organizationLink = (
       <a
         href={
-          project.redirect
-            ? project.redirect
-            : `${config.zooniverse}/projects/${project.slug}`
+          organization.redirect
+            ? organization.redirect
+            : `${config.zooniverse}/organizations/${organization.slug}`
         }
       >
-        {project.display_name}
+        {organization.display_name}
       </a>
     );
 
@@ -25,7 +25,7 @@ export default function UserHeading({ project, explorer, matchesUser }) {
     return (
       <Heading className={headingClassName} strong tag="h2">
         {`${explorer.display_name}'s `}
-        {projectLink}
+        {organizationLink}
         {' Field Book'}
       </Heading>
     );
@@ -38,7 +38,7 @@ export default function UserHeading({ project, explorer, matchesUser }) {
 }
 
 UserHeading.propTypes = {
-  project: PropTypes.shape({
+  organization: PropTypes.shape({
     display_name: PropTypes.string,
     slug: PropTypes.string
   }),
@@ -49,7 +49,7 @@ UserHeading.propTypes = {
 };
 
 UserHeading.defaultProps = {
-  project: {
+  organization: {
     display_name: '',
     slug: ''
   },

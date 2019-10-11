@@ -10,6 +10,7 @@ export class ProjectsProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      organization: null,
       projects: null
     };
   }
@@ -19,6 +20,7 @@ export class ProjectsProvider extends Component {
       .type('organizations')
       .get({ id: config.organizationId })
       .then(([organization]) => {
+        this.setState({ organization });
         organization
           .get('projects', { cards: true })
           .then(organizationProjects => {
@@ -31,6 +33,7 @@ export class ProjectsProvider extends Component {
     return (
       <ProjectsContext.Provider
         value={{
+          organization: this.state.organization,
           projects: this.state.projects
         }}
       >
