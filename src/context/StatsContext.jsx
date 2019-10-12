@@ -2,111 +2,129 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import statsClient from 'panoptes-client/lib/stats-client';
 
-import { config } from '../config';
-
 export const StatsContext = React.createContext();
 
 export class StatsProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collectiveStatsByDay: [],
-      userStatsByDay: [],
-      userStatsByMonth: []
+      collectiveStatsByDay: new Map(),
+      userStatsByDay: new Map(),
+      userStatsByMonth: new Map()
     };
 
     this.fetchCollectiveStats = this.fetchCollectiveStats.bind(this);
   }
 
   componentDidMount() {
-    const { project, explorer } = this.props;
-    if (project && explorer) {
+    const { projects, explorer } = this.props;
+    if (projects && explorer) {
       this.fetchUserStats();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { project, explorer } = this.props;
-    if (prevProps.project !== project || prevProps.explorer !== explorer) {
+    const { projects, explorer } = this.props;
+    if (prevProps.projects !== projects || prevProps.explorer !== explorer) {
       this.fetchUserStats();
     }
   }
 
   fetchUserStats() {
-    const { explorer, project } = this.props;
-    if (project && explorer) {
-      statsClient
-        .query({
-          period: 'day',
-          projectID: config.projectId,
-          type: 'classification',
-          userID: explorer.id
-        })
-        .then(data =>
-          data.map(statObject => ({
-            label: statObject.key_as_string,
-            value: statObject.doc_count
-          }))
-        )
-        .then(statData => {
-          this.setState({ userStatsByDay: statData });
-        })
-        .catch(() => {
-          if (console) {
-            console.warn('Failed to fetch user daily stats.');
-          }
-        });
-      statsClient
-        .query({
-          period: 'month',
-          projectID: config.projectId,
-          type: 'classification',
-          userID: explorer.id
-        })
-        .then(data =>
-          data.map(statObject => ({
-            label: statObject.key_as_string,
-            value: statObject.doc_count
-          }))
-        )
-        .then(statData => {
-          this.setState({ userStatsByMonth: statData });
-        })
-        .catch(() => {
-          if (console) {
-            console.warn('Failed to fetch user monthly stats.');
-          }
-        });
-    } else {
-      this.setState({
-        collectiveStatsByDay: [],
-        userStatsByDay: [],
-        userStatsByMonth: []
+    const { explorer, projects } = this.props;
+    if (explorer && projects) {
+      projects.forEach(project => {
+        statsClient
+          .query({
+            period: 'day',
+            projectID: project.id,
+            type: 'classification',
+            userID: explorer.id
+          })
+          .then(statData => {
+            const { userStatsByDay } = this.state;
+            userStatsByDay.set(project.id, statData);
+            this.setState({ userStatsByDay });
+          })
+          .catch(() => {
+            if (console) {
+              console.warn(
+                `Failed to fetch user daily stats for project #${project.id}, ${
+                  project.display_name
+                }.`
+              );
+            }
+          });
+        statsClient
+          .query({
+            period: 'month',
+            projectID: project.id,
+            type: 'classification',
+            userID: explorer.id
+          })
+          .then(statData => {
+            const { userStatsByMonth } = this.state;
+            userStatsByMonth.set(project.id, statData);
+            this.setState({ userStatsByMonth });
+          })
+          .catch(() => {
+            if (console) {
+              console.warn(
+                `Failed to fetch user monthly stats for project #${
+                  project.id
+                }, ${project.display_name}.`
+              );
+            }
+          });
       });
     }
   }
 
   fetchCollectiveStats() {
-    statsClient
-      .query({
-        period: 'day',
-        projectID: config.projectId,
-        type: 'classification'
-      })
-      .then(data =>
-        data.map(statObject => ({
-          label: statObject.key_as_string,
-          value: statObject.doc_count
-        }))
-      )
-      .then(statData => {
-        this.setState({ collectiveStatsByDay: statData });
-      })
-      .catch(() => {
-        if (console) {
-          console.warn('Failed to fetch collective daily stats.');
+    const { projects } = this.props;
+    projects.forEach(project => {
+      statsClient
+        .query({
+          period: 'day',
+          projectID: project.id,
+          type: 'classification'
+        })
+        .then(statData => {
+          const { collectiveStatsByDay } = this.state;
+          collectiveStatsByDay.set(project.id, statData);
+          this.setState({ collectiveStatsByDay });
+        })
+        .catch(() => {
+          if (console) {
+            console.warn(
+              `Failed to fetch collective stats for project #${project.id}, ${
+                project.display_name
+              }.`
+            );
+          }
+        });
+    });
+  }
+
+  convertStats(stats) {
+    const convertedStats = [...stats.values()]
+      .flat()
+      .map(item => ({
+        label: item.key_as_string,
+        value: item.doc_count
+      }))
+      .reduce((accum, item) => {
+        if (accum.length && accum.some(day => day.label === item.label)) {
+          const [existingDay] = accum.filter(day => day.label === item.label);
+          const existingDayIndex = accum.indexOf(existingDay);
+          existingDay.value += item.value;
+          accum[existingDayIndex] = existingDay;
+          return accum;
         }
-      });
+        accum.push(item);
+        return accum;
+      }, []);
+    return convertedStats;
   }
 
   render() {
@@ -115,12 +133,19 @@ export class StatsProvider extends Component {
       userStatsByDay,
       userStatsByMonth
     } = this.state;
+
+    const convertedCollectiveStatsByDay = this.convertStats(
+      collectiveStatsByDay
+    );
+    const convertedUserStatsByDay = this.convertStats(userStatsByDay);
+    const convertedUserStatsByMonth = this.convertStats(userStatsByMonth);
+
     return (
       <StatsContext.Provider
         value={{
-          collectiveStatsByDay,
-          userStatsByDay,
-          userStatsByMonth,
+          collectiveStatsByDay: convertedCollectiveStatsByDay,
+          userStatsByDay: convertedUserStatsByDay,
+          userStatsByMonth: convertedUserStatsByMonth,
           fetchCollectiveStats: this.fetchCollectiveStats
         }}
       >
@@ -135,13 +160,15 @@ StatsProvider.propTypes = {
   explorer: PropTypes.shape({
     id: PropTypes.string
   }),
-  project: PropTypes.shape({
-    id: PropTypes.string,
-    slug: PropTypes.string
-  })
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string
+    })
+  )
 };
 
 StatsProvider.defaultProps = {
   explorer: null,
-  project: null
+  projects: null
 };
