@@ -18,7 +18,7 @@ class BadgeContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      caesarData: [],
+      caesarData: new Map(),
       tab: 0
     };
   }
@@ -28,33 +28,37 @@ class BadgeContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { explorer } = this.props;
-    if (prevProps.explorer !== explorer) {
+    const { explorer, projects } = this.props;
+    if (prevProps.projects !== projects || prevProps.explorer !== explorer) {
       this.fetchBadges();
     }
   }
 
   fetchBadges() {
-    const { explorer } = this.props;
-    if (explorer && explorer.id) {
-      const requestUrl = `${config.caesar}/projects/${
-        config.projectId
-      }/user_reductions?user_id=${explorer.id}`;
+    const { explorer, projects } = this.props;
+    if (explorer && explorer.id && projects && projects.length) {
+      projects.forEach(project => {
+        const requestUrl = `${config.caesar}/projects/${
+          project.id
+        }/user_reductions?user_id=${explorer.id}`;
 
-      superagent
-        .get(requestUrl)
-        .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
-        .set('Authorization', apiClient.headers.Authorization)
-        .query()
-        .then(response => {
-          if (response.ok && response.body) {
-            this.setState({ caesarData: response.body });
-          } else {
-            console.warn('Failed to fetch Caesar data.');
-          }
-        })
-        .catch(() => console.warn('Failed to fetch Caesar data.'));
+        superagent
+          .get(requestUrl)
+          .set('Accept', 'application/json')
+          .set('Content-Type', 'application/json')
+          .set('Authorization', apiClient.headers.Authorization)
+          .query()
+          .then(response => {
+            if (response.ok && response.body) {
+              const { caesarData } = this.state;
+              caesarData.set(project.id, response.body);
+              this.setState({ caesarData });
+            } else {
+              console.warn('Failed to fetch Caesar data.');
+            }
+          })
+          .catch(() => console.warn('Failed to fetch Caesar data.'));
+      });
     }
   }
 
@@ -62,9 +66,44 @@ class BadgeContainer extends React.Component {
     this.setState({ tab });
   }
 
+  combineCaesarData(caesarData) {
+    const combinedCaesarData = [...caesarData.values()]
+      .flat()
+      .reduce((accum, item) => {
+        if (
+          accum.length &&
+          accum.some(
+            data =>
+              data.reducer_key === item.reducer_key &&
+              data.subgroup === item.subgroup
+          )
+        ) {
+          const [existingData] = accum.filter(
+            data =>
+              data.reducer_key === item.reducer_key &&
+              data.subgroup === item.subgroup
+          );
+          const existingDataIndex = accum.indexOf(existingData);
+          const newClassificationCount =
+            existingData.data.classifications + item.data.classifications;
+          const newDataProperty = { classifications: newClassificationCount };
+          const newData = Object.assign({}, existingData, {
+            data: newDataProperty
+          });
+          accum[existingDataIndex] = newData;
+          return accum;
+        }
+        accum.push(item);
+        return accum;
+      }, []);
+    return combinedCaesarData;
+  }
+
   render() {
     const { caesarData, tab } = this.state;
     const { userStatsByMonth } = this.props;
+
+    const combinedCaesarData = this.combineCaesarData(caesarData);
 
     const earnedBadges = [];
     const remainingBadges = [];
@@ -90,8 +129,8 @@ class BadgeContainer extends React.Component {
     });
 
     caesarBadges.forEach(badge => {
-      if (caesarData && caesarData.length) {
-        const [badgeData] = caesarData.filter(
+      if (combinedCaesarData && combinedCaesarData.length) {
+        const [badgeData] = combinedCaesarData.filter(
           data =>
             data.reducer_key === badge.reducerKey &&
             data.subgroup === badge.subgroup
@@ -190,6 +229,12 @@ BadgeContainer.propTypes = {
   explorer: PropTypes.shape({
     id: PropTypes.string
   }),
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string
+    })
+  ),
   userStatsByMonth: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -200,6 +245,7 @@ BadgeContainer.propTypes = {
 
 BadgeContainer.defaultProps = {
   explorer: null,
+  projects: null,
   userStatsByMonth: []
 };
 

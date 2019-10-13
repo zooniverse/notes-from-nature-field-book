@@ -99,6 +99,7 @@ const App = () => (
                               </Box>
                               <BadgeContainer
                                 explorer={explorer}
+                                projects={projects}
                                 userStatsByMonth={userStatsByMonth}
                               />
                             </Box>
