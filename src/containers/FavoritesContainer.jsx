@@ -78,7 +78,13 @@ class FavoritesContainer extends React.Component {
       lastPage = Math.min(this.state.meta.page_count, firstPage + 9);
     }
 
-    const { project } = this.props;
+    const { projects } = this.props;
+    let project = { slug: '' };
+    if (projects && projects.length) {
+      [project] = projects.filter(
+        NfNproject => NfNproject.id === config.projectId
+      );
+    }
 
     return (
       <Box pad="medium">
@@ -95,7 +101,11 @@ class FavoritesContainer extends React.Component {
         <Box direction="row" flex justify="around">
           {this.state.favoriteSubjects &&
             this.state.favoriteSubjects.map(favorite => (
-              <SubjectCard key={favorite.id} subject={favorite} />
+              <SubjectCard
+                key={favorite.id}
+                project={project}
+                subject={favorite}
+              />
             ))}
         </Box>
         {this.state.meta && this.state.meta.page_count > 1 && (
@@ -114,20 +124,22 @@ class FavoritesContainer extends React.Component {
 
 FavoritesContainer.propTypes = {
   favoriteCollection: PropTypes.shape({
+    get: PropTypes.func,
     id: PropTypes.string
   }),
   linkedSubjects: PropTypes.arrayOf(PropTypes.string),
-  project: PropTypes.shape({
-    slug: PropTypes.string
-  })
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string
+    })
+  )
 };
 
 FavoritesContainer.defaultProps = {
   favoriteCollection: null,
   linkedSubjects: [],
-  project: {
-    slug: ''
-  }
+  projects: null
 };
 
 export default FavoritesContainer;

@@ -20,11 +20,15 @@ class RecentsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchRecents();
+    const { explorer, projects } = this.props;
+    if (explorer && projects) {
+      this.fetchRecents();
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.explorer !== this.props.explorer) {
+    const { explorer, projects } = this.props;
+    if (prevProps.explorer !== explorer || prevProps.projects !== projects) {
       this.fetchRecents();
     }
   }
@@ -71,7 +75,13 @@ class RecentsContainer extends React.Component {
       lastPage = Math.min(this.state.meta.page_count, firstPage + 9);
     }
 
-    const { project } = this.props;
+    const { projects } = this.props;
+    let project = { slug: '' };
+    if (projects && projects.length) {
+      [project] = projects.filter(
+        NfNproject => NfNproject.id === config.projectId
+      );
+    }
 
     return (
       <Box pad="medium">
@@ -88,7 +98,7 @@ class RecentsContainer extends React.Component {
         <Box direction="row" flex justify="around">
           {this.state.recents &&
             this.state.recents.map(recent => (
-              <SubjectCard key={recent.id} subject={recent} />
+              <SubjectCard key={recent.id} project={project} subject={recent} />
             ))}
         </Box>
         {this.state.meta && this.state.meta.page_count > 1 && (
@@ -109,16 +119,17 @@ RecentsContainer.propTypes = {
   explorer: PropTypes.shape({
     get: PropTypes.func
   }),
-  project: PropTypes.shape({
-    slug: PropTypes.string
-  })
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string
+    })
+  )
 };
 
 RecentsContainer.defaultProps = {
   explorer: null,
-  project: {
-    slug: ''
-  }
+  projects: null
 };
 
 export default RecentsContainer;

@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import apiClient from 'panoptes-client/lib/api-client';
 
+import { config } from '../config';
+
 export const FavoritesContext = React.createContext();
 
 export class FavoritesProvider extends Component {
@@ -17,22 +19,28 @@ export class FavoritesProvider extends Component {
   }
 
   componentDidMount() {
-    const { project, explorer } = this.props;
-    if (project && explorer) {
+    const { explorer, projects } = this.props;
+    if (explorer && projects) {
       this.fetchFavoriteCollection();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { project, explorer } = this.props;
-    if (prevProps.project !== project || prevProps.explorer !== explorer) {
+    const { explorer, projects } = this.props;
+    if (prevProps.explorer !== explorer || prevProps.projects !== projects) {
       this.fetchFavoriteCollection();
     }
   }
 
   fetchFavoriteCollection() {
-    const { explorer, project } = this.props;
-    if (explorer && project) {
+    const { explorer, projects } = this.props;
+    if (explorer && projects && projects.length) {
+      let project;
+      if (projects && projects.length) {
+        [project] = projects.filter(
+          NfNproject => NfNproject.id === config.projectId
+        );
+      }
       apiClient
         .type('collections')
         .get({
@@ -94,9 +102,16 @@ export class FavoritesProvider extends Component {
   }
 
   createFavorites(subjects = []) {
+    const { projects } = this.props;
+    let nFnProject = { slug: '' };
+    if (projects && projects.length) {
+      [nFnProject] = projects.filter(
+        NfNproject => NfNproject.id === config.projectId
+      );
+    }
     return new Promise((resolve, reject) => {
-      const display_name = `Favorites ${this.props.project.slug}`;
-      const project = this.props.project.id;
+      const display_name = `Favorites ${nFnProject.slug}`;
+      const project = nFnProject.id;
       const favorite = true;
 
       const links = { project, subjects };
@@ -137,16 +152,18 @@ export class FavoritesProvider extends Component {
 
 FavoritesProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  project: PropTypes.shape({
-    id: PropTypes.string,
-    slug: PropTypes.string
-  }),
   explorer: PropTypes.shape({
     login: PropTypes.string
-  })
+  }),
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string
+    })
+  )
 };
 
 FavoritesProvider.defaultProps = {
-  project: null,
-  explorer: null
+  explorer: null,
+  projects: null
 };
