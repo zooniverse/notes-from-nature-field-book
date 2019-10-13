@@ -32,7 +32,7 @@ export class StatsProvider extends Component {
 
   fetchUserStats() {
     const { explorer, projects } = this.props;
-    if (explorer && projects) {
+    if (explorer && explorer.id && projects && projects.length) {
       projects.forEach(project => {
         statsClient
           .query({
@@ -81,29 +81,31 @@ export class StatsProvider extends Component {
   }
 
   fetchCollectiveStats() {
-    const { projects } = this.props;
-    projects.forEach(project => {
-      statsClient
-        .query({
-          period: 'day',
-          projectID: project.id,
-          type: 'classification'
-        })
-        .then(statData => {
-          const { collectiveStatsByDay } = this.state;
-          collectiveStatsByDay.set(project.id, statData);
-          this.setState({ collectiveStatsByDay });
-        })
-        .catch(() => {
-          if (console) {
-            console.warn(
-              `Failed to fetch collective stats for project #${project.id}, ${
-                project.display_name
-              }.`
-            );
-          }
-        });
-    });
+    const { explorer, projects } = this.props;
+    if (explorer && explorer.id && projects && projects.length) {
+      projects.forEach(project => {
+        statsClient
+          .query({
+            period: 'day',
+            projectID: project.id,
+            type: 'classification'
+          })
+          .then(statData => {
+            const { collectiveStatsByDay } = this.state;
+            collectiveStatsByDay.set(project.id, statData);
+            this.setState({ collectiveStatsByDay });
+          })
+          .catch(() => {
+            if (console) {
+              console.warn(
+                `Failed to fetch collective stats for project #${project.id}, ${
+                  project.display_name
+                }.`
+              );
+            }
+          });
+      });
+    }
   }
 
   convertStats(stats) {
@@ -117,8 +119,9 @@ export class StatsProvider extends Component {
         if (accum.length && accum.some(day => day.label === item.label)) {
           const [existingDay] = accum.filter(day => day.label === item.label);
           const existingDayIndex = accum.indexOf(existingDay);
-          existingDay.value += item.value;
-          accum[existingDayIndex] = existingDay;
+          const newValue = existingDay.value + item.value;
+          const newDay = Object.assign({}, existingDay, { value: newValue });
+          accum[existingDayIndex] = newDay;
           return accum;
         }
         accum.push(item);
