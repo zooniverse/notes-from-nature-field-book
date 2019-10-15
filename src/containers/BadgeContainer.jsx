@@ -54,10 +54,20 @@ class BadgeContainer extends React.Component {
               caesarData.set(project.id, response.body);
               this.setState({ caesarData });
             } else {
-              console.warn('Failed to fetch Caesar data.');
+              console.warn(
+                `Failed to fetch Caesar data for project #${project.id} ${
+                  project.display_name
+                }`
+              );
             }
           })
-          .catch(() => console.warn('Failed to fetch Caesar data.'));
+          .catch(() =>
+            console.warn(
+              `Failed to fetch Caesar data for project #${project.id} ${
+                project.display_name
+              }`
+            )
+          );
       });
     }
   }
