@@ -57,7 +57,37 @@ Caesar badges require the following project and workflow Caesar configurations:
 
 ### Project Caesar configuration for badges
 
-[incoming]
+1. From https://caesar.zooniverse.org/projects, if no Caesar project config exists then click the "+Add" button to create a new config, providing the project ID when prompted. Once the project config is added/created, or if it already exists, select it from the list.
+2. From the Caesar project config, click the "Reducers" tab (i.e. https://caesar.zooniverse.org/projects/1558#reducers).
+3. Create the following 4 Count Reducers by clicking "+Create" and select "Count" from the dropdown for each, with the noted options:
+  * Decade
+    1. key: `decade`
+    2. topic: reduce_by_user
+    3. field_name: `faas.decade`
+    4. if_missing: ignore
+    5. extractor keys: `["faas"]`
+  * Earth Day
+    1. key: `earth_day`
+    2. topic: reduce_by_user
+    3. field_name: `faas.earth_day`
+    4. if_missing: ignore
+    5. extractor keys: `["faas"]`
+    6. repeated classifications: keep_first
+  * Time
+    1. key: `time`
+    2. topic: reduce_by_user
+    3. field_name: `faas.time`
+    4. if_missing: ignore
+    5. extractor keys: `["faas"]`
+    6. repeated classifications: keep_first
+  * Workflow
+    1. key: `workflow_type`
+    2. topic: reduce_by_user
+    3. field_name: `faas.workflow`
+    4. if_missing: ignore
+    5. extractor keys: `["faas"]`
+
+Note: use other Notes from Nature Caesar project configurations as additional examples, search https://caesar.zooniverse.org/projects for "Notes from Nature".
 
 ### Workflow Caesar configuration for badges
 
