@@ -12,7 +12,6 @@
     "moment": "^2.24.0",
     "panoptes-client": "^3.0.0-rc.0",
     "prop-types": "^15.7.1",
-    "publisssh": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "^3.4.0",
@@ -27,7 +26,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
-    "prettier": "1.16.4"
+    "prettier": "1.16.4",
+    "publisssh": "^1.1.0"
   },
   "engines": {
     "node": "^10.17",
