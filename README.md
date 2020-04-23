@@ -101,3 +101,14 @@ Note: use other Notes from Nature Caesar project configurations as additional ex
 3. Click "Create External extractor" to save extractor settings.
 
 Note: use other Notes from Nature Caesar workflow configurations as additional examples, search https://caesar.zooniverse.org/workflows for "Notes from Nature" or by workflow type (i.e. "Herbarium").
+
+### Common Issues ###
+
+Stats related badges working (total classifications), Caesar related badges not (decade, workflow type, or time of day):
+  * Check the Caesar workflow config summary, confirm there are total extracts
+  * If no extracts, review workflow extractor settings, rerun workflow extractor, though classifications before may be lost
+  * If there are workflow extracts, issue is likely with Caesar project config. From Caesar project config confirm there are total reductions, regardless though especially if there are no reductions - rerun project reducers
+
+Decade badges not workfing, all others working:
+  * Confirm task for year is dropdown task with options generated with dropdown task editor presets and therefore values are numeric (i.e. dropdown task option has label _and_ value of `1900`, not value of randomly generated alphanumeric)
+  * Confirm Caesar workflow extractor external url notes correct task key (i.e. included in url is `year=T10`)
