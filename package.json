@@ -17,7 +17,7 @@
     "react-scripts": "^3.4.0",
     "superagent": "^4.0.0",
     "zoo-grommet": "~0.3.0",
-    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.0"
+    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.1"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0",
