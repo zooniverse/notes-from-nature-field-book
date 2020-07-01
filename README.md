@@ -14,42 +14,45 @@ Installs the dependencies.
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
+Runs the app in the development mode.
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
+The page will reload if you make edits.
 You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
+Launches the test runner in the interactive watch mode.
 See the section about [running tests](#running-tests) for more information.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
+Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
+The build is minified and the filenames include the hashes.
 
 ### `npm run stage`
 
-Builds and deploys to https://field-book-preview.notesfromnature.org/, authenticating to "production" Panoptes.<br>
+Builds and deploys to https://field-book-preview.notesfromnature.org/, authenticating to "production" Panoptes.
 
 ### `npm run deploy`
 
-Builds and deploys to https://field-book.notesfromnature.org/, authenticating to "production" Panoptes.<br>
+Builds and deploys to https://field-book.notesfromnature.org/, authenticating to "production" Panoptes.
 
 ## Notes
 
-Accepts query params: 
+Accepts query params:
+
 * `env=[ENV]`, where `ENV` = `production` or `staging`
 * `project_id=[PROJECT_ID]`, where `PROJECT_ID` = desired project's ID, i.e. `1234`
 
 ## Badges
 
 There are two types of badges, referred to as:
-  1. [Stats badges](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/index.js#L317), based on [zoo-event-stats](https://github.com/zooniverse/zoo-event-stats) (i.e. 10 Classifications), 
+
+  1. [Stats badges](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/index.js#L317), based on [zoo-event-stats](https://github.com/zooniverse/zoo-event-stats) (i.e. 10 Classifications),
   2. [Caesar badges](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/index.js#L64), based on [Caesar](https://github.com/zooniverse/caesar) and [nfn-faas](https://github.com/zooniverse/nfn-faas) (i.e. 80s, Night Owl, 10 Herbarium, etc.)
 
 Stats badges require no additional configuration.
@@ -102,13 +105,32 @@ Note: use other Notes from Nature Caesar project configurations as additional ex
 
 Note: use other Notes from Nature Caesar workflow configurations as additional examples, search https://caesar.zooniverse.org/workflows for "Notes from Nature" or by workflow type (i.e. "Herbarium").
 
-### Common Issues ###
+### Common Issues
 
 Stats related badges working (total classifications), Caesar related badges not (decade, workflow type, or time of day):
-  * Check the Caesar workflow config summary, confirm there are total extracts
-  * If no extracts, review workflow extractor settings, rerun workflow extractor, though classifications before may be lost
-  * If there are workflow extracts, issue is likely with Caesar project config. From Caesar project config confirm there are total reductions, regardless though especially if there are no reductions - rerun project reducers
 
-Decade badges not workfing, all others working:
-  * Confirm task for year is dropdown task with options generated with dropdown task editor presets and therefore values are numeric (i.e. dropdown task option has label _and_ value of `1900`, not value of randomly generated alphanumeric)
-  * Confirm Caesar workflow extractor external url notes correct task key (i.e. included in url is `year=T10`)
+* Check the Caesar workflow config summary, confirm there are total extracts
+* If no extracts, review workflow extractor settings, rerun workflow extractor, though classifications before may be lost
+* If there are workflow extracts, issue is likely with Caesar project config. From Caesar project config confirm there are total reductions, regardless though especially if there are no reductions - rerun project reducers
+
+Decade badges not working, all others working:
+
+* Confirm task for year is dropdown task with options generated with dropdown task editor presets and therefore values are numeric (i.e. dropdown task option has label _and_ value of `1900`, not value of randomly generated alphanumeric)
+* Confirm Caesar workflow extractor external url notes correct task key (i.e. included in url is `year=T10`)
+
+### Add workflow type badge
+
+To add or edit workflow type badges:
+
+1. Add or edit badge images (preferably .png, around 25KB) in related workflow type folder in [src/badges/workflow/](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/workflow)
+2. Edit [src/badges/index.js](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/index.js) to import new badge images
+3. Edit [src/badges/index.js](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/index.js) to reflect badge objects, where:
+
+```
+{
+  icon: [badge image import name, i.e. seed],
+  level: [number of classifications to earn badge, i.e. 10],
+  reducerKey: 'workflow_type',
+  subgroup: [workflow type, i.e. 'herbarium']
+},
+```
