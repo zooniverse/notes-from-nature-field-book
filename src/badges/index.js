@@ -49,6 +49,12 @@ import tree from './workflow/herbarium/tree.png';
 import blossom from './workflow/labs/blossom.png';
 import blossoms from './workflow/labs/blossoms.png';
 import fruit from './workflow/labs/fruit.png';
+// - LICHEN
+import caloplaca from './workflow/lichen/caloplaca.png';
+import cladonia1 from './workflow/lichen/cladonia1.png';
+import cladonia2 from './workflow/lichen/cladonia2.png';
+import cladonia3 from './workflow/lichen/cladonia3.png';
+import ramalina from './workflow/lichen/ramalina.png';
 // -- MACROFUNGI
 import mushroom from './workflow/macrofungi/mushroom.png';
 import mycelium from './workflow/macrofungi/mycelium.png';
@@ -263,6 +269,36 @@ export const caesarBadges = [
     level: 500,
     reducerKey: 'workflow_type',
     subgroup: 'labs'
+  },
+  {
+    icon: caloplaca,
+    level: 10,
+    reducerKey: 'workflow_type',
+    subgroup: 'lichen'
+  },
+  {
+    icon: cladonia1,
+    level: 50,
+    reducerKey: 'workflow_type',
+    subgroup: 'lichen'
+  },
+  {
+    icon: cladonia2,
+    level: 100,
+    reducerKey: 'workflow_type',
+    subgroup: 'lichen'
+  },
+  {
+    icon: cladonia3,
+    level: 250,
+    reducerKey: 'workflow_type',
+    subgroup: 'lichen'
+  },
+  {
+    icon: ramalina,
+    level: 500,
+    reducerKey: 'workflow_type',
+    subgroup: 'lichen'
   },
   {
     icon: spore,
