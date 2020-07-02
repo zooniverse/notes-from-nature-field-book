@@ -120,7 +120,7 @@ Decade badges not working, all others working:
 
 ### Add workflow type badge
 
-To add or edit workflow type badges:
+To add or edit workflow type badges ([add lichen badges commit example](https://github.com/zooniverse/notes-from-nature-field-book/commit/9e2625baedea987b8e90c1aac0ee0a0ab78e0b45)):
 
 1. Add or edit badge images (preferably .png, around 25KB) in related workflow type folder in [src/badges/workflow/](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/workflow)
 2. Edit [src/badges/index.js](https://github.com/zooniverse/notes-from-nature-field-book/blob/master/src/badges/index.js) to import new badge images
@@ -134,3 +134,5 @@ To add or edit workflow type badges:
   subgroup: [workflow type, i.e. 'herbarium']
 },
 ```
+
+Note: stats badges can be added similar to workflow type badges while decade, time, and Earth Day equivalent badges require changes to [nfn-faas](https://github.com/zooniverse/nfn-faas).
