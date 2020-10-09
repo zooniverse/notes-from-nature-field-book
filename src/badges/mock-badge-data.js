@@ -96,7 +96,7 @@ const data = [
       extracts: 20,
       classifications: 20
     },
-    subgroup: 't'
+    subgroup: 2020
   }
 ];
 
