@@ -34,6 +34,28 @@ const data = [
   },
   {
     id: 504,
+    reducer_key: 'decade',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: '50s'
+  },
+  {
+    id: 505,
+    reducer_key: 'decade',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: '40s'
+  },
+  {
+    id: 506,
     reducer_key: 'workflow_type',
     workflow_id: 7389,
     user_id: 1405412,
@@ -42,6 +64,39 @@ const data = [
       classifications: 100
     },
     subgroup: 'herbarium'
+  },
+  {
+    id: 507,
+    reducer_key: 'time',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: 'dinnertime'
+  },
+  {
+    id: 508,
+    reducer_key: 'earth_day',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: 't'
+  },
+  {
+    id: 509,
+    reducer_key: 'we_dig_bio',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: 2020
   }
 ];
 

@@ -24,6 +24,7 @@ import earlybird from './time/time-earlybird.png';
 import earthday from './time/time-earthday.png';
 import lunch from './time/time-lunch.png';
 import nightowl from './time/time-nightowl.png';
+import weDigBio2020 from './time/time-wedigbio2020.png';
 
 // WORKFLOW
 // -- AQUATICS
@@ -161,6 +162,12 @@ export const caesarBadges = [
     level: 10,
     reducerKey: 'earth_day',
     subgroup: 't'
+  },
+  {
+    icon: weDigBio2020,
+    level: 10,
+    reducerKey: 'we_dig_bio',
+    subgroup: '2020'
   },
   {
     icon: wet1,
