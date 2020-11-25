@@ -42,7 +42,7 @@
     "url": "https://github.com/zooniverse/notes-from-nature-field-book"
   },
   "scripts": {
-    "_publish": "publisssh ./build \"zooniverse-static/$PATH_ROOT\"",
+    "_publish": "node ./bin/upload.js ./build $PATH_ROOT",
     "deploy": "export PATH_ROOT=field-book.notesfromnature.org; npm run build && npm run _publish",
     "stage": "export PATH_ROOT=field-book-preview.notesfromnature.org; npm run build && npm run _publish",
     "start": "react-scripts start",
