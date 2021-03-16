@@ -1,4 +1,4 @@
-name: Deploy NFN Field Guide Staging
+name: Deploy NFN Field Book Staging
 
 on:
     # Run this workflow on push to master (incl PR merges)
