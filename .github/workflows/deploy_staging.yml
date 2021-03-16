@@ -62,7 +62,7 @@ jobs:
               "author_name": "${{ github.actor }}",
               "author_link": "https://github.com/${{ github.actor }}/",
               "author_icon": "https://github.com/${{ github.actor }}.png?size=40",
-              "title": "ALICE Staging deploy complete",
+              "title": "NfN Field Book Staging deploy complete",
               "title_link": "https://field-book-preview.notesfromnature.org",
               "fields": [
                   {
