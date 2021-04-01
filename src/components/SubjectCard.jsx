@@ -79,6 +79,10 @@ export default function SubjectCard({ subject }) {
 
 SubjectCard.propTypes = {
   subject: PropTypes.shape({
-    id: PropTypes.string
+    href: PropTypes.string,
+    id: PropTypes.string,
+    links: PropTypes.shape({
+      subject: PropTypes.string
+    })
   }).isRequired
 };

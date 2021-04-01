@@ -37,24 +37,26 @@ export default function UserHeading({ project, explorer, matchesUser }) {
   );
 }
 
-UserHeading.propTypes = {
-  project: PropTypes.shape({
-    display_name: PropTypes.string,
-    slug: PropTypes.string
-  }),
-  explorer: PropTypes.shape({
-    display_name: PropTypes.string
-  }),
-  matchesUser: PropTypes.bool
-};
-
 UserHeading.defaultProps = {
   project: {
     display_name: '',
+    redirect: '',
     slug: ''
   },
   explorer: {
     display_name: ''
   },
   matchesUser: true
+};
+
+UserHeading.propTypes = {
+  project: PropTypes.shape({
+    display_name: PropTypes.string,
+    redirect: PropTypes.string,
+    slug: PropTypes.string
+  }),
+  explorer: PropTypes.shape({
+    display_name: PropTypes.string
+  }),
+  matchesUser: PropTypes.bool
 };

@@ -1,3 +1,6 @@
+/* eslint no-restricted-syntax: "warn" */
+/* eslint no-prototype-builtins: "warn" */
+
 const READABLE_FORMATS = {
   image: ['jpeg', 'png', 'svg+xml', 'gif'],
   video: ['mp4', 'mpeg'],
