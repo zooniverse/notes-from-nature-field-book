@@ -10,8 +10,8 @@
     "react"
   ],
   "rules": {
-    "camelcase": ["warn"],
-    "class-methods-use-this": ["warn"],
+    "camelcase": 0,
+    "class-methods-use-this": 0,
     "comma-dangle": [
       "warn",
       "never"
@@ -30,7 +30,7 @@
         "ignoreUrls": true
       }
     ],
-    "no-console": 1,
+    "no-console": 0,
     "prettier/prettier": [
       "warn",
       {
@@ -42,10 +42,7 @@
       2,
       "single"
     ],
-    "react/destructuring-assignment": [
-      1,
-      "always"
-    ],
+    "react/destructuring-assignment": 0,
     "react/jsx-filename-extension": ["warn"],
     "space-before-function-paren": [
       "error",
