@@ -96,7 +96,18 @@ const data = [
       extracts: 20,
       classifications: 20
     },
-    subgroup: 2020
+    subgroup: '2020'
+  },
+  {
+    id: 510,
+    reducer_key: 'we_dig_bio',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: '2021'
   }
 ];
 

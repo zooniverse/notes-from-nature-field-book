@@ -55,6 +55,9 @@ class BadgeContainer extends React.Component {
           }
         })
         .catch(() => console.warn('Failed to fetch Caesar data.'));
+
+      // this.setState({ caesarData: mockData });
+
     }
   }
 
