@@ -43,7 +43,7 @@ On merge to master, a Github Action is triggered to deploy to staging found at `
 
 ### Production
 
-Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://field-book-preview.notesfromnature.org/`.
+Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://field-book.notesfromnature.org/`.
 
 ## Notes
 
