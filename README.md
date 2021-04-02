@@ -33,13 +33,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.
 
-### `npm run stage`
+## Deployment
 
-Builds and deploys to https://field-book-preview.notesfromnature.org/, authenticating to "production" Panoptes.
+### Staging
 
-### `npm run deploy`
+On merge to master, a Github Action is triggered to deploy to staging found at `https://field-book-preview.notesfromnature.org`
 
-Builds and deploys to https://field-book.notesfromnature.org/, authenticating to "production" Panoptes.
+### Production
+
+Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider. 
 
 ## Notes
 
