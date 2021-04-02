@@ -35,13 +35,15 @@ The build is minified and the filenames include the hashes.
 
 ## Deployment
 
+Deployment is handled by Github Action. Both staging and production deployment can be run ad hoc in the actions tab as needed if you have the appropriate permissions on the repository.
+
 ### Staging
 
-On merge to master, a Github Action is triggered to deploy to staging found at `https://field-book-preview.notesfromnature.org`
+On merge to master, a Github Action is triggered to deploy to staging found at `https://field-book-preview.notesfromnature.org`.
 
 ### Production
 
-Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider. 
+Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://field-book-preview.notesfromnature.org/`.
 
 ## Notes
 
