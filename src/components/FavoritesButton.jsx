@@ -44,6 +44,9 @@ FavoritesButton.propTypes = {
   linkedSubjects: PropTypes.arrayOf(PropTypes.string),
   removeSubjectFrom: PropTypes.func,
   subject: PropTypes.shape({
-    id: PropTypes.string
+    id: PropTypes.string,
+    links: PropTypes.shape({
+      subject: PropTypes.string
+    })
   }).isRequired
 };

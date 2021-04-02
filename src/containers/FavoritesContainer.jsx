@@ -112,22 +112,23 @@ class FavoritesContainer extends React.Component {
   }
 }
 
-FavoritesContainer.propTypes = {
-  favoriteCollection: PropTypes.shape({
-    id: PropTypes.string
-  }),
-  linkedSubjects: PropTypes.arrayOf(PropTypes.string),
-  project: PropTypes.shape({
-    slug: PropTypes.string
-  })
-};
-
 FavoritesContainer.defaultProps = {
   favoriteCollection: null,
   linkedSubjects: [],
   project: {
     slug: ''
   }
+};
+
+FavoritesContainer.propTypes = {
+  favoriteCollection: PropTypes.shape({
+    get: PropTypes.func,
+    id: PropTypes.string
+  }),
+  linkedSubjects: PropTypes.arrayOf(PropTypes.string),
+  project: PropTypes.shape({
+    slug: PropTypes.string
+  })
 };
 
 export default FavoritesContainer;

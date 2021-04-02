@@ -92,6 +92,11 @@ export class ExplorerProvider extends Component {
   }
 }
 
+ExplorerProvider.defaultProps = {
+  project: null,
+  user: null
+};
+
 ExplorerProvider.propTypes = {
   children: PropTypes.element.isRequired,
   project: PropTypes.shape({
@@ -99,11 +104,8 @@ ExplorerProvider.propTypes = {
     slug: PropTypes.string
   }),
   user: PropTypes.shape({
+    admin: PropTypes.bool,
+    id: PropTypes.string,
     login: PropTypes.string
   })
-};
-
-ExplorerProvider.defaultProps = {
-  project: null,
-  user: null
 };
