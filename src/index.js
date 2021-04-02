@@ -1,3 +1,5 @@
+/* eslint react/jsx-filename-extension: 0 */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import oauth from 'panoptes-client/lib/oauth';

@@ -1,5 +1,5 @@
 /* eslint no-restricted-syntax: "warn" */
-/* eslint no-prototype-builtins: "warn" */
+/* eslint no-prototype-builtins: 0 */
 
 const READABLE_FORMATS = {
   image: ['jpeg', 'png', 'svg+xml', 'gif'],
