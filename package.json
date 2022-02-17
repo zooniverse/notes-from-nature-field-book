@@ -10,13 +10,13 @@
   "dependencies": {
     "grommet": "~1.13.0",
     "moment": "^2.24.0",
-    "panoptes-client": "^3.0.0-rc.0",
+    "panoptes-client": "^3.3.4",
     "prop-types": "^15.7.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "superagent": "^4.0.0",
     "zoo-grommet": "~0.3.0",
-    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.3"
+    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.4"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0",
@@ -29,8 +29,8 @@
     "react-scripts": "^4.0.3"
   },
   "engines": {
-    "node": "^14.15",
-    "npm": "^7.17"
+    "node": "^16",
+    "npm": "^8"
   },
   "homepage": "https://field-book.notesfromnature.org",
   "license": "Apache-2.0",
