@@ -14,7 +14,7 @@
     "prop-types": "^15.7.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "superagent": "^8.0.5",
+    "superagent": "^8.0.6",
     "zoo-grommet": "~0.3.4",
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.10.4"
   },
