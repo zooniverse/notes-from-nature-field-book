@@ -1,0 +1,25 @@
+name: Run NfN Field Book Tests
+
+on:
+    # Run this workflow on creation (or sync to source branch) of a new pull request
+    pull_request:
+
+    # Allow running this workflow manually from the Actions tab
+    workflow_dispatch:
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Node.js build
+      id: build
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'npm'
+
+    - run: npm ci
+    - run: npm test
+    - run: npm run build
