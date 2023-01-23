@@ -43,7 +43,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "export REACT_APP_HEAD_COMMIT=$(git rev-parse --short HEAD) && react-scripts build",
-    "test": "react-scripts test --env=jsdom"
+    "test": "react-scripts test --env=jsdom --passWithNoTests"
   },
   "version": "0.1.0"
 }
