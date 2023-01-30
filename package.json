@@ -10,7 +10,7 @@
   "dependencies": {
     "grommet": "~1.13.0",
     "moment": "^2.29.4",
-    "panoptes-client": "^4.2.7",
+    "panoptes-client": "^5.2.0",
     "prop-types": "^15.7.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
