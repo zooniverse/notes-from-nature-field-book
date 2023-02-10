@@ -84,10 +84,17 @@ Auth.defaultProps = {
   user: null
 };
 
-const AuthContainer = () => (
-  <UserContext.Consumer>
-    {(context) => <Auth {...context} />}
-  </UserContext.Consumer>
-);
-
-export default AuthContainer;
+export default function AuthContainer() {
+  return (
+    <UserContext.Consumer>
+      {({ initialised, signIn, signOut, user }) => (
+        <Auth
+          initialised={initialised}
+          signIn={signIn}
+          signOut={signOut}
+          user={user}
+        />
+      )}
+    </UserContext.Consumer>
+  );
+}
