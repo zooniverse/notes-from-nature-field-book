@@ -86,7 +86,7 @@ Auth.defaultProps = {
 
 const AuthContainer = () => (
   <UserContext.Consumer>
-    {context => <Auth {...context} />}
+    {(context) => <Auth {...context} />}
   </UserContext.Consumer>
 );
 

@@ -40,7 +40,7 @@ export class FavoritesProvider extends Component {
           project_ids: project.id,
           favorite: true
         })
-        .then(collections => {
+        .then((collections) => {
           if (collections.length) {
             const [collection] = collections;
             this.setState({
@@ -86,7 +86,7 @@ export class FavoritesProvider extends Component {
       .then(() => {
         this.setState({
           linkedSubjects: linkedSubjects.filter(
-            subject => subject !== subjectId.toString()
+            (subject) => subject !== subjectId.toString()
           )
         });
       })
@@ -105,7 +105,7 @@ export class FavoritesProvider extends Component {
         .type('collections')
         .create(collection)
         .save()
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         })
         .then(([newFavoritesCollection]) => {

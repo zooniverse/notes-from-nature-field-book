@@ -36,7 +36,7 @@ const headerNavList = [
     label="Build A Project"
   />,
   <ProjectContext.Consumer key="Header-Stats">
-    {projectContext => (
+    {(projectContext) => (
       <Anchor
         key="Header-Stats-Anchor"
         className="zoo-header__link--small"

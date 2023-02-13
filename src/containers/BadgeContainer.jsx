@@ -37,9 +37,7 @@ class BadgeContainer extends React.Component {
   fetchBadges() {
     const { explorer } = this.props;
     if (explorer && explorer.id) {
-      const requestUrl = `${config.caesar}/projects/${
-        config.projectId
-      }/user_reductions?user_id=${explorer.id}`;
+      const requestUrl = `${config.caesar}/projects/${config.projectId}/user_reductions?user_id=${explorer.id}`;
 
       superagent
         .get(requestUrl)
@@ -47,7 +45,7 @@ class BadgeContainer extends React.Component {
         .set('Content-Type', 'application/json')
         .set('Authorization', apiClient.headers.Authorization)
         .query()
-        .then(response => {
+        .then((response) => {
           if (response.ok && response.body) {
             this.setState({ caesarData: response.body });
           } else {
@@ -71,11 +69,11 @@ class BadgeContainer extends React.Component {
 
     let totalClassifications = 0;
     if (userStatsByMonth && userStatsByMonth.length) {
-      userStatsByMonth.forEach(stat => {
+      userStatsByMonth.forEach((stat) => {
         totalClassifications += stat.value;
       });
     }
-    statsBadges.forEach(badge => {
+    statsBadges.forEach((badge) => {
       if (totalClassifications >= badge.level) {
         const earnedBadge = badge;
         earnedBadge.alt = `level ${badge.level}`;
@@ -89,10 +87,10 @@ class BadgeContainer extends React.Component {
       }
     });
 
-    caesarBadges.forEach(badge => {
+    caesarBadges.forEach((badge) => {
       if (caesarData && caesarData.length) {
         const [badgeData] = caesarData.filter(
-          data =>
+          (data) =>
             data.reducer_key === badge.reducerKey &&
             data.subgroup === badge.subgroup
         );
@@ -102,9 +100,7 @@ class BadgeContainer extends React.Component {
           badgeData.data.classifications >= badge.level
         ) {
           const earnedBadge = badge;
-          earnedBadge.alt = `${badge.reducerKey} ${badge.subgroup} level ${
-            badge.level
-          }`;
+          earnedBadge.alt = `${badge.reducerKey} ${badge.subgroup} level ${badge.level}`;
           earnedBadges.push(earnedBadge);
         } else {
           const remainingBadge = Object.assign({}, badge, {
@@ -127,11 +123,11 @@ class BadgeContainer extends React.Component {
         <Tabs
           activeIndex={tab}
           justify="start"
-          onActive={tabIndex => this.toggleTab(tabIndex)}
+          onActive={(tabIndex) => this.toggleTab(tabIndex)}
         >
           <Tab title="Your Badges">
             <Box direction="row" wrap>
-              {earnedBadges.map(badge => (
+              {earnedBadges.map((badge) => (
                 <Box className="badgetip" key={badge.icon} pad="medium">
                   <Image alt={badge.alt} size="small" src={badge.icon} />
                   {badge.reducerKey === 'time' && (
@@ -153,7 +149,7 @@ class BadgeContainer extends React.Component {
           </Tab>
           <Tab title="Remaining Badges">
             <Box direction="row" wrap>
-              {remainingBadges.map(badge => (
+              {remainingBadges.map((badge) => (
                 <Box className="badgetip" key={badge.icon} pad="medium">
                   <Image
                     alt={badge.alt}

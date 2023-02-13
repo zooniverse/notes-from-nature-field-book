@@ -44,7 +44,7 @@ class FavoritesContainer extends React.Component {
 
       favoriteCollection
         .get('subjects', query)
-        .then(favoriteSubjects => {
+        .then((favoriteSubjects) => {
           if (favoriteSubjects.length) {
             this.setState({
               favoriteSubjects,
@@ -94,7 +94,7 @@ class FavoritesContainer extends React.Component {
         </Title>
         <Box direction="row" flex justify="around">
           {this.state.favoriteSubjects &&
-            this.state.favoriteSubjects.map(favorite => (
+            this.state.favoriteSubjects.map((favorite) => (
               <SubjectCard key={favorite.id} subject={favorite} />
             ))}
         </Box>

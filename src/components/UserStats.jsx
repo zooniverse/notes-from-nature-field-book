@@ -16,7 +16,7 @@ export default function UserStats({ userStatsByDay, userStatsByMonth }) {
 
   let maxDay = { label: '', value: 0 };
   if (userStatsByDay) {
-    userStatsByDay.forEach(stat => {
+    userStatsByDay.forEach((stat) => {
       if (stat.value > maxDay.value) {
         maxDay = stat;
       }
@@ -46,7 +46,7 @@ export default function UserStats({ userStatsByDay, userStatsByMonth }) {
 
   let maxMonth = { label: '', value: 0 };
   if (userStatsByMonth) {
-    userStatsByMonth.forEach(stat => {
+    userStatsByMonth.forEach((stat) => {
       if (stat.value > maxMonth.value) {
         maxMonth = stat;
       }

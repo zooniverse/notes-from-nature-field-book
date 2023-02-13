@@ -8,7 +8,7 @@ const READABLE_FORMATS = {
   application: ['json']
 };
 
-const getSubjectLocations = subjects => {
+const getSubjectLocations = (subjects) => {
   const subjectLocations = {};
   // eslint-disable-next-line
   subjects.locations.map(locationData => {

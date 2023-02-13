@@ -45,7 +45,7 @@ class RecentsContainer extends React.Component {
 
       explorer
         .get('recents', query)
-        .then(recents => {
+        .then((recents) => {
           if (recents.length) {
             this.setState({ meta: recents[0].getMeta(), recents });
           } else {
@@ -87,7 +87,7 @@ class RecentsContainer extends React.Component {
         </Title>
         <Box direction="row" flex justify="around">
           {this.state.recents &&
-            this.state.recents.map(recent => (
+            this.state.recents.map((recent) => (
               <SubjectCard key={recent.id} subject={recent} />
             ))}
         </Box>

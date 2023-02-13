@@ -29,19 +29,15 @@ export default function Histogram({
     labels: [],
     series: [0, 0, 0, 0, 0, 0, 0]
   };
-  [6, 5, 4, 3, 2, 1, 0].forEach(num => {
-    weekOfData.labels.push(
-      moment(now)
-        .subtract(num, 'days')
-        .format('ddd')
-    );
+  [6, 5, 4, 3, 2, 1, 0].forEach((num) => {
+    weekOfData.labels.push(moment(now).subtract(num, 'days').format('ddd'));
   });
   if (statsData) {
-    const filteredData = statsData.filter(data =>
+    const filteredData = statsData.filter((data) =>
       moment.utc(data.label).isSameOrAfter(moment(now).subtract(7, 'days'))
     );
     weekOfData.labels.forEach((dayLabel, index) => {
-      filteredData.forEach(data => {
+      filteredData.forEach((data) => {
         if (dayLabel === moment.utc(data.label).format('ddd')) {
           weekOfData.series[index] = data.value;
         }
@@ -54,7 +50,7 @@ export default function Histogram({
   const base = 10 ** (increment.toString().length - 1);
   const roundedIncrement = Math.round(increment / base) * base;
 
-  const axisY = [0, 1, 2, 3, 4].map(index => ({
+  const axisY = [0, 1, 2, 3, 4].map((index) => ({
     index,
     label: `${(index * roundedIncrement).toLocaleString()}`
   }));
@@ -90,7 +86,7 @@ export default function Histogram({
               colorIndex="accent-2"
               max={roundedIncrement * 4}
               style={{ strokeWidth: '8px' }}
-              values={weekOfData.series.map(value => value)}
+              values={weekOfData.series.map((value) => value)}
             />
             <Marker count={7} index={6} vertical />
           </Layers>

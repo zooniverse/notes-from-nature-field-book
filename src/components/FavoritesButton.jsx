@@ -12,7 +12,7 @@ export default function FavoritesButton({
   const subjectId = subject.links.subject || subject.id;
   const favorited =
     linkedSubjects && linkedSubjects.length
-      ? !!linkedSubjects.some(subj => subj === subjectId)
+      ? !!linkedSubjects.some((subj) => subj === subjectId)
       : false;
 
   const favClassName = favorited ? 'favorite__solid' : 'favorite__regular';
