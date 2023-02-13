@@ -19,7 +19,7 @@ export class UserProvider extends Component {
     if (!this.state.initialised) {
       oauth
         .checkCurrent()
-        .then(user => this.setState({ initialised: true, user }));
+        .then((user) => this.setState({ initialised: true, user }));
     }
   }
 
@@ -32,12 +32,12 @@ export class UserProvider extends Component {
           signIn: () => {
             oauth
               .signIn(config.origin)
-              .then(user => this.setState({ initialised: true, user }));
+              .then((user) => this.setState({ initialised: true, user }));
           },
           signOut: () => {
             oauth
               .signOut(config.origin)
-              .then(user => this.setState({ initialised: true, user }));
+              .then((user) => this.setState({ initialised: true, user }));
           }
         }}
       >
@@ -55,7 +55,7 @@ export function withUser(MyComponent) {
   return function UserComponent(props) {
     return (
       <UserContext.Consumer>
-        {userState => (
+        {(userState) => (
           <MyComponent
             {...props}
             initialised={userState.initialised}

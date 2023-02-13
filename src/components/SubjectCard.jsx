@@ -28,7 +28,7 @@ export default function SubjectCard({ subject }) {
     : subject.href;
   return (
     <ProjectContext.Consumer>
-      {projectContext => (
+      {(projectContext) => (
         <Box alignSelf="center" className="subject-card" margin="small">
           <a
             href={`${config.zooniverse}/projects/${

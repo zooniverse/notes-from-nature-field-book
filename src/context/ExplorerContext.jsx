@@ -44,8 +44,8 @@ export class ExplorerProvider extends Component {
     return apiClient
       .type('project_roles')
       .get({ project_id: projectId, user_id: userId })
-      .then(roles => roles)
-      .catch(error => console.error('Error loading roles.', error));
+      .then((roles) => roles)
+      .catch((error) => console.error('Error loading roles.', error));
   }
 
   async checkPermission() {
@@ -56,7 +56,7 @@ export class ExplorerProvider extends Component {
     } else if (project && user) {
       const roles = await this.fetchRoles(project.id, user.id);
       const collaboratorRoles = roles.filter(
-        role =>
+        (role) =>
           role.roles.includes('collaborator') || role.roles.includes('owner')
       );
       if (collaboratorRoles.length > 0) {

@@ -42,7 +42,7 @@ export function withProject(MyComponent) {
   return function ProjectComponent(props) {
     return (
       <ProjectContext.Consumer>
-        {projectState => (
+        {(projectState) => (
           <MyComponent {...props} project={projectState.project} />
         )}
       </ProjectContext.Consumer>

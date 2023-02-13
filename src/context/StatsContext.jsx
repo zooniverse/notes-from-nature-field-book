@@ -42,13 +42,13 @@ export class StatsProvider extends Component {
           type: 'classification',
           userID: explorer.id
         })
-        .then(data =>
-          data.map(statObject => ({
+        .then((data) =>
+          data.map((statObject) => ({
             label: statObject.key_as_string,
             value: statObject.doc_count
           }))
         )
-        .then(statData => {
+        .then((statData) => {
           this.setState({ userStatsByDay: statData });
         })
         .catch(() => {
@@ -63,13 +63,13 @@ export class StatsProvider extends Component {
           type: 'classification',
           userID: explorer.id
         })
-        .then(data =>
-          data.map(statObject => ({
+        .then((data) =>
+          data.map((statObject) => ({
             label: statObject.key_as_string,
             value: statObject.doc_count
           }))
         )
-        .then(statData => {
+        .then((statData) => {
           this.setState({ userStatsByMonth: statData });
         })
         .catch(() => {
@@ -93,13 +93,13 @@ export class StatsProvider extends Component {
         projectID: config.projectId,
         type: 'classification'
       })
-      .then(data =>
-        data.map(statObject => ({
+      .then((data) =>
+        data.map((statObject) => ({
           label: statObject.key_as_string,
           value: statObject.doc_count
         }))
       )
-      .then(statData => {
+      .then((statData) => {
         this.setState({ collectiveStatsByDay: statData });
       })
       .catch(() => {
@@ -110,11 +110,8 @@ export class StatsProvider extends Component {
   }
 
   render() {
-    const {
-      collectiveStatsByDay,
-      userStatsByDay,
-      userStatsByMonth
-    } = this.state;
+    const { collectiveStatsByDay, userStatsByDay, userStatsByMonth } =
+      this.state;
     return (
       <StatsContext.Provider
         value={{
