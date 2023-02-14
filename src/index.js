@@ -4,8 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import oauth from 'panoptes-client/lib/oauth';
 
-import '../node_modules/zoo-grommet/dist/zoo-grommet.css';
-import '../node_modules/zooniverse-react-components/lib/zooniverse-react-components.css';
+import 'zoo-grommet/dist/zoo-grommet.css';
+import 'zooniverse-react-components/lib/zooniverse-react-components.css';
 
 import './index.css';
 

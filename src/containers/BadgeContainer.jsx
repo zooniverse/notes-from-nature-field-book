@@ -79,10 +79,11 @@ class BadgeContainer extends React.Component {
         earnedBadge.alt = `level ${badge.level}`;
         earnedBadges.push(earnedBadge);
       } else {
-        const remainingBadge = Object.assign({}, badge, {
+        const remainingBadge = {
+          ...badge,
           alt: `level ${badge.level}`,
           classifications: totalClassifications
-        });
+        };
         remainingBadges.push(remainingBadge);
       }
     });
@@ -103,17 +104,19 @@ class BadgeContainer extends React.Component {
           earnedBadge.alt = `${badge.reducerKey} ${badge.subgroup} level ${badge.level}`;
           earnedBadges.push(earnedBadge);
         } else {
-          const remainingBadge = Object.assign({}, badge, {
+          const remainingBadge = {
+            ...badge,
             alt: `${badge.reducerKey} ${badge.subgroup} level ${badge.level}`,
             classifications: badgeData ? badgeData.data.classifications : 0
-          });
+          };
           remainingBadges.push(remainingBadge);
         }
       } else {
-        const remainingBadge = Object.assign({}, badge, {
+        const remainingBadge = {
+          ...badge,
           alt: `${badge.reducerKey} ${badge.subgroup} level ${badge.level}`,
           classifications: 0
-        });
+        };
         remainingBadges.push(remainingBadge);
       }
     });

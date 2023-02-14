@@ -19,18 +19,21 @@
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.12.0"
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^4.3.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.32.2",
+    "fs": "npm:url@^0.11.0",
+    "path": "npm:path-browserify@^1.0.1",
     "prettier": "2.8.4",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1",
+    "url": "npm:url@^0.11.0"
   },
   "engines": {
-    "node": "^16",
-    "npm": "^8"
+    "node": ">=18",
+    "npm": ">=8"
   },
   "homepage": "https://field-book.notesfromnature.org",
   "license": "Apache-2.0",

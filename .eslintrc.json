@@ -2,7 +2,6 @@
   "extends": [
     "airbnb",
     "prettier",
-    "prettier/react",
     "plugin:react/recommended"
   ],
   "plugins": [
@@ -44,6 +43,8 @@
     ],
     "react/destructuring-assignment": 0,
     "react/jsx-filename-extension": ["warn"],
+    "react/jsx-no-constructed-context-values": 0,
+    "react/jsx-props-no-spreading": 0,
     "space-before-function-paren": [
       "error",
       "never"
