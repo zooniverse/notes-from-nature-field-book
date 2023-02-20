@@ -12,7 +12,7 @@
     "moment": "^2.29.4",
     "panoptes-client": "^5.2.1",
     "prop-types": "^15.7.1",
-    "react": "^16.8.6",
+    "react": "^18.2.0",
     "react-dom": "^16.8.6",
     "superagent": "^8.0.9",
     "zoo-grommet": "~0.3.4",
