@@ -119,6 +119,17 @@ const data = [
       classifications: 20
     },
     subgroup: '2022'
+  },
+  {
+    id: 512,
+    reducer_key: 'we_dig_bio',
+    workflow_id: 7389,
+    user_id: 1405412,
+    data: {
+      extracts: 20,
+      classifications: 20
+    },
+    subgroup: '2023'
   }
 ];
 

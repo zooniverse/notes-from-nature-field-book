@@ -48,6 +48,8 @@ class BadgeContainer extends React.Component {
         .then((response) => {
           if (response.ok && response.body) {
             this.setState({ caesarData: response.body });
+            // for badge testing with mock data, comment out line above and uncomment mockData import and line below
+            // this.setState({ caesarData: mockData });
           } else {
             console.warn('Failed to fetch Caesar data.');
           }
