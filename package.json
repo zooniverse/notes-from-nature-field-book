@@ -27,7 +27,7 @@
     "eslint-plugin-react": "^7.33.2",
     "fs": "npm:url@^0.11.0",
     "path": "npm:path-browserify@^1.0.1",
-    "prettier": "2.8.8",
+    "prettier": "3.0.3",
     "react-scripts": "^5.0.1",
     "url": "npm:url@^0.11.0"
   },
