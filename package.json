@@ -8,7 +8,7 @@
   ],
   "bugs": "https://github.com/zooniverse/notes-from-nature-field-book",
   "dependencies": {
-    "grommet": "~1.13.0",
+    "grommet": "~2.36.0",
     "moment": "^2.29.4",
     "panoptes-client": "^5.5.8",
     "prop-types": "^15.7.1",
