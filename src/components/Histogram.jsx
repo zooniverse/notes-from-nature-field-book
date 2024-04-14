@@ -110,14 +110,14 @@ Histogram.propTypes = {
   collectiveStatsByDay: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
-      value: PropTypes.num
+      value: PropTypes.number
     })
   ),
   toggleCollective: PropTypes.func,
   userStatsByDay: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
-      value: PropTypes.num
+      value: PropTypes.number
     })
   )
 };

@@ -1,10 +1,29 @@
+import oauth from 'panoptes-client/lib/oauth';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import statsClient from 'panoptes-client/lib/stats-client';
 
 import { config } from '../config';
 
 export const StatsContext = React.createContext();
+
+async function fetchStats(url) {
+  const authToken = await oauth.checkBearerToken();
+  const headers = {
+    Authorization: `Bearer ${authToken.access_token}`
+  };
+
+  const response = await fetch(url, { headers });
+  const { data } = await response.json();
+  return data;
+}
+
+async function fetchAndFormatStats(url) {
+  const data = await fetchStats(url);
+  return data.map((statObject) => ({
+    label: statObject.period,
+    value: statObject.count
+  }));
+}
 
 export class StatsProvider extends Component {
   constructor(props) {
@@ -32,51 +51,24 @@ export class StatsProvider extends Component {
     }
   }
 
-  fetchUserStats() {
+  async fetchUserStats() {
     const { explorer, project } = this.props;
+
     if (project && explorer) {
-      statsClient
-        .query({
-          period: 'day',
-          projectID: config.projectId,
-          type: 'classification',
-          userID: explorer.id
-        })
-        .then((data) =>
-          data.map((statObject) => ({
-            label: statObject.key_as_string,
-            value: statObject.doc_count
-          }))
+      const [dailyStats, monthlyStats] = await Promise.all([
+        fetchAndFormatStats(
+          `${config.stats}/classifications/users/${explorer.id}?project_id=${project.id}&period=day`
+        ),
+        fetchAndFormatStats(
+          `${config.stats}/classifications/users/${explorer.id}?project_id=${project.id}&period=month`
         )
-        .then((statData) => {
-          this.setState({ userStatsByDay: statData });
-        })
-        .catch(() => {
-          if (console) {
-            console.warn('Failed to fetch user daily stats.');
-          }
-        });
-      statsClient
-        .query({
-          period: 'month',
-          projectID: config.projectId,
-          type: 'classification',
-          userID: explorer.id
-        })
-        .then((data) =>
-          data.map((statObject) => ({
-            label: statObject.key_as_string,
-            value: statObject.doc_count
-          }))
-        )
-        .then((statData) => {
-          this.setState({ userStatsByMonth: statData });
-        })
-        .catch(() => {
-          if (console) {
-            console.warn('Failed to fetch user monthly stats.');
-          }
-        });
+      ]);
+
+      this.setState({
+        collectiveStatsByDay: [],
+        userStatsByDay: dailyStats,
+        userStatsByMonth: monthlyStats
+      });
     } else {
       this.setState({
         collectiveStatsByDay: [],
@@ -86,27 +78,12 @@ export class StatsProvider extends Component {
     }
   }
 
-  fetchCollectiveStats() {
-    statsClient
-      .query({
-        period: 'day',
-        projectID: config.projectId,
-        type: 'classification'
-      })
-      .then((data) =>
-        data.map((statObject) => ({
-          label: statObject.key_as_string,
-          value: statObject.doc_count
-        }))
-      )
-      .then((statData) => {
-        this.setState({ collectiveStatsByDay: statData });
-      })
-      .catch(() => {
-        if (console) {
-          console.warn('Failed to fetch collective daily stats.');
-        }
-      });
+  async fetchCollectiveStats() {
+    const stats = await fetchAndFormatStats(
+      `${config.stats}/classifications?project_id=${config.projectId}&period=day`
+    );
+
+    this.setState({ collectiveStatsByDay: stats });
   }
 
   render() {
