@@ -28,6 +28,7 @@ import weDigBio2020 from './time/time-wedigbio2020.png';
 import weDigBio2021 from './time/time-wedigbio2021.png';
 import weDigBio2022 from './time/time-wedigbio2022.png';
 import weDigBio2023 from './time/time-wedigbio2023.png';
+import weDigBio2024 from './time/time-wedigbio2024.png';
 
 // WORKFLOW
 // -- AQUATICS
@@ -189,6 +190,12 @@ export const caesarBadges = [
     level: 10,
     reducerKey: 'we_dig_bio',
     subgroup: '2023'
+  },
+  {
+    icon: weDigBio2024,
+    level: 10,
+    reducerKey: 'we_dig_bio',
+    subgroup: '2024'
   },
   {
     icon: wet1,
