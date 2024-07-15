@@ -24,7 +24,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react": "^7.34.4",
     "fs": "npm:url@^0.11.0",
     "path": "npm:path-browserify@^1.0.1",
     "prettier": "2.8.8",
